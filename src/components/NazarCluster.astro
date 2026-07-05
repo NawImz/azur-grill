@@ -1,0 +1,28 @@
+---
+interface Props {
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const { tone = 'light', class: className = '' } = Astro.props;
+
+// Echoes the scattered nazar rings in the client's real logo — a handful of
+// simple outlined circles at different sizes and heights, never a
+// repeated/tiled pattern. Single stroke, single opacity per circle (avoid
+// nesting inside components with their own internal opacity layers, which
+// compounds into near-invisibility).
+const primary = tone === 'dark' ? 'text-ciel' : 'text-nazar';
+const accent = tone === 'dark' ? 'text-creme' : 'text-brique';
+---
+
+<div class:list={['absolute inset-0 overflow-hidden pointer-events-none -z-10', className]} aria-hidden="true">
+  <svg class:list={['absolute top-[6%] -left-10 w-48 h-48 opacity-[0.3]', primary]} viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" stroke-width="2.5" />
+  </svg>
+  <svg class:list={['absolute top-[42%] -right-16 w-56 h-56 opacity-[0.22]', primary]} viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2" />
+  </svg>
+  <svg class:list={['absolute bottom-[8%] left-[10%] w-20 h-20 opacity-[0.35]', accent]} viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="4" />
+  </svg>
+</div>

@@ -1,11 +1,13 @@
 ---
 import Kicker from './Kicker.astro';
 import Icon from './Icon.astro';
+import NazarCluster from './NazarCluster.astro';
 import restaurant from '../data/restaurant.json';
 import horaires from '../data/horaires.json';
 ---
 
-<section id="infos" class="bg-creme py-20 md:py-28">
+<section id="infos" class="relative isolate bg-creme py-20 md:py-28 overflow-hidden">
+  <NazarCluster tone="light" />
   <div class="max-w-6xl mx-auto px-5 md:px-8">
     <div data-reveal class="max-w-2xl mb-12 md:mb-16">
       <Kicker class="mb-4">Infos pratiques</Kicker>

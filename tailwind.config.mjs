@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        nazar: '#1B2E52',
-        ciel: '#4FA3D1',
-        creme: '#F7F0E4',
+        nazar: '#16098F',
+        ciel: '#74C0EC',
+        creme: '#FAF8F4',
         encre: '#211C17',
         brique: '#A6532F',
         moutarde: '#D9A23E',

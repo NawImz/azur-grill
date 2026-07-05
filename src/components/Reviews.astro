@@ -1,13 +1,15 @@
 ---
 import Kicker from './Kicker.astro';
 import Icon from './Icon.astro';
+import NazarCluster from './NazarCluster.astro';
 import restaurant from '../data/restaurant.json';
 
 const { note, nombreAvis, citations } = restaurant.avisGoogle;
 const fullStars = Math.round(note);
 ---
 
-<section id="avis" class="bg-nazar py-20 md:py-28">
+<section id="avis" class="relative isolate bg-nazar py-20 md:py-28 overflow-hidden">
+  <NazarCluster tone="dark" />
   <div class="max-w-6xl mx-auto px-5 md:px-8">
     <div data-reveal class="max-w-2xl mb-12 md:mb-16">
       <Kicker class="mb-4">Avis Google</Kicker>
