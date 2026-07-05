@@ -1,0 +1,14 @@
+---
+import NazarMark from './NazarMark.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['inline-flex items-center gap-2 text-sm font-semibold tracking-[0.18em] uppercase text-brique', className]}>
+  <NazarMark class="w-4 h-4 text-brique" />
+  <slot />
+</span>

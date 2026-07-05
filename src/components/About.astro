@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import Kicker from './Kicker.astro';
+import painCuitImage from '../assets/photos-v2/about-pain-maison.webp';
+import patePetrieImage from '../assets/photos-v2/about-pate-petrie.jpg';
+---
+
+<section id="a-propos" class="bg-creme py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
+    <div data-reveal class="relative">
+      <Image
+        src={painCuitImage}
+        alt="Pain maison tout juste sorti du four chez Azur Grill"
+        loading="lazy"
+        class="relative w-full aspect-[4/5] rounded-2xl object-cover"
+      />
+      <Image
+        src={patePetrieImage}
+        alt="Pâte à pain pétrie et façonnée à la main chez Azur Grill"
+        loading="lazy"
+        class="hidden sm:block absolute -bottom-8 -right-6 aspect-square w-2/5 rounded-xl border-4 border-creme shadow-lg object-cover"
+      />
+    </div>
+
+    <div data-reveal>
+      <Kicker class="mb-4">À propos</Kicker>
+      <h2 class="font-display text-2xl md:text-3xl text-nazar leading-tight mb-6">
+        Le pain sort du four, la viande tourne sur la broche — à quelques mètres de votre table.
+      </h2>
+      <div class="space-y-4 text-encre/90 text-base md:text-lg leading-relaxed">
+        <p>
+          Chez Azur Grill, rien n'arrive tout prêt. Le pain est pétri et cuit sur place,
+          le kebab est préparé maison, et les grillades passent directement du grill à l'assiette.
+        </p>
+        <p>
+          Né à Épinay-sur-Seine, le restaurant s'est construit autour d'une idée simple :
+          une cuisine turque généreuse et halal, servie dans un cadre chaleureux et soigné —
+          aussi bien pour un déjeuner rapide qu'un dîner en famille.
+        </p>
+        <p>
+          Baklava, künefe et sütlaç maison viennent clore le repas, comme à la maison — en plus généreux.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

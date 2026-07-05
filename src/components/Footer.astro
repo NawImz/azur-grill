@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import NazarMark from './NazarMark.astro';
+import restaurant from '../data/restaurant.json';
+
+const currentYear = new Date().getFullYear();
+
+const planDuSite = [
+  { href: '/#a-propos', label: 'À propos' },
+  { href: '/#carte', label: 'La Carte' },
+  { href: '/#galerie', label: 'Galerie' },
+  { href: '/#avis', label: 'Avis' },
+  { href: '/#infos', label: 'Infos pratiques' },
+];
+---
+
+<footer class="relative bg-nazar text-creme/80 overflow-hidden pt-16 pb-10 px-5 md:px-8">
+  <NazarMark class="absolute -bottom-24 -right-24 w-96 h-96 text-creme opacity-[0.05]" />
+
+  <div data-reveal class="relative max-w-6xl mx-auto grid sm:grid-cols-3 gap-10 mb-12">
+    <div>
+      <p class="font-display text-xl text-creme mb-3">Azur Grill Restaurant</p>
+      <p class="text-sm leading-relaxed">{restaurant.adresse.texte}</p>
+      <a href={restaurant.telephoneLien} class="text-sm hover:text-ciel transition-colors">{restaurant.telephone}</a>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-[0.14em] text-creme/65 mb-3">Plan du site</p>
+      <ul class="space-y-2">
+        {planDuSite.map((link) => (
+          <li><a href={link.href} class="text-sm hover:text-ciel transition-colors">{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-[0.14em] text-creme/65 mb-3">Suivez-nous</p>
+      <a
+        href={restaurant.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-sm hover:text-ciel transition-colors"
+      >
+        <Icon name="instagram" class="w-4 h-4" />
+        @azurgrillrestaurant
+      </a>
+    </div>
+  </div>
+
+  <div class="relative max-w-6xl mx-auto pt-6 border-t border-creme/10 text-xs text-creme/65">
+    <p>© {currentYear} Azur Grill Restaurant — Tous droits réservés</p>
+  </div>
+</footer>

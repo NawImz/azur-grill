@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 4321
+    },
+    {
+      "name": "le-test-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "le-test-site", "run", "dev", "--", "--port", "4322"],
+      "port": 4322
+    },
+    {
+      "name": "suivi-objectifs",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "C:\\Users\\Nawfal\\Documents\\suivi-objectifs", "-l", "5500"],
+      "port": 5500
+    }
+  ]
+}

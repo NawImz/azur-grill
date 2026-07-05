@@ -1,0 +1,26 @@
+<script>
+  import gsap from 'gsap';
+  import Lenis from 'lenis';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion) {
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+
+    // Keep ScrollTrigger perfectly in sync with Lenis's virtual scroll position —
+    // without this, fast scrolling can desync the two and leave scroll-reveal
+    // animations stuck mid-transition.
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+  }
+</script>

@@ -1,0 +1,88 @@
+---
+import '../styles/global.css';
+import restaurant from '../data/restaurant.json';
+import horaires from '../data/horaires.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = restaurant.seoLocal.titre,
+  description = restaurant.seoLocal.description,
+  ogImage = '/og-image.jpg',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: restaurant.nom,
+  image: new URL(ogImage, Astro.site).toString(),
+  servesCuisine: 'Turkish',
+  priceRange: restaurant.prixRange,
+  telephone: restaurant.telephone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: restaurant.adresse.rue,
+    postalCode: restaurant.adresse.codePostal,
+    addressLocality: restaurant.adresse.ville,
+    addressCountry: 'FR',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: restaurant.geo.latitude,
+    longitude: restaurant.geo.longitude,
+  },
+  url: Astro.site?.toString(),
+  openingHoursSpecification: horaires.schemaOrgOpeningHours.map((spec) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [
+      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+    ],
+    opens: '11:30',
+    closes: '22:30',
+  })),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: restaurant.avisGoogle.note,
+    reviewCount: restaurant.avisGoogle.nombreAvis,
+  },
+  servesHalal: true,
+  menu: `${Astro.site}#carte`,
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="restaurant.restaurant" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#1B2E52" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

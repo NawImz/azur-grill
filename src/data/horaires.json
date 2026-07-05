@@ -1,0 +1,13 @@
+{
+  "texte": "Ouvert 7j/7 · 11h30 – 22h30",
+  "jours": [
+    { "jour": "Lundi", "horaire": "11h30 – 22h30" },
+    { "jour": "Mardi", "horaire": "11h30 – 22h30" },
+    { "jour": "Mercredi", "horaire": "11h30 – 22h30" },
+    { "jour": "Jeudi", "horaire": "11h30 – 22h30" },
+    { "jour": "Vendredi", "horaire": "11h30 – 22h30" },
+    { "jour": "Samedi", "horaire": "11h30 – 22h30" },
+    { "jour": "Dimanche", "horaire": "11h30 – 22h30" }
+  ],
+  "schemaOrgOpeningHours": ["Mo-Su 11:30-22:30"]
+}

@@ -1,0 +1,108 @@
+---
+import Icon from './Icon.astro';
+import restaurant from '../data/restaurant.json';
+
+const navLinks = [
+  { href: '/#a-propos', label: 'À propos' },
+  { href: '/#carte', label: 'La Carte' },
+  { href: '/#galerie', label: 'Galerie' },
+  { href: '/#avis', label: 'Avis' },
+  { href: '/#infos', label: 'Infos pratiques' },
+];
+---
+
+<header
+  id="site-header"
+  class="fixed top-0 inset-x-0 z-40 transition-colors duration-300"
+  data-scrolled="false"
+>
+  <div class="max-w-6xl mx-auto px-5 md:px-8 flex items-center justify-between h-16 md:h-20">
+    <a href="/" class="font-display text-xl md:text-2xl text-creme header-brand tracking-wide">
+      Azur Grill
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="text-sm font-semibold text-creme header-link hover:text-ciel transition-colors"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href={restaurant.uberEatsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden sm:inline-flex items-center gap-2 bg-brique text-creme text-sm font-semibold px-5 py-2.5 rounded-full hover:brightness-110 transition"
+      >
+        Commander
+      </a>
+      <button
+        id="menu-toggle"
+        class="lg:hidden text-creme header-link p-2"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <Icon name="menu" class="w-6 h-6" />
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="mobile-nav"
+    class="lg:hidden hidden fixed inset-0 top-16 bg-nazar px-6 py-8 flex flex-col gap-1"
+  >
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class="mobile-nav-link text-creme text-lg font-display py-3 border-b border-white/10"
+      >
+        {link.label}
+      </a>
+    ))}
+    <a
+      href={restaurant.uberEatsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-6 inline-flex justify-center items-center gap-2 bg-brique text-creme text-base font-semibold px-5 py-3.5 rounded-full"
+    >
+      Commander sur Uber Eats
+    </a>
+  </nav>
+</header>
+
+<style>
+  #site-header[data-scrolled='true'] {
+    @apply bg-nazar/95 backdrop-blur-sm shadow-sm;
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  const onScroll = () => {
+    if (!header) return;
+    header.dataset.scrolled = window.scrollY > 24 ? 'true' : 'false';
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  let open = false;
+  const setOpen = (next: boolean) => {
+    open = next;
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    mobileNav?.classList.toggle('hidden', !open);
+    document.body.classList.toggle('overflow-hidden', open);
+  };
+
+  toggle?.addEventListener('click', () => setOpen(!open));
+  mobileNav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+</script>

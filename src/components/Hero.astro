@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import restaurant from '../data/restaurant.json';
+import heroImage from '../assets/photos-v2/hero-plat-genereux.webp';
+
+const trustPoints = [
+  { icon: 'star', text: `${restaurant.avisGoogle.note}/5 sur Google (${restaurant.avisGoogle.nombreAvis} avis)` },
+  { icon: 'utensils', text: 'Pain et kebab faits maison' },
+  { icon: 'check', text: 'Halal' },
+  { icon: 'clock', text: 'Ouvert 7j/7 · 11h30–22h30' },
+];
+---
+
+<section id="top" class="relative h-[70svh] min-h-[420px] md:h-[100svh] md:min-h-[560px] flex items-end overflow-hidden">
+  <Image
+    src={heroImage}
+    alt="Assiette généreuse de grillades, riz et légumes grillés servie chez Azur Grill à Épinay-sur-Seine"
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 w-full h-full object-cover object-[center_75%] md:object-center"
+  />
+  <div class="absolute inset-0 bg-gradient-to-t from-nazar/95 via-nazar/65 to-nazar/40" aria-hidden="true"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pb-24 md:pb-28 w-full">
+    <p
+      data-hero-reveal
+      class="inline-block font-display italic text-ciel text-base md:text-xl bg-nazar/70 backdrop-blur-sm px-4 py-1.5 rounded-full mb-4"
+    >
+      Grillades turques &amp; pain maison
+    </p>
+    <h1
+      data-hero-reveal
+      class="font-display text-creme text-4xl md:text-5xl leading-[1.05] max-w-2xl"
+    >
+      Azur Grill Restaurant
+    </h1>
+    <p
+      data-hero-reveal
+      class="text-creme/90 text-lg mt-5 max-w-xl"
+    >
+      Viandes grillées, kebab et pain cuits sur place, desserts turcs artisanaux — à Épinay-sur-Seine, halal, ouvert 7j/7.
+    </p>
+
+    <div data-hero-reveal class="flex flex-wrap gap-3 mt-8">
+      <a
+        href={restaurant.uberEatsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 bg-brique text-creme font-semibold px-6 py-3.5 rounded-full hover:brightness-110 transition"
+      >
+        Commander
+        <Icon name="external-link" class="w-4 h-4" />
+      </a>
+      <a
+        href="#carte"
+        class="inline-flex items-center gap-2 bg-creme/10 text-creme font-semibold px-6 py-3.5 rounded-full border border-creme/40 hover:bg-creme/20 transition"
+      >
+        Voir la carte
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="bg-creme border-b border-encre/10">
+  <ul data-reveal class="max-w-6xl mx-auto px-5 md:px-8 py-4 flex flex-wrap gap-x-8 gap-y-2 justify-center md:justify-between text-sm font-semibold text-encre">
+    {trustPoints.map((point) => (
+      <li class="flex items-center gap-2">
+        <Icon name={point.icon} class="w-4 h-4 text-brique shrink-0" />
+        {point.text}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  import gsap from 'gsap';
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = gsap.utils.toArray<HTMLElement>('[data-hero-reveal]');
+
+  if (reduceMotion) {
+    gsap.set(items, { opacity: 1, y: 0 });
+  } else {
+    gsap.set(items, { opacity: 0, y: 24 });
+    gsap.to(items, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'expo.out',
+      stagger: 0.12,
+      delay: 0.15,
+    });
+  }
+</script>
