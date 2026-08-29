@@ -1,12 +1,46 @@
-@import '@fontsource-variable/fraunces';
-@import '@fontsource/manrope/400.css';
-@import '@fontsource/manrope/500.css';
-@import '@fontsource/manrope/600.css';
-@import '@fontsource/manrope/700.css';
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Display : slab a empattements francs, terminaisons chaleureuses.
+   Voix deliberement autre que le serif a fort contraste du wordmark du
+   logo, qui sinon lui disputerait le point focal (CLAUDE.md §4.13). */
+@import '@fontsource/zilla-slab/500.css';
+@import '@fontsource/zilla-slab/600.css';
+@import '@fontsource/zilla-slab/700.css';
+@import '@fontsource-variable/manrope';
+
+@theme {
+  /* Bleus echantillonnes au pixel sur le logo reel — verrouilles. */
+  --color-nazar: #16098f;
+  --color-ciel: #74c0ec;
+  /* Accent chaud : hue 32deg, sat 96% — hors zone terracotta, 5,96:1 sur nazar. */
+  --color-braise: #fa8b0c;
+  /* Secondaire, jamais fond general du site. */
+  --color-creme: #f7f5f1;
+  --color-encre: #1a1626;
+
+  --font-display: 'Zilla Slab', ui-serif, Georgia, serif;
+  --font-body: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.3;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 1.2;
+  --text-3xl: 3rem;
+  --text-3xl--line-height: 1.1;
+  --text-4xl: 3.5rem;
+  --text-4xl--line-height: 1.05;
+  --text-5xl: 4.25rem;
+  --text-5xl--line-height: 1.02;
+
+  /* Courbe signature : leger depassement — un geste sur, pas un fondu. */
+  --ease-lame: cubic-bezier(0.22, 1.12, 0.36, 1);
+}
 
 @layer base {
   html {
@@ -14,21 +48,29 @@
   }
 
   body {
-    @apply bg-creme text-encre font-body antialiased;
+    background-color: var(--color-nazar);
+    color: var(--color-encre);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3 {
-    @apply font-display;
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
   }
 
+  /* Double anneau : lisible sur creme comme sur nazar. */
   :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px theme('colors.creme'), 0 0 0 4px theme('colors.nazar');
+    outline: 2px solid var(--color-braise);
+    outline-offset: 2px;
     border-radius: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;

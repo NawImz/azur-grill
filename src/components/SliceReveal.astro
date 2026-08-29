@@ -1,0 +1,56 @@
+<script>
+  /*
+    Revelation d'entree de section : la meme lame que le hero, en plus
+    discret. Deux garde-fous tires du catalogue d'erreurs :
+
+    1. Le trigger est la SECTION, jamais l'element clippe. Chromium calcule
+       l'intersection APRES le clip : observer un element porteur d'un
+       clip-path qui l'annule fige `isIntersecting` a false pour toujours,
+       sans la moindre erreur console (CLAUDE.md §4.7).
+    2. Aucune boucle de surveillance. La version precedente du site tenait un
+       setInterval de 200 ms qui appelait getBoundingClientRect() sur 34
+       elements en continu — un filet qui masquait un defaut de synchro au
+       prix d'un layout thrashing permanent. Ici, chaque element est anime
+       une fois puis oublie.
+  */
+  const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cibles = document.querySelectorAll<HTMLElement>('[data-slice]');
+
+  const montrer = (el: HTMLElement) => {
+    el.style.opacity = '1';
+    el.style.clipPath = 'inset(0 0 0 0)';
+  };
+
+  if (reduit || !cibles.length) {
+    cibles.forEach(montrer);
+  } else {
+    cibles.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.clipPath = 'inset(0 0 100% 0)';
+      el.style.willChange = 'opacity, clip-path';
+    });
+
+    const { gsap } = await import('gsap');
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.querySelectorAll<HTMLElement>('section').forEach((section) => {
+      const enfants = section.querySelectorAll<HTMLElement>('[data-slice]');
+      if (!enfants.length) return;
+
+      gsap.to(enfants, {
+        opacity: 1,
+        clipPath: 'inset(0 0 0% 0)',
+        duration: 0.62,
+        ease: 'power2.out',
+        stagger: 0.07,
+        clearProps: 'willChange',
+        scrollTrigger: {
+          trigger: section, // la SECTION, pas l'element clippe
+          start: 'top 82%',
+          once: true, // jamais rejoue : pas de re-disparition au retour
+        },
+      });
+    });
+  }
+</script>

@@ -1,13 +1,16 @@
 {
-  "texte": "Ouvert 7j/7 · 11h30 – 22h30",
+  "statut": "À CONFIRMER",
+  "note": "Les sources publiques se contredisent (fiche : lun-ven 12h-22h30 ; réseaux du restaurant : lun-sam 11h30-23h). Valeur provisoire retenue = réseaux du restaurant. Voir TODO-CLIENT.md point 1.",
+  "fuseau": "Europe/Paris",
+  "texte": "Lundi – Samedi · 11h30 – 23h",
   "jours": [
-    { "jour": "Lundi", "horaire": "11h30 – 22h30" },
-    { "jour": "Mardi", "horaire": "11h30 – 22h30" },
-    { "jour": "Mercredi", "horaire": "11h30 – 22h30" },
-    { "jour": "Jeudi", "horaire": "11h30 – 22h30" },
-    { "jour": "Vendredi", "horaire": "11h30 – 22h30" },
-    { "jour": "Samedi", "horaire": "11h30 – 22h30" },
-    { "jour": "Dimanche", "horaire": "11h30 – 22h30" }
+    { "jour": "Lundi", "index": 1, "ouvre": "11:30", "ferme": "23:00" },
+    { "jour": "Mardi", "index": 2, "ouvre": "11:30", "ferme": "23:00" },
+    { "jour": "Mercredi", "index": 3, "ouvre": "11:30", "ferme": "23:00" },
+    { "jour": "Jeudi", "index": 4, "ouvre": "11:30", "ferme": "23:00" },
+    { "jour": "Vendredi", "index": 5, "ouvre": "11:30", "ferme": "23:00" },
+    { "jour": "Samedi", "index": 6, "ouvre": "11:30", "ferme": "23:00" },
+    { "jour": "Dimanche", "index": 0, "ouvre": null, "ferme": null }
   ],
-  "schemaOrgOpeningHours": ["Mo-Su 11:30-22:30"]
+  "schemaOrgOpeningHours": ["Mo-Sa 11:30-23:00"]
 }

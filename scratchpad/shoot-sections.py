@@ -18,10 +18,11 @@ with sync_playwright() as p:
     pg = b.new_context(viewport={'width':W,'height':900}).new_page()
     pg.goto(f'http://127.0.0.1:{port}/', wait_until='networkidle'); pg.wait_for_timeout(1200)
     H = pg.evaluate("document.body.scrollHeight")
-    y=0; i=0
-    while y < H and i < 9:
-        pg.evaluate(f"window.scrollTo(0,{y})"); pg.wait_for_timeout(1100)
+    vh=900; maxy=max(0,H-vh); y=0; i=0
+    while i < 9:
+        pg.evaluate(f"window.scrollTo(0,{min(y,maxy)})"); pg.wait_for_timeout(1100)
         f=f'scratchpad/_s{i}.png'; pg.screenshot(path=f); shots.append(f)
+        if y>=maxy: break
         y += 860; i+=1
     b.close()
 srv.shutdown()

@@ -1,0 +1,82 @@
+---
+import { Picture } from 'astro:assets';
+import restaurant from '../data/restaurant.json';
+import pate from '../assets/photos-v2/about-pate-petrie.jpg';
+import devanture from '../assets/photos-v2/gallery-devanture.webp';
+import brique from '../assets/photos-v2/gallery-interieur-brique.webp';
+import comptoir from '../assets/photos-v2/gallery-comptoir.webp';
+import baklava from '../assets/photos-v2/gallery-baklava-the.webp';
+import kunefe from '../assets/photos-v2/gallery-kunefe.webp';
+
+const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès fauteuil roulant', 'Ticket Restaurant'];
+---
+
+<section id="lieu" class="relative bg-nazar pb-20 md:pb-30">
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <div class="max-w-2xl" data-slice>
+      <p class="mb-4 text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Le lieu</p>
+      <h2 class="font-display text-3xl leading-tight font-700 text-creme md:text-4xl">
+        La pâte est pétrie le matin, la salle remplie le soir.
+      </h2>
+      <p class="mt-5 text-lg text-creme/80">
+        Une salle de quartier à Épinay, ouverte aux familles comme aux tablées.
+        Le pain sort du four à quelques mètres de votre table.
+      </p>
+    </div>
+
+    <ul class="mt-8 flex flex-wrap gap-2" data-slice>
+      {traits.map((t) => (
+        <li class="rounded-full bg-creme/10 px-4 py-2 text-sm text-creme ring-1 ring-creme/15">{t}</li>
+      ))}
+    </ul>
+
+    <div class="mt-12 grid gap-4 md:mt-16 md:grid-cols-12">
+      <figure class="md:col-span-7" data-slice>
+        <Picture
+          src={pate}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          alt="Les pâtons de pâte, pétris et façonnés à la main sur le plan de travail fariné."
+          widths={[480, 760]}
+          sizes="(min-width: 768px) 58vw, 100vw"
+          class="h-72 w-full rounded-2xl object-cover md:h-96"
+        />
+        <figcaption class="mt-2 text-sm text-creme/60">La pâte, pétrie sur place chaque matin.</figcaption>
+      </figure>
+
+      <figure class="md:col-span-5" data-slice>
+        <Picture
+          src={devanture}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          alt="La devanture d'Azur Grill éclairée à la nuit tombée, boulevard Foch."
+          widths={[420, 765]}
+          sizes="(min-width: 768px) 40vw, 100vw"
+          class="h-72 w-full rounded-2xl object-cover md:h-96"
+        />
+        <figcaption class="mt-2 text-sm text-creme/60">69 boulevard Foch, à la nuit tombée.</figcaption>
+      </figure>
+
+      <div class="grid gap-4 md:col-span-12 md:grid-cols-4">
+        {[
+          { src: brique, alt: "La salle et son mur de brique, tables dressées." },
+          { src: comptoir, alt: 'Le comptoir et la salle en journée, baignés de lumière.' },
+          { src: baklava, alt: 'Un baklava servi avec un thé turc dans son verre tulipe.' },
+          { src: kunefe, alt: 'Un künefe tiède, parsemé de pistache concassée.' },
+        ].map((p) => (
+          <figure data-slice>
+            <Picture
+              src={p.src}
+              formats={['avif', 'webp']}
+          fallbackFormat="webp"
+              alt={p.alt}
+              widths={[320, 640]}
+              sizes="(min-width: 768px) 23vw, 50vw"
+              class="h-44 w-full rounded-xl object-cover md:h-56"
+            />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,37 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Icon from '../components/Icon.astro';
-import NazarMark from '../components/NazarMark.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import restaurant from '../data/restaurant.json';
 ---
 
-<Layout
-  title="Page introuvable — Azur Grill Restaurant"
-  description="Cette page n'existe pas. Retrouvez la carte, les horaires et les coordonnées d'Azur Grill Restaurant à Épinay-sur-Seine."
->
-  <main class="min-h-screen bg-nazar text-creme flex items-center justify-center px-5 py-24">
-    <div class="max-w-md text-center">
-      <NazarMark class="w-16 h-16 mx-auto mb-8 text-ciel" />
-      <p class="font-display text-5xl mb-4">404</p>
-      <h1 class="font-display text-2xl mb-4">Cette page n'existe pas</h1>
-      <p class="text-creme/70 mb-8">
-        La page que vous cherchez a peut-être changé d'adresse — comme nous n'en changeons pas, revenez à l'accueil.
-      </p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a
-          href="/"
-          class="inline-flex items-center gap-2 bg-brique text-creme font-semibold px-6 py-3.5 rounded-full hover:brightness-110 transition"
-        >
+<Layout titre={`Page introuvable — ${restaurant.nom}`} description="Cette page n'existe pas.">
+  <Header />
+  <main id="contenu" class="flex min-h-[70svh] items-center bg-nazar">
+    <div class="mx-auto max-w-2xl px-5 py-24 text-center md:px-8">
+      <p class="font-display text-5xl font-700 text-ciel">404</p>
+      <h1 class="mt-4 font-display text-3xl font-700 text-creme">Cette page n'existe pas.</h1>
+      <p class="mt-4 text-creme/80">Le grill, lui, est toujours là.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/" class="inline-flex min-h-12 items-center rounded-full bg-braise px-7 font-bold text-encre">
           Retour à l'accueil
         </a>
-        <a
-          href={restaurant.telephoneLien}
-          class="inline-flex items-center gap-2 bg-creme/10 text-creme font-semibold px-6 py-3.5 rounded-full border border-creme/40 hover:bg-creme/20 transition"
-        >
-          <Icon name="phone" class="w-4 h-4" />
-          Nous appeler
+        <a href={restaurant.telephoneLien} class="inline-flex min-h-12 items-center rounded-full border border-creme/40 px-7 font-semibold text-creme">
+          {restaurant.telephone}
         </a>
       </div>
     </div>
   </main>
+  <Footer />
 </Layout>
