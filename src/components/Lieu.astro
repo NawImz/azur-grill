@@ -11,10 +11,10 @@ import kunefe from '../assets/photos-v2/gallery-kunefe.webp';
 const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès fauteuil roulant', 'Ticket Restaurant'];
 ---
 
-<section id="lieu" class="relative bg-nazar pb-20 md:pb-30">
+<section id="lieu" class="grain grain-sombre relative overflow-hidden bg-nazar pb-24 md:pb-36">
   <div class="mx-auto max-w-6xl px-5 md:px-8">
     <div class="max-w-2xl" data-slice>
-      <p class="mb-4 text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Le lieu</p>
+      <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Le lieu</p>
       <h2 class="font-display text-3xl leading-tight font-700 text-creme md:text-4xl">
         La pâte est pétrie le matin, la salle remplie le soir.
       </h2>
@@ -26,12 +26,12 @@ const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès
 
     <ul class="mt-8 flex flex-wrap gap-2" data-slice>
       {traits.map((t) => (
-        <li class="rounded-full bg-creme/10 px-4 py-2 text-sm text-creme ring-1 ring-creme/15">{t}</li>
+        <li class="trait-pastille rounded-full bg-creme/10 px-4 py-2 text-sm text-creme ring-1 ring-creme/15">{t}</li>
       ))}
     </ul>
 
     <div class="mt-12 grid gap-4 md:mt-16 md:grid-cols-12">
-      <figure class="md:col-span-7" data-slice>
+      <figure class="cadre md:col-span-7" data-slice>
         <Picture
           src={pate}
           formats={['avif', 'webp']}
@@ -39,12 +39,12 @@ const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès
           alt="Les pâtons de pâte, pétris et façonnés à la main sur le plan de travail fariné."
           widths={[480, 760]}
           sizes="(min-width: 768px) 58vw, 100vw"
-          class="h-72 w-full rounded-2xl object-cover md:h-96"
+          class="h-72 w-full object-cover transition-transform duration-[900ms] md:h-96"
         />
         <figcaption class="mt-2 text-sm text-creme/60">La pâte, pétrie sur place chaque matin.</figcaption>
       </figure>
 
-      <figure class="md:col-span-5" data-slice>
+      <figure class="cadre md:col-span-5" data-slice>
         <Picture
           src={devanture}
           formats={['avif', 'webp']}
@@ -52,7 +52,7 @@ const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès
           alt="La devanture d'Azur Grill éclairée à la nuit tombée, boulevard Foch."
           widths={[420, 765]}
           sizes="(min-width: 768px) 40vw, 100vw"
-          class="h-72 w-full rounded-2xl object-cover md:h-96"
+          class="h-72 w-full object-cover transition-transform duration-[900ms] md:h-96"
         />
         <figcaption class="mt-2 text-sm text-creme/60">69 boulevard Foch, à la nuit tombée.</figcaption>
       </figure>
@@ -64,7 +64,7 @@ const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès
           { src: baklava, alt: 'Un baklava servi avec un thé turc dans son verre tulipe.' },
           { src: kunefe, alt: 'Un künefe tiède, parsemé de pistache concassée.' },
         ].map((p) => (
-          <figure data-slice>
+          <figure class="cadre" data-slice>
             <Picture
               src={p.src}
               formats={['avif', 'webp']}
@@ -72,7 +72,7 @@ const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès
               alt={p.alt}
               widths={[320, 640]}
               sizes="(min-width: 768px) 23vw, 50vw"
-              class="h-44 w-full rounded-xl object-cover md:h-56"
+              class="h-44 w-full object-cover transition-transform duration-[900ms] md:h-56"
             />
           </figure>
         ))}
@@ -80,3 +80,85 @@ const traits = ['Halal', 'Familial', 'Groupes bienvenus', 'Menu enfant', 'Accès
     </div>
   </div>
 </section>
+
+<style>
+  /*
+    Chaque photo est tenue dans un cadre qui la rogne : l'image peut alors
+    respirer a l'interieur au survol sans deborder ni pousser ses voisines.
+    Mouvement long et unique — une piece qu'on approche, pas un effet.
+  */
+  .cadre {
+    overflow: hidden;
+    border-radius: 1rem;
+    position: relative;
+  }
+
+  .cadre :global(img) {
+    transition: transform .9s var(--ease-pose);
+  }
+
+  .cadre:hover :global(img) {
+    transform: scale(1.055);
+  }
+
+  /* Un voile chaud tres faible se leve au survol : la lumiere de la braise. */
+  .cadre::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, color-mix(in srgb, var(--color-braise) 22%, transparent), transparent 55%);
+    opacity: 0;
+    transition: opacity .7s var(--ease-pose);
+  }
+
+  .cadre:hover::after {
+    opacity: 1;
+  }
+
+  .trait-pastille {
+    transition: background-color .4s var(--ease-pose), border-color .4s var(--ease-pose);
+  }
+
+  .trait-pastille:hover {
+    background-color: color-mix(in srgb, var(--color-creme) 18%, transparent);
+  }
+
+  .eyebrow-trait {
+    position: relative;
+    padding-bottom: .85rem;
+  }
+
+  .eyebrow-trait::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 2.75rem;
+    height: 2px;
+    background: var(--color-braise);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .6s var(--ease-lame) .2s;
+  }
+
+  .shown .eyebrow-trait::after,
+  :where(.shown).eyebrow-trait::after {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cadre :global(img),
+    .cadre::after,
+    .trait-pastille {
+      transition: none;
+    }
+    .cadre:hover :global(img) {
+      transform: none;
+    }
+    .eyebrow-trait::after {
+      transform: scaleX(1);
+      transition: none;
+    }
+  }
+</style>

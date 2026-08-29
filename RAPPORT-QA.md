@@ -146,7 +146,6 @@ du client :
 
 - **`PLACEHOLDER-AVIS`** ×3 et un bandeau d'avertissement dans la section avis.
 - **`À CONFIRMER`** sur les horaires, sous le tableau.
-- **Mentions légales — à fournir**, dans le pied de page.
 
 ---
 

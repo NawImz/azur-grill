@@ -167,7 +167,28 @@ rejouer le geste complet à chaque fois.
 - **Survol d'un plat** : une lueur `braise` discrète sous le prix, comme un reflet de
   braise. **Restreinte à cette seule interaction.**
 
-### 5.4 Exclu
+### 5.4 Le registre « artisan » — matière et gestes
+
+Le mouvement seul ne fait pas une atmosphère : une section d'un aplat parfaitement
+uni lit comme un calque d'écran, quelle que soit l'animation posée dessus. Trois
+leviers, tous dérivés du même geste :
+
+| Levier | Ce qu'il fait | Où |
+|---|---|---|
+| **Grain de papier** | un bruit fractal en SVG inline, en `multiply` sur les surfaces claires et en `overlay` sur le bleu — c'est ce qui sépare le papier du calque | toutes les sections |
+| **Le trait qui se tire** | la ligne pointillée entre le plat et le prix se dessine de gauche à droite, puis le montant se pose — le geste de la carte écrite à la main | la carte |
+| **Le cadre qui respire** | chaque photo est rognée par un cadre ; au survol elle s'agrandit lentement à l'intérieur, avec un voile de braise qui monte | le lieu |
+
+S'y ajoutent, dans le même esprit de retenue : le filet `braise` qui se tire sous
+chaque intitulé de section, les étoiles d'un avis qui s'allument l'une après
+l'autre, le chiffre de la note qui se pose depuis le bas, et une respiration de
+26 s sur la photo du hero — **une seule passe, jamais une boucle**.
+
+Les ombres sont teintées de braise (`--ombre-posee`, `--ombre-levee`) et jamais
+noires : une ombre neutre sur une palette chaude a l'air d'un calque, pas d'une
+lumière.
+
+### 5.5 Exclu
 
 Particules, curseur personnalisé, parallaxe généralisé, et **toute animation qui boucle
 sans avoir été déclenchée** par le scroll ou une interaction.
@@ -177,7 +198,7 @@ sans avoir été déclenchée** par le scroll ou une interaction.
 > un défaut de synchronisation au lieu de le corriger, et rend l'objectif Lighthouse ≥ 95
 > inatteignable.
 
-### 5.5 Plancher d'accessibilité
+### 5.6 Plancher d'accessibilité
 
 `prefers-reduced-motion: reduce` **coupe tout** : hero directement dans son état final,
 sans tranches ni broche. Toutes les animations en `transform` / `opacity` uniquement —

@@ -121,12 +121,7 @@ sélection appuyée sur les avis : döner, pain maison, künefe, côtelettes…)
 
 ## 🟡 À trancher — décisions, pas informations
 
-### 9. Mentions légales
-
-Obligatoires sur un site professionnel. **Il nous faut :** raison sociale, forme
-juridique, SIRET, adresse du siège, nom du responsable de publication.
-
-### 10. Mesure d'audience
+### 9. Mesure d'audience
 
 Prévu : un outil **sans cookie** (Plausible ou Umami) — donc **aucun bandeau cookie** à
 faire accepter aux visiteurs. C'est un gain de simplicité et de conversion. Ces outils
@@ -134,19 +129,23 @@ sont payants (quelques euros par mois) ; l'alternative est de ne rien mesurer du
 
 **Il nous faut :** l'accord du client, ou le choix de s'en passer.
 
-### 11. Réseaux et contact
+### 10. Réseaux et contact
 
 **Il nous faut :** confirmation du compte Instagram
 (`@azurgrillrestaurant` est enregistré), l'existence d'un **WhatsApp** professionnel, et
 d'une éventuelle page Facebook.
 
-### 12. Adresse exacte sur le plan
+### 11. Adresse exacte sur le plan
 
 Les coordonnées enregistrées sont marquées « approximatives, calculées depuis l'adresse
 postale » dans les données. **Il nous faut :** valider que le lien-plan tombe bien sur la
 devanture, en l'ouvrant une fois depuis un téléphone.
 
 ---
+
+> **Mentions légales — retirées du site à la demande.** À signaler tout de même :
+> elles sont obligatoires pour un site professionnel en France. Le bloc est prêt
+> à être remis en une ligne si le restaurant souhaite les afficher plus tard.
 
 ## Ce qui n'est **pas** demandé au client
 

@@ -6,13 +6,14 @@ const { avisGoogle } = restaurant;
 const enPlaceholder = avisGoogle.citations.every((c) => c.texte.includes('PLACEHOLDER'));
 ---
 
-<section id="avis" class="relative bg-nazar py-20 md:py-30">
+<section id="avis" class="grain grain-sombre relative overflow-hidden bg-nazar py-24 md:py-36">
   <div class="mx-auto max-w-6xl px-5 md:px-8">
     <div class="flex flex-col items-start gap-8 md:flex-row md:items-end md:justify-between" data-slice>
       <div class="max-w-xl">
-        <p class="mb-4 text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Ce qu'on dit de nous</p>
-        <h2 class="font-display text-3xl leading-tight font-700 text-creme md:text-4xl">
-          {avisGoogle.note}/5 sur plus de {avisGoogle.nombreAvis} avis.
+        <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Ce qu'on dit de nous</p>
+        <h2 class="flex items-baseline gap-4 font-display font-700 text-creme">
+          <span class="note-chiffre text-6xl leading-none tabular-nums md:text-7xl">{String(avisGoogle.note).replace('.', ',')}</span>
+          <span class="text-2xl leading-tight md:text-3xl">sur 5, <br class="hidden sm:block" />sur plus de {avisGoogle.nombreAvis} avis.</span>
         </h2>
       </div>
 
@@ -32,8 +33,12 @@ const enPlaceholder = avisGoogle.citations.every((c) => c.texte.includes('PLACEH
 
     <ul class="mt-10 grid gap-5 md:grid-cols-3">
       {avisGoogle.citations.map((avis) => (
-        <li class="rounded-2xl bg-creme/8 p-6 ring-1 ring-creme/15" data-slice>
-          <p class="text-braise" aria-label={`${avis.note} sur 5`}>{'★'.repeat(avis.note)}</p>
+        <li class="carte-avis rounded-2xl bg-creme/8 p-7 ring-1 ring-creme/15" data-slice>
+          <p class="etoiles text-braise" aria-label={`${avis.note} sur 5`}>
+            {Array.from({ length: avis.note }).map((_, i) => (
+              <span class="etoile" style={`--e:${i}`}>★</span>
+            ))}
+          </p>
           <blockquote class="mt-3 text-creme/90">{avis.texte}</blockquote>
           <p class="mt-4 text-sm text-ciel">{avis.auteur}</p>
         </li>
@@ -53,6 +58,69 @@ const enPlaceholder = avisGoogle.citations.every((c) => c.texte.includes('PLACEH
 </section>
 
 <style>
+  /* Le chiffre de la note se pose depuis le bas, une fois. */
+  .note-chiffre {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.22em);
+    transition: opacity .7s var(--ease-pose), transform .7s var(--ease-pose);
+  }
+
+  .shown .note-chiffre,
+  :where(.shown) .note-chiffre {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Les etoiles s'allument l'une apres l'autre, comme on compte. */
+  .etoile {
+    display: inline-block;
+    opacity: 0;
+    transform: scale(.6);
+    transition: opacity .34s var(--ease-lame), transform .34s var(--ease-lame);
+    transition-delay: calc(0.3s + var(--e) * 0.08s);
+  }
+
+  .shown .etoile,
+  :where(.shown) .etoile {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* La carte se souleve, l'ombre se rechauffe. */
+  .carte-avis {
+    transition: transform .45s var(--ease-pose), box-shadow .45s var(--ease-pose), background-color .45s var(--ease-pose);
+  }
+
+  .carte-avis:hover {
+    transform: translateY(-4px);
+    background-color: color-mix(in srgb, var(--color-creme) 13%, transparent);
+    box-shadow: 0 20px 48px -18px rgb(0 0 0 / .55);
+  }
+
+  .eyebrow-trait {
+    position: relative;
+    padding-bottom: 0.85rem;
+  }
+
+  .eyebrow-trait::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 2.75rem;
+    height: 2px;
+    background: var(--color-braise);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .6s var(--ease-lame) .2s;
+  }
+
+  .shown .eyebrow-trait::after,
+  :where(.shown).eyebrow-trait::after {
+    transform: scaleX(1);
+  }
+
   @keyframes veille {
     0%, 100% { transform: scale(1); }
     45% { transform: scale(1.09); }
@@ -69,6 +137,14 @@ const enPlaceholder = avisGoogle.citations.every((c) => c.texte.includes('PLACEH
 
   @media (prefers-reduced-motion: reduce) {
     .nazar-veille { animation: none; }
+    .note-chiffre,
+    .etoile {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .carte-avis { transition: none; }
+    .eyebrow-trait::after { transform: scaleX(1); transition: none; }
   }
 </style>
 

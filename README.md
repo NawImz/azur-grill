@@ -85,14 +85,13 @@ c'est éditer une ligne de JSON.
 
 ## Avant la mise en ligne
 
-Le site est complet et vérifié, mais **quatre points attendent le restaurant** — les
+Le site est complet et vérifié, mais **trois points attendent le restaurant** — les
 détails sont dans `TODO-CLIENT.md` :
 
 1. **Les horaires exacts** — trois sources se contredisent. C'est la seule erreur qui
    coûte un client à chaque fois qu'elle se produit.
 2. **De vrais avis Google** — les emplacements sont marqués sur le site.
 3. **Le lien de commande** — à confirmer comme actif.
-4. **Les mentions légales** — obligatoires.
 
 Le déploiement n'est pas configuré : c'est un site statique sans étape de build
 particulière, `dist/` se publie tel quel le jour venu.

@@ -42,6 +42,14 @@
 
   /* Courbe signature : leger depassement — un geste sur, pas un fondu. */
   --ease-lame: cubic-bezier(0.22, 1.12, 0.36, 1);
+  /* Courbe longue pour les mouvements d'atmosphere : demarre franchement,
+     s'installe sans jamais rebondir. */
+  --ease-pose: cubic-bezier(0.16, 0.84, 0.24, 1);
+
+  /* Ombres teintees de braise, jamais du noir pur : une ombre neutre sur
+     une palette chaude a l'air d'un calque, pas d'une lumiere. */
+  --ombre-posee: 0 1px 2px rgb(58 26 0 / .06), 0 8px 24px -8px rgb(58 26 0 / .14);
+  --ombre-levee: 0 2px 4px rgb(58 26 0 / .08), 0 18px 44px -12px rgb(58 26 0 / .26);
 }
 
 @layer base {
@@ -60,6 +68,49 @@
   h2,
   h3 {
     font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  /*
+    Grain de papier sur les surfaces claires. Une section creme parfaitement
+    unie lit comme un aplat d'ecran ; un grain tres faible lui rend une
+    matiere — c'est ce qui separe le papier du calque. Genere en SVG inline
+    (aucune requete), fixe par rapport a la fenetre pour ne pas defiler avec
+    le contenu, et non capturable par le pointeur.
+  */
+  .grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+  }
+
+  /* Sur le bleu, le grain s'inverse : c'est la lumiere qui grene, pas l'encre. */
+  .grain-sombre::before {
+    mix-blend-mode: overlay;
+    opacity: 0.32;
+  }
+
+  /* Le contenu repasse au-dessus du grain. */
+  .grain > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /*
+    Filet de separation : un degrade qui s'eteint aux deux bouts plutot
+    qu'une regle pleine d'un bord a l'autre. Detail de finition.
+  */
+  .filet {
+    height: 1px;
+    border: 0;
+    margin: 0;
+    background: linear-gradient(to right, transparent, currentColor 22%, currentColor 78%, transparent);
+    opacity: 0.18;
   }
 
   /* Double anneau : lisible sur creme comme sur nazar. */

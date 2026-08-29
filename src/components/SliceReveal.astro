@@ -16,9 +16,14 @@
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cibles = document.querySelectorAll<HTMLElement>('[data-slice]');
 
+  // La classe `shown` est le signal auquel s'accrochent les animations CSS
+  // derivees (le trait de la carte qui se tire, le filet des intitules, les
+  // etoiles des avis). Sans elle, GSAP revelerait le bloc mais rien de ce
+  // qui doit s'enchainer ensuite ne partirait.
   const montrer = (el: HTMLElement) => {
     el.style.opacity = '1';
     el.style.clipPath = 'inset(0 0 0 0)';
+    el.classList.add('shown');
   };
 
   if (reduit || !cibles.length) {
@@ -45,6 +50,7 @@
         ease: 'power2.out',
         stagger: 0.07,
         clearProps: 'willChange',
+        onStart: () => enfants.forEach((el) => el.classList.add('shown')),
         scrollTrigger: {
           trigger: section, // la SECTION, pas l'element clippe
           start: 'top 82%',

@@ -3,10 +3,10 @@ import restaurant from '../data/restaurant.json';
 import horaires from '../data/horaires.json';
 ---
 
-<section id="infos" class="relative bg-creme py-20 md:py-30">
+<section id="infos" class="grain relative overflow-hidden bg-creme py-24 md:py-36">
   <div class="mx-auto max-w-6xl px-5 md:px-8">
     <div class="max-w-2xl" data-slice>
-      <p class="mb-4 text-sm font-semibold tracking-[0.16em] text-nazar/70 uppercase">Infos pratiques</p>
+      <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-nazar/70 uppercase">Infos pratiques</p>
       <h2 class="font-display text-3xl leading-tight font-700 text-nazar md:text-4xl">
         Nous trouver, nous appeler.
       </h2>
@@ -53,7 +53,7 @@ import horaires from '../data/horaires.json';
         </div>
       </div>
 
-      <div class="rounded-2xl bg-nazar p-8 md:p-10" data-slice>
+      <div class="rounded-2xl bg-nazar p-8 shadow-[var(--ombre-levee)] md:p-10" data-slice>
         <p class="text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Nous appeler</p>
         <a
           href={restaurant.telephoneLien}
@@ -159,3 +159,18 @@ import horaires from '../data/horaires.json';
   appliquer();
   setInterval(appliquer, 60_000);
 </script>
+
+<style>
+  .eyebrow-trait { position: relative; padding-bottom: .85rem; }
+  .eyebrow-trait::after {
+    content: ''; position: absolute; left: 0; bottom: 0;
+    width: 2.75rem; height: 2px; background: var(--color-braise);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .6s var(--ease-lame) .2s;
+  }
+  .shown .eyebrow-trait::after,
+  :where(.shown).eyebrow-trait::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow-trait::after { transform: scaleX(1); transition: none; }
+  }
+</style>

@@ -2,7 +2,10 @@
 import { Picture } from 'astro:assets';
 import restaurant from '../data/restaurant.json';
 import Broche from './Broche.astro';
-import painMaison from '../assets/photos-v2/about-pain-maison.webp';
+// Agrandissement Lanczos + accentuation de la source 765px : le navigateur
+// l'etirait sinon jusqu'a x3,8 sur un ecran Retina, d'ou le flou.
+// A remplacer des que le client fournit l'original (TODO-CLIENT.md, 6).
+import painMaison from '../assets/photos-v2/hero-pain-maison-2x.webp';
 
 // Six bandes : assez pour lire « tranches », assez peu pour rester net.
 const bandes = [0, 1, 2, 3, 4, 5];
@@ -18,11 +21,11 @@ const bandes = [0, 1, 2, 3, 4, 5];
     formats={['avif', 'webp']}
           fallbackFormat="webp"
     alt="Les pains d'Azur Grill, cuits sur place, alignés à la sortie du four sur la planche de bois."
-    widths={[640, 960, 1360]}
+    widths={[760, 1100, 1530]}
     sizes="100vw"
     loading="eager"
     fetchpriority="high"
-    class="absolute inset-0 -z-10 h-full w-full object-cover"
+    class="hero-photo absolute inset-0 -z-10 h-full w-full object-cover"
     style="object-position: 50% 34%;"
   />
 
@@ -85,6 +88,19 @@ const bandes = [0, 1, 2, 3, 4, 5];
 </section>
 
 <style>
+  /* Respiration lente de la photo : une seule passe, jamais une boucle.
+     Assez lente pour ne pas se voir, assez presente pour que l'image
+     cesse d'etre un aplat fige. */
+  @keyframes respire {
+    from { transform: scale(1); }
+    to   { transform: scale(1.055); }
+  }
+
+  .hero-photo {
+    transform-origin: 50% 38%;
+    animation: respire 26s cubic-bezier(.33, 0, .2, 1) forwards;
+  }
+
   /* La tranche tombe : la bande s'ecrase vers sa base et sort du champ. */
   @keyframes lame-tombe {
     from {
@@ -146,6 +162,9 @@ const bandes = [0, 1, 2, 3, 4, 5];
      Les bandes et la broche sont neutralisees par `motion-reduce:` cote
      balise — une regle de composant ne battrait pas leurs utilities. */
   @media (prefers-reduced-motion: reduce) {
+    .hero-photo {
+      animation: none;
+    }
     .hero-ligne {
       opacity: 1;
       animation: none;
