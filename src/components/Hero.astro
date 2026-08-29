@@ -4,36 +4,37 @@ import Icon from './Icon.astro';
 import restaurant from '../data/restaurant.json';
 import heroImage from '../assets/photos-v2/hero-plat-genereux.webp';
 
-const trustPoints = [
-  { icon: 'star', text: `${restaurant.avisGoogle.note}/5 sur Google (${restaurant.avisGoogle.nombreAvis} avis)` },
-  { icon: 'utensils', text: 'Pain et kebab faits maison' },
-  { icon: 'check', text: 'Halal' },
-  { icon: 'clock', text: 'Ouvert 7j/7 · 11h30–22h30' },
+const stats = [
+  { valeur: `${restaurant.avisGoogle.note.toFixed(1).replace('.', ',')}/5`, label: `Note Google · ${restaurant.avisGoogle.nombreAvis} avis` },
+  { valeur: '7j/7', label: 'Ouvert 11h30 – 22h30' },
+  { valeur: '100%', label: 'Pain & kebab maison' },
+  { valeur: 'Halal', label: 'Sur place · emporter · livraison' },
 ];
 ---
 
-<section id="top" class="relative h-[70svh] min-h-[420px] md:h-[100svh] md:min-h-[560px] flex items-end overflow-hidden">
-  <Image
-    src={heroImage}
-    alt="Assiette généreuse de grillades, riz et légumes grillés servie chez Azur Grill à Épinay-sur-Seine"
-    loading="eager"
-    fetchpriority="high"
-    class="absolute inset-0 w-full h-full object-cover object-[center_75%] md:object-center"
-  />
+<section id="top" class="relative isolate h-[70svh] min-h-[420px] md:h-[100svh] md:min-h-[560px] flex items-end overflow-hidden">
+  <div id="hero-media" class="absolute inset-x-0 top-0 h-[115%] will-change-transform">
+    <Image
+      id="hero-img"
+      src={heroImage}
+      alt="Assiette généreuse de grillades, riz et légumes grillés servie chez Azur Grill à Épinay-sur-Seine"
+      loading="eager"
+      fetchpriority="high"
+      class="w-full h-full object-cover object-[center_75%] md:object-center will-change-transform"
+    />
+  </div>
   <div class="absolute inset-0 bg-gradient-to-t from-nazar/95 via-nazar/65 to-nazar/40" aria-hidden="true"></div>
 
-  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pb-24 md:pb-28 w-full">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pb-20 md:pb-28 w-full">
     <p
       data-hero-reveal
-      class="inline-block font-display italic text-ciel text-base md:text-xl bg-nazar/70 backdrop-blur-sm px-4 py-1.5 rounded-full mb-4"
+      class="inline-block font-display italic text-ciel text-base md:text-xl bg-nazar/70 backdrop-blur-sm px-4 py-1.5 rounded-full mb-5"
     >
       Grillades turques &amp; pain maison
     </p>
-    <h1
-      data-hero-reveal
-      class="font-display text-creme text-4xl md:text-5xl leading-[1.05] max-w-2xl"
-    >
-      Azur Grill Restaurant
+    <h1 class="font-display text-creme text-4xl md:text-6xl leading-[1.02] max-w-3xl">
+      <span class="block overflow-hidden pb-1"><span data-hero-line class="block">Azur Grill</span></span>
+      <span class="block overflow-hidden pb-1"><span data-hero-line class="block">Restaurant</span></span>
     </h1>
     <p
       data-hero-reveal
@@ -47,10 +48,10 @@ const trustPoints = [
         href={restaurant.uberEatsUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 bg-brique text-creme font-semibold px-6 py-3.5 rounded-full hover:brightness-110 transition"
+        class="group inline-flex items-center gap-2 bg-brique text-creme font-semibold px-6 py-3.5 rounded-full hover:brightness-110 transition"
       >
         Commander
-        <Icon name="external-link" class="w-4 h-4" />
+        <Icon name="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
       </a>
       <a
         href="#carte"
@@ -60,36 +61,50 @@ const trustPoints = [
       </a>
     </div>
   </div>
+
+  <div
+    data-hero-reveal
+    class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-creme/60"
+    aria-hidden="true"
+  >
+    <span class="text-[11px] font-semibold tracking-[0.25em] uppercase">Défiler</span>
+    <span class="w-px h-10 bg-creme/40"></span>
+  </div>
 </section>
 
 <div class="bg-creme border-b border-encre/10">
-  <ul data-reveal class="max-w-6xl mx-auto px-5 md:px-8 py-4 flex flex-wrap gap-x-8 gap-y-2 justify-center md:justify-between text-sm font-semibold text-encre">
-    {trustPoints.map((point) => (
-      <li class="flex items-center gap-2">
-        <Icon name={point.icon} class="w-4 h-4 text-brique shrink-0" />
-        {point.text}
-      </li>
+  <dl data-reveal class="max-w-6xl mx-auto px-5 md:px-8 py-6 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-5">
+    {stats.map((stat) => (
+      <div class="text-center md:text-left">
+        <dd class="font-display text-2xl md:text-3xl text-nazar leading-none">{stat.valeur}</dd>
+        <dt class="text-xs md:text-sm text-encre/60 mt-1.5">{stat.label}</dt>
+      </div>
     ))}
-  </ul>
+  </dl>
 </div>
 
 <script>
   import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lines = gsap.utils.toArray<HTMLElement>('[data-hero-line]');
   const items = gsap.utils.toArray<HTMLElement>('[data-hero-reveal]');
 
   if (reduceMotion) {
-    gsap.set(items, { opacity: 1, y: 0 });
+    gsap.set([...lines, ...items], { opacity: 1, y: 0, yPercent: 0 });
   } else {
+    gsap.fromTo('#hero-img', { scale: 1.08 }, { scale: 1, duration: 1.1, ease: 'expo.out' });
+    gsap.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: 'expo.out', stagger: 0.1, delay: 0.1 });
     gsap.set(items, { opacity: 0, y: 24 });
-    gsap.to(items, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7,
-      ease: 'expo.out',
-      stagger: 0.12,
-      delay: 0.15,
+    gsap.to(items, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 0.1, delay: 0.35 });
+
+    gsap.to('#hero-media', {
+      yPercent: -10,
+      ease: 'none',
+      scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: true },
     });
   }
 </script>

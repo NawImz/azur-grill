@@ -8,6 +8,12 @@
       "port": 4321
     },
     {
+      "name": "gonzalez-dev",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:\\Users\\Nawfal\\.claude\\sessions\\Gonzalez Espaces Verts\\node_modules\\astro\\astro.js", "dev", "--root", "C:\\Users\\Nawfal\\.claude\\sessions\\Gonzalez Espaces Verts", "--port", "4323"],
+      "port": 4323
+    },
+    {
       "name": "le-test-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "le-test-site", "run", "dev", "--", "--port", "4322"],

@@ -38,7 +38,11 @@
       "Bash(npm config *)",
       "Bash(npm approve-scripts *)",
       "Bash(node -e \"const sharp = require\\('sharp'\\); console.log\\('sharp OK', sharp.format ? 'formats loaded' : 'no formats'\\);\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(find /c/Users/Nawfal/Desktop -iname \"*claude*\" 2>/dev/null)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "playwright"
+  ]
 }

@@ -14,7 +14,7 @@ function formatPrix(prix: number): string {
   <NazarCluster tone="light" />
   <div class="max-w-5xl mx-auto px-5 md:px-8">
     <div data-reveal class="max-w-2xl mb-12 md:mb-16">
-      <Kicker class="mb-4">La Carte</Kicker>
+      <Kicker number="02" class="mb-4">La Carte</Kicker>
       <h2 class="font-display text-2xl md:text-3xl text-nazar leading-tight">
         Une carte généreuse, sans chichi.
       </h2>
@@ -24,7 +24,10 @@ function formatPrix(prix: number): string {
       {menu.map((categorie) => (
         <details data-reveal class="group border-b border-encre/15 py-5 mb-1">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none">
-            <span class="font-display text-xl md:text-2xl text-nazar">{categorie.categorie}</span>
+            <span class="flex items-baseline gap-2.5">
+              <span class="font-display text-xl md:text-2xl text-nazar">{categorie.categorie}</span>
+              <span class="text-sm text-encre/50">({categorie.plats.length})</span>
+            </span>
             <Icon name="chevron-down" class="w-5 h-5 text-brique shrink-0 transition-transform duration-300 group-open:rotate-180" />
           </summary>
 
@@ -32,16 +35,17 @@ function formatPrix(prix: number): string {
             <p class="text-sm italic text-brique mt-3">{categorie.note}</p>
           )}
 
-          <ul class="mt-4 space-y-4">
+          <ul class="mt-5 space-y-4">
             {categorie.plats.map((plat) => (
-              <li class="flex justify-between items-baseline gap-4">
-                <div>
+              <li>
+                <div class="flex items-baseline gap-2.5">
                   <p class="font-semibold text-encre">{plat.nom}</p>
-                  {plat.description && (
-                    <p class="text-sm text-encre/70 mt-0.5">{plat.description}</p>
-                  )}
+                  <span class="flex-1 border-b border-dotted border-encre/30 -translate-y-1" aria-hidden="true"></span>
+                  <p class="font-semibold text-nazar whitespace-nowrap tabular-nums">{formatPrix(plat.prix)}</p>
                 </div>
-                <p class="font-semibold text-nazar whitespace-nowrap">{formatPrix(plat.prix)}</p>
+                {plat.description && (
+                  <p class="text-sm text-encre/70 mt-0.5 pr-14">{plat.description}</p>
+                )}
               </li>
             ))}
           </ul>
