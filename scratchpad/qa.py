@@ -39,6 +39,12 @@ JS_ZONES = """
     if (!txt) continue;
     const cs = getComputedStyle(el);
     if (cs.visibility === 'hidden' || cs.display === 'none' || +cs.opacity < 0.5) continue;
+    // L'opacite se cumule le long des ancetres : un lien opaque dans un bloc
+    // encore transparent est invisible a l'ecran, et le mesurer revient a
+    // comparer sa couleur au fond de la section — un echec imaginaire.
+    let op = 1, n = el;
+    while (n && n !== document.body) { op *= +getComputedStyle(n).opacity; n = n.parentElement; }
+    if (op < 0.5) continue;
     if (el.offsetWidth <= 1 || el.offsetHeight <= 1) continue; // sr-only : hors ecran, pas a mesurer
     // bbox collee aux glyphes, pas la boite du bloc
     const r = document.createRange(); r.selectNodeContents(el);
@@ -107,7 +113,10 @@ def main():
             pires = []
             for y in paliers:
                 pg.evaluate(f'window.scrollTo(0,{min(y, max(0, H-900))})')
-                pg.wait_for_timeout(700)
+                # Au-dela de la duree d'animation (0,85 s) : on mesure l'etat
+                # FINAL, jamais une frame intermediaire ou le fond du bouton
+                # n'est pas encore peint.
+                pg.wait_for_timeout(1500)
                 zones = pg.evaluate(JS_ZONES)
                 if not zones: continue
                 # composite reel : on masque le texte et on photographie le fond

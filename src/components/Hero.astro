@@ -2,9 +2,10 @@
 import { Picture } from 'astro:assets';
 import restaurant from '../data/restaurant.json';
 import Broche from './Broche.astro';
-// Agrandissement Lanczos + accentuation de la source 765px : le navigateur
-// l'etirait sinon jusqu'a x3,8 sur un ecran Retina, d'ou le flou.
-// A remplacer des que le client fournit l'original (TODO-CLIENT.md, 6).
+// Agrandissement Lanczos + accentuation de la source fournie par le client
+// (896x1195). Le navigateur
+// l'etirerait sinon sur un ecran Retina. La source d'origine du telephone
+// (2000 px et plus) donnerait encore un cran de nettete (TODO-CLIENT.md, 6).
 import painMaison from '../assets/photos-v2/hero-pain-maison-2x.webp';
 
 // Six bandes : assez pour lire « tranches », assez peu pour rester net.
@@ -21,7 +22,7 @@ const bandes = [0, 1, 2, 3, 4, 5];
     formats={['avif', 'webp']}
           fallbackFormat="webp"
     alt="Les pains d'Azur Grill, cuits sur place, alignés à la sortie du four sur la planche de bois."
-    widths={[760, 1100, 1530]}
+    widths={[800, 1200, 1792]}
     sizes="100vw"
     loading="eager"
     fetchpriority="high"

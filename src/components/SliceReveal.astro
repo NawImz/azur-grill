@@ -49,9 +49,11 @@
         onStart: () => el.classList.add('shown'),
         scrollTrigger: {
           trigger: el,
-          // L'element entre par le bas : l'animation se joue pendant qu'il
-          // monte vers le regard, au lieu de s'achever hors champ.
-          start: 'top 88%',
+          // L'element doit etre franchement entre dans le champ avant de
+          // partir : a 88 % il pointait a peine et l'animation s'achevait
+          // pendant qu'il montait encore. A 78 %, elle se joue a hauteur
+          // de lecture.
+          start: 'top 78%',
           once: true,
         },
       });
