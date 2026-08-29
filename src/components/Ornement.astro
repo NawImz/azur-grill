@@ -1,0 +1,101 @@
+---
+/**
+ * Separateur ornemental : filet qui s'eteint aux deux bouts, interrompu au
+ * centre par une etoile a huit branches — la figure de base de la geometrie
+ * turque, celle des azulejos et des plafonds de hammam. C'est le vocabulaire
+ * du sujet, pas un ornement generique pose sur un site de restaurant.
+ *
+ * Le trait se tire depuis le centre vers les deux bords a l'entree en vue :
+ * un geste de compas, comme on trace le motif.
+ */
+interface Props {
+  ton?: 'clair' | 'sombre';
+  class?: string;
+}
+const { ton = 'sombre', class: className = '' } = Astro.props;
+---
+
+<div class={`ornement ornement--${ton} ${className}`} role="presentation" data-slice>
+  <span class="ornement-trait"></span>
+  <svg class="ornement-etoile" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+    <!-- deux carres a 45 degres : l'etoile a huit branches -->
+    <rect x="6" y="6" width="20" height="20" stroke="currentColor" stroke-width="1.1" />
+    <rect
+      x="6"
+      y="6"
+      width="20"
+      height="20"
+      stroke="currentColor"
+      stroke-width="1.1"
+      transform="rotate(45 16 16)"
+    />
+    <circle cx="16" cy="16" r="2.6" fill="currentColor" />
+  </svg>
+  <span class="ornement-trait"></span>
+</div>
+
+<style>
+  .ornement {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    max-width: 22rem;
+    margin-inline: auto;
+  }
+
+  .ornement--sombre {
+    color: var(--color-ciel);
+  }
+  .ornement--clair {
+    color: var(--color-nazar);
+  }
+
+  .ornement-trait {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.32;
+    transform: scaleX(0);
+    transition: transform 0.9s var(--ease-pose) 0.1s;
+  }
+
+  /* chaque moitie part du centre vers son bord */
+  .ornement-trait:first-child {
+    transform-origin: right;
+  }
+  .ornement-trait:last-child {
+    transform-origin: left;
+  }
+
+  .shown .ornement-trait,
+  .ornement.shown .ornement-trait {
+    transform: scaleX(1);
+  }
+
+  .ornement-etoile {
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: rotate(-40deg) scale(0.7);
+    transition: opacity 0.7s var(--ease-pose), transform 0.9s var(--ease-pose);
+  }
+
+  .shown .ornement-etoile,
+  .ornement.shown .ornement-etoile {
+    opacity: 0.75;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ornement-trait {
+      transform: scaleX(1);
+      transition: none;
+    }
+    .ornement-etoile {
+      opacity: 0.75;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

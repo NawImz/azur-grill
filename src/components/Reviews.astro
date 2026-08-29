@@ -1,13 +1,16 @@
 ---
 import restaurant from '../data/restaurant.json';
 import NazarMark from './NazarMark.astro';
+import Ornement from './Ornement.astro';
 
 const { avisGoogle } = restaurant;
 const enPlaceholder = avisGoogle.citations.every((c) => c.texte.includes('PLACEHOLDER'));
 ---
 
-<section id="avis" class="grain grain-sombre relative overflow-hidden bg-nazar py-24 md:py-36">
+<section id="avis" class="grain grain-sombre filigrane filigrane-sombre relative overflow-hidden bg-nazar py-24 md:py-36">
   <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <Ornement ton="sombre" class="mb-16 md:mb-20" />
+
     <div class="flex flex-col items-start gap-8 md:flex-row md:items-end md:justify-between" data-slice>
       <div class="max-w-xl">
         <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Ce qu'on dit de nous</p>

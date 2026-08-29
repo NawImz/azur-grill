@@ -1,10 +1,13 @@
 ---
 import restaurant from '../data/restaurant.json';
 import horaires from '../data/horaires.json';
+import Ornement from './Ornement.astro';
 ---
 
-<section id="infos" class="grain relative overflow-hidden bg-creme py-24 md:py-36">
+<section id="infos" class="grain filigrane relative overflow-hidden bg-creme py-24 md:py-36">
   <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <Ornement ton="clair" class="mb-16 md:mb-20" />
+
     <div class="max-w-2xl" data-slice>
       <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-nazar/70 uppercase">Infos pratiques</p>
       <h2 class="font-display text-3xl leading-tight font-700 text-nazar md:text-4xl">
@@ -91,6 +94,7 @@ import horaires from '../data/horaires.json';
 
 <script>
   import horaires from '../data/horaires.json';
+import Ornement from './Ornement.astro';
 
   /*
     Le statut se calcule a l'heure de PARIS, jamais a l'heure locale du

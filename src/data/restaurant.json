@@ -76,5 +76,10 @@
     "Accès fauteuil roulant",
     "Stationnement rue",
     "Réservation possible"
+  ],
+  "promesseLignes": [
+    "La broche, le pain,",
+    "la sauce.",
+    "Tout est fait ici."
   ]
 }

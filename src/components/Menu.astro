@@ -14,7 +14,7 @@ const total = menu.reduce((n, c) => n + c.plats.length, 0);
 const prix = (v: number) => (Number.isInteger(v) ? `${v} €` : `${v.toFixed(2).replace('.', ',')} €`);
 ---
 
-<section id="carte" class="grain relative overflow-hidden bg-creme py-24 md:py-36">
+<section id="carte" class="grain filigrane relative overflow-hidden bg-creme py-24 md:py-36">
   <div class="mx-auto max-w-6xl px-5 md:px-8">
     <div class="max-w-2xl" data-slice>
       <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-nazar/70 uppercase">La carte</p>
