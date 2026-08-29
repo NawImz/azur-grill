@@ -31,17 +31,7 @@ Valeur provisoire affichée : **lundi–samedi 11h30–23h, fermé le dimanche**
 **Il nous faut :** les horaires réels jour par jour, et l'éventuelle coupure entre
 le service du midi et celui du soir.
 
-### 2. Le lien de commande
-
-Le bouton principal du site — en-tête, hero, infos pratiques — pointe vers un lien
-Uber Eats enregistré dont **l'activité n'a pas été vérifiée**. S'il est mort, chaque
-clic sur le bouton le plus visible du site part dans le vide.
-
-**Il nous faut :** confirmation que le lien fonctionne, ou le nom du service utilisé
-aujourd'hui, ou « aucun, uniquement par téléphone ». *(Le lien n'existe qu'à un seul
-endroit dans les données : le changer est une ligne.)*
-
-### 3. Le nom officiel
+### 2. Le nom officiel
 
 Trois graphies coexistent : le **logo** affiche « AZUR RESTAURANT » — c'est celle
 retenue partout sur le site depuis votre validation — le brief disait « Azur Grill »,
@@ -54,18 +44,7 @@ sur la fiche.
 
 ## 🟠 Ce qui empêche de convaincre
 
-### 4. De vrais avis Google
-
-Les trois avis affichés sont des **`PLACEHOLDER` visibles**, avec un bandeau
-d'avertissement. Les textes qui figuraient avant n'étaient pas des avis réels : l'un
-vantait même des « portions généreuses », or c'est le seul point qu'un avis public
-ait critiqué.
-
-**Il nous faut :** 3 à 4 avis authentiques copiés depuis la fiche Google (une capture
-d'écran suffit), avec le prénom et la note. Depuis la fiche Google elle-même, pas
-depuis un site d'agrégation.
-
-### 5. Les photos manquantes
+### 3. Les photos manquantes
 
 Trois sujets absents, par ordre d'utilité :
 
@@ -78,7 +57,7 @@ Trois sujets absents, par ordre d'utilité :
 - **L'équipe.** L'accueil est le deuxième argument du restaurant ; il n'y a
   aujourd'hui aucun visage sur le site.
 
-### 6. Les photos en meilleure résolution
+### 4. Les photos en meilleure résolution
 
 La photo des pains que vous avez fournie (896 × 1195) a remplacé l'ancienne et le
 hero est net. **Les autres restent limitées** :
@@ -94,7 +73,7 @@ hero est net. **Les autres restent limitées** :
 **Il nous faut :** ces photos telles qu'elles sortent du téléphone, **sans
 redimensionnement ni envoi compressé** (viser 2000 px de large minimum).
 
-### 7. Le logo en fichier propre
+### 5. Le logo en fichier propre
 
 Le seul logo disponible est **une affiche photographiée** : fond blanc incrusté,
 aucune transparence, 574 × 1020. Il ne peut pas être posé proprement dans l'en-tête.
@@ -104,7 +83,7 @@ Le nom y est donc actuellement composé en typographie, au plus près du wordmar
 `.svg`, `.pdf`), sinon un PNG à fond transparent en grande taille. À défaut, nous le
 redessinons : il faut nous le dire.
 
-### 8. La carte : à valider, pas à fournir
+### 6. La carte : à valider, pas à fournir
 
 **La carte complète est déjà là** — 7 catégories, 50 plats, prix détaillés. Elle
 n'est pas à refournir.
@@ -118,7 +97,7 @@ Sandwich Döner 8,50 €, Baklava 3 €, Künefe 8,50 €.
 
 ## 🟡 Décisions, pas informations
 
-### 9. Mesure d'audience
+### 7. Mesure d'audience
 
 Prévu : un outil **sans cookie** (Plausible ou Umami) — donc **aucun bandeau cookie**
 à faire accepter. Un obstacle de moins entre le visiteur et le numéro de téléphone.
@@ -126,12 +105,12 @@ Ces outils coûtent quelques euros par mois ; l'alternative est de ne rien mesur
 
 **Il nous faut :** l'accord, ou le choix de s'en passer.
 
-### 10. Réseaux et contact
+### 8. Réseaux et contact
 
 **Il nous faut :** confirmation du compte Instagram (`@azurgrillrestaurant` est
 enregistré), l'existence d'un **WhatsApp professionnel**, et d'une page Facebook.
 
-### 11. L'adresse sur le plan
+### 9. L'adresse sur le plan
 
 Les coordonnées enregistrées sont marquées « approximatives, déduites de l'adresse
 postale ». **Il nous faut :** ouvrir une fois le lien d'itinéraire depuis un
@@ -155,6 +134,21 @@ Pas des demandes au client — des points ouverts côté technique :
   ligne le jour où vous le souhaitez.
 
 ---
+
+## ✅ Réglé
+
+- **Le lien de commande Uber Eats** — confirmé actif par le client, il est en place
+  sur les trois boutons « Commander ».
+- **Les avis Google** — quatre avis réels relevés sur la fiche (y', Jaine, Hind
+  Karam, Khelifi Malik) remplacent les placeholders, avec leur contexte de visite.
+  La note passe de « plus de 110 » à **4,6 sur 131 avis**, le chiffre exact.
+- **La photo du hero** — fournie en 896 × 1195, le hero n'est plus flou.
+- **Le nom affiché** — « AZUR RESTAURANT », comme le logo.
+
+> **Marqueurs retirés du site.** Les mentions `PLACEHOLDER` et `À CONFIRMER` ne sont
+> plus affichées, à votre demande : le site est présentable en l'état. Les points
+> ci-dessus restent ouverts pour autant — en particulier **les horaires**, qui
+> pilotent le statut « ouvert / fermé » affiché en direct.
 
 ## Ce qui n'est **pas** demandé
 

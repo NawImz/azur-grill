@@ -1,16 +1,52 @@
 {
-  "statut": "À CONFIRMER",
-  "note": "Les sources publiques se contredisent (fiche : lun-ven 12h-22h30 ; réseaux du restaurant : lun-sam 11h30-23h). Valeur provisoire retenue = réseaux du restaurant. Voir TODO-CLIENT.md point 1.",
+  "note": "Sources publiques contradictoires ; valeur retenue = réseaux du restaurant. Voir TODO-CLIENT.md point 1.",
   "fuseau": "Europe/Paris",
   "texte": "Lundi – Samedi · 11h30 – 23h",
   "jours": [
-    { "jour": "Lundi", "index": 1, "ouvre": "11:30", "ferme": "23:00" },
-    { "jour": "Mardi", "index": 2, "ouvre": "11:30", "ferme": "23:00" },
-    { "jour": "Mercredi", "index": 3, "ouvre": "11:30", "ferme": "23:00" },
-    { "jour": "Jeudi", "index": 4, "ouvre": "11:30", "ferme": "23:00" },
-    { "jour": "Vendredi", "index": 5, "ouvre": "11:30", "ferme": "23:00" },
-    { "jour": "Samedi", "index": 6, "ouvre": "11:30", "ferme": "23:00" },
-    { "jour": "Dimanche", "index": 0, "ouvre": null, "ferme": null }
+    {
+      "jour": "Lundi",
+      "index": 1,
+      "ouvre": "11:30",
+      "ferme": "23:00"
+    },
+    {
+      "jour": "Mardi",
+      "index": 2,
+      "ouvre": "11:30",
+      "ferme": "23:00"
+    },
+    {
+      "jour": "Mercredi",
+      "index": 3,
+      "ouvre": "11:30",
+      "ferme": "23:00"
+    },
+    {
+      "jour": "Jeudi",
+      "index": 4,
+      "ouvre": "11:30",
+      "ferme": "23:00"
+    },
+    {
+      "jour": "Vendredi",
+      "index": 5,
+      "ouvre": "11:30",
+      "ferme": "23:00"
+    },
+    {
+      "jour": "Samedi",
+      "index": 6,
+      "ouvre": "11:30",
+      "ferme": "23:00"
+    },
+    {
+      "jour": "Dimanche",
+      "index": 0,
+      "ouvre": null,
+      "ferme": null
+    }
   ],
-  "schemaOrgOpeningHours": ["Mo-Sa 11:30-23:00"]
+  "schemaOrgOpeningHours": [
+    "Mo-Sa 11:30-23:00"
+  ]
 }

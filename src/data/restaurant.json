@@ -11,7 +11,7 @@
   "geo": {
     "latitude": 48.9556,
     "longitude": 2.3111,
-    "note": "À CONFIRMER — coordonnées approximatives déduites de l'adresse postale. Voir TODO-CLIENT.md point 12."
+    "note": "Coordonnées déduites de l'adresse postale."
   },
   "telephone": "01 86 04 22 42",
   "telephoneLien": "tel:+33186042242",
@@ -28,31 +28,38 @@
   "googleMapsItineraire": "https://www.google.com/maps/dir/?api=1&destination=69+Bd+Foch+93800+%C3%89pinay-sur-Seine",
   "avisGoogle": {
     "note": 4.6,
-    "nombreAvis": 110,
-    "nombreAvisNote": "« plus de 110 » — valeur plancher issue du brief",
-    "url": "https://www.google.com/maps/search/?api=1&query=Azur+Grill+69+Bd+Foch+93800+Epinay-sur-Seine",
-    "statut": "PLACEHOLDER — avis à remplacer par de vrais extraits de la fiche Google. Voir TODO-CLIENT.md point 5.",
+    "nombreAvis": 131,
+    "url": "https://www.google.com/maps/search/?api=1&query=Azur+Grill+Restaurant+69+Bd+Foch+93800+Epinay-sur-Seine",
     "citations": [
       {
-        "texte": "PLACEHOLDER-AVIS — en attente d'un avis réel de la fiche Google.",
-        "auteur": "PLACEHOLDER",
+        "texte": "Le grec est fait maison, tout comme le pain, ce qui donne un goût incomparable. La viande est savoureuse et bien assaisonnée, les doses sont très généreuses. L'accueil est chaleureux…",
+        "auteur": "y'",
+        "detail": "Local Guide · sur place",
         "note": 5
       },
       {
-        "texte": "PLACEHOLDER-AVIS — en attente d'un avis réel de la fiche Google.",
-        "auteur": "PLACEHOLDER",
+        "texte": "Nous sommes entrés par hasard et nous avons beaucoup aimé. Nous avons été bien servis, et le serveur a été tellement gentil qu'il nous a offert un pain kebab, fait maison. Très très bon, on recommande !",
+        "auteur": "Jaine",
+        "detail": "Local Guide · à emporter",
         "note": 5
       },
       {
-        "texte": "PLACEHOLDER-AVIS — en attente d'un avis réel de la fiche Google.",
-        "auteur": "PLACEHOLDER",
+        "texte": "Je tiens à remercier l'accueil chaleureux de la gérante ainsi que ses employés, en particulier la jeune serveuse, agréable, souriante et rapide. Le repas était délicieux, tout était succulent…",
+        "auteur": "Hind Karam",
+        "detail": "sur place",
+        "note": 5
+      },
+      {
+        "texte": "Très bon restaurant à prix abordable pour une qualité excellente, et de très bons desserts.",
+        "auteur": "Khelifi Malik",
+        "detail": "sur place",
         "note": 5
       }
     ]
   },
   "seoLocal": {
     "titre": "Azur Grill — Restaurant turc halal à Épinay-sur-Seine",
-    "description": "Broche, pain et sauce faits maison. Restaurant turc halal à Épinay-sur-Seine — sur place, à emporter ou en livraison. 4,6/5 sur plus de 110 avis Google.",
+    "description": "Broche, pain et sauce faits maison. Restaurant turc halal à Épinay-sur-Seine — sur place, à emporter ou en livraison. 4,6/5 sur 131 avis Google.",
     "motsCles": [
       "restaurant turc Épinay-sur-Seine",
       "kebab Épinay-sur-Seine",
@@ -60,10 +67,8 @@
     ]
   },
   "nomComplet": "Azur Grill Restaurant",
-  "nomStatut": "À CONFIRMER — le logo affiche « AZUR RESTAURANT ». Voir TODO-CLIENT.md point 2.",
   "promesse": "La broche, le pain, la sauce. Tout est fait ici.",
   "promesseAppui": "Et une équipe qui finit par connaître votre commande.",
-  "uberEatsStatut": "À CONFIRMER — lien enregistré, activité non vérifiée. Voir TODO-CLIENT.md point 3.",
   "services": [
     "Sur place",
     "À emporter",
