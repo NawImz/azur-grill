@@ -1,6 +1,7 @@
 ---
 import restaurant from '../data/restaurant.json';
 import NazarMark from './NazarMark.astro';
+import Wordmark from './Wordmark.astro';
 
 const navLinks = [
   { href: '#carte', label: 'La carte' },
@@ -18,7 +19,7 @@ const navLinks = [
   <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-20 md:px-8">
     <a href="#top" class="flex min-h-11 items-center gap-2.5 text-creme" aria-label={`${restaurant.nom} — retour en haut`}>
       <NazarMark class="h-7 w-7 shrink-0" />
-      <span class="font-display text-xl font-600 tracking-wide md:text-2xl">{restaurant.nom}</span>
+      <Wordmark taille="md" class="text-creme" />
     </a>
 
     <nav class="hidden items-center gap-8 lg:flex" aria-label="Navigation principale">
@@ -78,7 +79,7 @@ const navLinks = [
   aria-label="Navigation mobile"
 >
   <div class="mb-8 flex items-center justify-between">
-    <span class="font-display text-xl font-600 text-creme">{restaurant.nom}</span>
+    <Wordmark taille="md" class="text-creme" />
     <button id="menu-close" class="flex h-11 w-11 items-center justify-center text-creme" aria-label="Fermer le menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6" aria-hidden="true">
         <path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/>

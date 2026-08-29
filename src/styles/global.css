@@ -7,6 +7,8 @@
 @import '@fontsource/zilla-slab/600.css';
 @import '@fontsource/zilla-slab/700.css';
 @import '@fontsource-variable/manrope';
+/* Didone du wordmark, releve sur le logo du client (voir Wordmark.astro). */
+@import '@fontsource-variable/bodoni-moda';
 
 @theme {
   /* Bleus echantillonnes au pixel sur le logo reel — verrouilles. */

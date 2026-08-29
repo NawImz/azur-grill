@@ -1,6 +1,7 @@
 ---
 import restaurant from '../data/restaurant.json';
 import NazarMark from './NazarMark.astro';
+import Wordmark from './Wordmark.astro';
 const annee = new Date().getFullYear();
 ---
 
@@ -10,7 +11,7 @@ const annee = new Date().getFullYear();
       <div>
         <div class="flex items-center gap-2.5">
           <NazarMark class="h-7 w-7" />
-          <span class="font-display text-xl font-600 text-creme">{restaurant.nom}</span>
+          <Wordmark taille="md" class="text-creme" />
         </div>
         <p class="mt-3 text-sm text-creme/70">{restaurant.adresse.texte}</p>
         <a href={restaurant.telephoneLien} class="mt-1 inline-flex min-h-11 items-center text-sm text-creme/70 hover:text-ciel">
