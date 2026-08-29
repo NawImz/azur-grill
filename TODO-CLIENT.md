@@ -1,154 +1,163 @@
-# TODO-CLIENT.md — ce qu'il nous faut d'Azur Grill
+# TODO-CLIENT.md — tout ce qui manque
 
-Liste des informations et fichiers à obtenir du restaurant. Rien de ce qui suit ne sera
-inventé : tant qu'un point n'est pas tranché, le site affiche un marqueur visible
-(`À CONFIRMER`, `PLACEHOLDER-AVIS`) plutôt qu'une valeur plausible.
+Inventaire établi par scan du code et des données, pas de mémoire. Rien de ce qui
+suit n'est inventé sur le site : tant qu'un point n'est pas tranché, un marqueur
+visible (`À CONFIRMER`, `PLACEHOLDER`) le signale à l'écran.
 
 Classé par **coût d'un oubli**, pas par ordre d'importance ressentie.
 
 ---
 
-## 🔴 Bloquant — une erreur ici fait perdre des clients
+## 🔴 Ce qui coûte un client à chaque fois
 
 ### 1. Les horaires exacts
 
-Trois versions **contradictoires** circulent, dont une déjà en ligne sur le site :
+Trois versions contradictoires circulent, dont une encore dans les données :
 
 | Source | Horaires |
 |---|---|
 | Fiche publique | lundi–vendredi **12h–22h30**, fermé le week-end |
 | Réseaux du restaurant | lundi–samedi **11h30–23h**, fermé le dimanche |
-| **Données du site actuel** | **7j/7 · 11h30–22h30** ← ne correspond à **aucune** des deux |
+| Données avant correction | 7j/7 · 11h30–22h30 ← ne correspondait à **aucune** des deux |
 
-En attendant, le site affichera **lundi–samedi 11h30–23h, fermé le dimanche**, marqué
-`À CONFIRMER`.
+Valeur provisoire affichée : **lundi–samedi 11h30–23h, fermé le dimanche**, marquée
+`À CONFIRMER` sous le tableau.
 
 > **Pourquoi c'est le point n°1 :** le site calcule un statut **« ouvert / fermé
-> maintenant »** en direct. Un horaire faux ne se contente pas d'être faux — il annonce
-> « ouvert » à quelqu'un qui va trouver porte close, ou « fermé » à quelqu'un qui
-> serait venu. C'est la seule erreur de cette liste qui coûte un client à chaque
-> occurrence.
+> maintenant »** en direct, à l'heure de Paris. Un horaire faux n'est pas seulement
+> faux — il annonce « ouvert » à quelqu'un qui va trouver porte close. C'est la
+> seule erreur de cette liste qui coûte un client à chaque occurrence.
 
-**Il nous faut :** les horaires réels, jour par jour, et l'éventuelle fermeture
-hebdomadaire ou coupure méridienne.
+**Il nous faut :** les horaires réels jour par jour, et l'éventuelle coupure entre
+le service du midi et celui du soir.
 
-### 2. Le nom exact du restaurant
+### 2. Le lien de commande
 
-Trois graphies coexistent : le **logo** affiche « AZUR RESTAURANT », le brief dit
-« **Azur Grill** », les données du site disent « Azur Grill Restaurant ».
+Le bouton principal du site — en-tête, hero, infos pratiques — pointe vers un lien
+Uber Eats enregistré dont **l'activité n'a pas été vérifiée**. S'il est mort, chaque
+clic sur le bouton le plus visible du site part dans le vide.
 
-**Il nous faut :** la forme officielle, celle qui ira dans l'en-tête, le titre de la
-page et les résultats Google.
+**Il nous faut :** confirmation que le lien fonctionne, ou le nom du service utilisé
+aujourd'hui, ou « aucun, uniquement par téléphone ». *(Le lien n'existe qu'à un seul
+endroit dans les données : le changer est une ligne.)*
 
-### 3. Uber Eats : toujours d'actualité ?
+### 3. Le nom officiel
 
-Le site pousse aujourd'hui « **Commander sur Uber Eats** » comme bouton principal, vers
-un lien enregistré. Si le restaurant a quitté la plateforme ou changé de prestataire,
-ce bouton envoie les clients dans le vide.
+Trois graphies coexistent : le **logo** affiche « AZUR RESTAURANT » — c'est celle
+retenue partout sur le site depuis votre validation — le brief disait « Azur Grill »,
+et les données portent encore « Azur Grill Restaurant » comme nom complet.
 
-**Il nous faut :** confirmation que le lien est actif, ou le nom du service utilisé
-aujourd'hui (ou « aucun, on prend les commandes par téléphone »).
-
-### 4. Réserver ou Commander ?
-
-L'en-tête ne portera **qu'un seul** bouton — c'est ce qui lui donne sa force.
-
-**Il nous faut le choix :** pousser la **réservation** sur place, ou la **commande** à
-emporter / en livraison ? (Le second bouton restera disponible ailleurs sur la page.)
+**Il nous faut :** la forme officielle, celle qui ira dans les résultats Google et
+sur la fiche.
 
 ---
 
-## 🟠 Important — le site fonctionne sans, mais il est moins convaincant
+## 🟠 Ce qui empêche de convaincre
 
-### 5. De vrais avis Google
+### 4. De vrais avis Google
 
-Les trois avis actuellement affichés sont **des textes rédigés, pas des avis réels**.
-L'un d'eux vante même des « portions généreuses » — or c'est le seul point qu'un avis
-public a **critiqué**. Ils sont remplacés par des `PLACEHOLDER-AVIS` visibles.
+Les trois avis affichés sont des **`PLACEHOLDER` visibles**, avec un bandeau
+d'avertissement. Les textes qui figuraient avant n'étaient pas des avis réels : l'un
+vantait même des « portions généreuses », or c'est le seul point qu'un avis public
+ait critiqué.
 
-**Il nous faut :** 3 à 4 avis authentiques copiés depuis la fiche Google du restaurant
-(capture d'écran suffit), avec le prénom et la note. Directement depuis la fiche
-Google — pas depuis un site d'agrégation.
+**Il nous faut :** 3 à 4 avis authentiques copiés depuis la fiche Google (une capture
+d'écran suffit), avec le prénom et la note. Depuis la fiche Google elle-même, pas
+depuis un site d'agrégation.
 
-### 6. Des photos en meilleure résolution
+### 5. Les photos manquantes
 
-État réel du stock, après contrôle fichier par fichier :
+Trois sujets absents, par ordre d'utilité :
 
-| Ce qu'on a | Verdict |
-|---|---|
-| `assets/photos/` — **96 pixels de large** | inutilisables (vignettes) |
-| `photos-enhanced/` — 640 px | dépannage mobile seulement |
-| `photos-v2/` — jusqu'à 1360 px | **le seul jeu exploitable**, mais juste pour un grand écran |
-
-**Il nous faut, par ordre d'utilité :**
-
-- 🔥 **La broche qui tourne** — *aucune photo de la broche n'existe aujourd'hui*, alors
-  que c'est **le geste sur lequel tout le site est construit** (l'animation signature
-  reprend le mouvement de la lame qui tranche). C'est la photo manquante la plus
-  importante.
-- 🔥 **La sauce blanche maison** — citée dans presque tous les avis, absente du site.
-- **L'équipe** — l'accueil est le deuxième argument du restaurant ; il n'y a
+- 🔥 **La broche qui tourne.** *Aucune photo n'existe*, alors que c'est le geste sur
+  lequel **tout le site est construit** — l'animation signature reprend le mouvement
+  de la lame qui tranche, et le premier mot du titre est « la broche ». C'est la
+  photo manquante la plus importante du projet.
+- 🔥 **La sauce blanche maison.** Citée dans presque tous les avis, nommée dans le
+  titre du site, invisible nulle part.
+- **L'équipe.** L'accueil est le deuxième argument du restaurant ; il n'y a
   aujourd'hui aucun visage sur le site.
-- Les photos d'origine, **non redimensionnées**, sorties du téléphone (viser 2000 px de
-  large minimum).
 
-> Deux précisions utiles : la photo servant actuellement d'accueil montre **deux canettes
-> Coca-Cola** au premier plan — une marque tierce très visible, qui n'aide ni l'image ni
-> le propos « tout est fait ici ». Elle est remplacée par la photo des **pains sortis du
-> four**. Et aucune image d'illustration achetée ou générée ne sera utilisée : uniquement
-> de vraies photos du restaurant.
+### 6. Les photos en meilleure résolution
+
+La photo des pains que vous avez fournie (896 × 1195) a remplacé l'ancienne et le
+hero est net. **Les autres restent limitées** :
+
+| Photo | Résolution | État |
+|---|---|---|
+| Pains (hero) | 896 → agrandie à 1792 | correcte, l'original du téléphone gagnerait encore |
+| Pâte pétrie | **640 × 1138** | faible |
+| Devanture de nuit | **765 × 1020** | faible |
+| Baklava, künefe | **765 × 1020** | faible |
+| Salle brique, comptoir | 1360 | correctes |
+
+**Il nous faut :** ces photos telles qu'elles sortent du téléphone, **sans
+redimensionnement ni envoi compressé** (viser 2000 px de large minimum).
 
 ### 7. Le logo en fichier propre
 
-Le seul logo disponible est **une affiche photographiée** (fond blanc incrusté, aucune
-transparence) en 574 × 1020 px. L'autre fichier fait **96 × 121 px**. Ni l'un ni l'autre
-ne peut être posé proprement dans un en-tête.
+Le seul logo disponible est **une affiche photographiée** : fond blanc incrusté,
+aucune transparence, 574 × 1020. Il ne peut pas être posé proprement dans l'en-tête.
+Le nom y est donc actuellement composé en typographie, au plus près du wordmark.
 
-**Il nous faut :** le fichier d'origine du logo — idéalement vectoriel (`.ai`, `.eps`,
+**Il nous faut :** le fichier d'origine — vectoriel de préférence (`.ai`, `.eps`,
 `.svg`, `.pdf`), sinon un PNG à fond transparent en grande taille. À défaut, nous le
-redessinons, et il faut nous le dire.
+redessinons : il faut nous le dire.
 
 ### 8. La carte : à valider, pas à fournir
 
-**Bonne nouvelle : la carte complète est déjà là** — 7 catégories, 50 plats, prix
-détaillés. Elle n'est pas à refournir.
+**La carte complète est déjà là** — 7 catégories, 50 plats, prix détaillés. Elle
+n'est pas à refournir.
 
-**Il nous faut seulement :** une relecture pour confirmer que **les prix sont à jour**,
-et l'indication des **8 plats à mettre en avant** (à défaut, nous proposerons une
-sélection appuyée sur les avis : döner, pain maison, künefe, côtelettes…).
+**Il nous faut seulement :** une relecture confirmant que **les prix sont à jour**,
+et l'accord sur les **8 plats mis en avant** en page d'accueil : Lahmacun 3,50 €,
+Döner Kebab 13 €, Adana 13,50 €, Côtelettes d'Agneau 16 €, Spécialité du Chef 20 €,
+Sandwich Döner 8,50 €, Baklava 3 €, Künefe 8,50 €.
 
 ---
 
-## 🟡 À trancher — décisions, pas informations
+## 🟡 Décisions, pas informations
 
 ### 9. Mesure d'audience
 
-Prévu : un outil **sans cookie** (Plausible ou Umami) — donc **aucun bandeau cookie** à
-faire accepter aux visiteurs. C'est un gain de simplicité et de conversion. Ces outils
-sont payants (quelques euros par mois) ; l'alternative est de ne rien mesurer du tout.
+Prévu : un outil **sans cookie** (Plausible ou Umami) — donc **aucun bandeau cookie**
+à faire accepter. Un obstacle de moins entre le visiteur et le numéro de téléphone.
+Ces outils coûtent quelques euros par mois ; l'alternative est de ne rien mesurer.
 
-**Il nous faut :** l'accord du client, ou le choix de s'en passer.
+**Il nous faut :** l'accord, ou le choix de s'en passer.
 
 ### 10. Réseaux et contact
 
-**Il nous faut :** confirmation du compte Instagram
-(`@azurgrillrestaurant` est enregistré), l'existence d'un **WhatsApp** professionnel, et
-d'une éventuelle page Facebook.
+**Il nous faut :** confirmation du compte Instagram (`@azurgrillrestaurant` est
+enregistré), l'existence d'un **WhatsApp professionnel**, et d'une page Facebook.
 
-### 11. Adresse exacte sur le plan
+### 11. L'adresse sur le plan
 
-Les coordonnées enregistrées sont marquées « approximatives, calculées depuis l'adresse
-postale » dans les données. **Il nous faut :** valider que le lien-plan tombe bien sur la
-devanture, en l'ouvrant une fois depuis un téléphone.
+Les coordonnées enregistrées sont marquées « approximatives, déduites de l'adresse
+postale ». **Il nous faut :** ouvrir une fois le lien d'itinéraire depuis un
+téléphone et confirmer qu'il tombe bien sur la devanture.
 
 ---
 
-> **Mentions légales — retirées du site à la demande.** À signaler tout de même :
-> elles sont obligatoires pour un site professionnel en France. Le bloc est prêt
-> à être remis en une ligne si le restaurant souhaite les afficher plus tard.
+## ⚙️ Ce qui reste à faire de notre côté
 
-## Ce qui n'est **pas** demandé au client
+Pas des demandes au client — des points ouverts côté technique :
 
-Pour éviter les allers-retours inutiles : nous n'avons besoin d'aucun texte rédigé,
-d'aucun slogan, d'aucune traduction. Les textes du site sont écrits à partir des avis
-réels et des faits ci-dessus, puis soumis à validation.
+- **Hébergement et mise en ligne.** Le site est prêt (statique, sans étape de build
+  particulière) mais n'est pas déployé, et aucun nom de domaine n'est réservé.
+- **Audit Lighthouse.** Impossible à exécuter dans l'environnement de développement :
+  l'objectif « ≥ 95 » n'est **ni atteint ni manqué, il n'est pas mesuré**. À faire sur
+  l'hébergement réel, où les chiffres auront un sens.
+- **Un seul navigateur testé** (Chromium). Safari et Firefox restent à vérifier.
+- **Aucun test sur un vrai téléphone**, ni au toucher.
+- **Mentions légales** — retirées à votre demande. À signaler tout de même : elles
+  sont obligatoires pour un site professionnel en France. Le bloc se remet en une
+  ligne le jour où vous le souhaitez.
+
+---
+
+## Ce qui n'est **pas** demandé
+
+Pour éviter les allers-retours : aucun texte rédigé, aucun slogan, aucune traduction
+n'est attendu de votre part. Les textes du site sont écrits à partir des avis réels
+et des faits ci-dessus, puis soumis à validation.
