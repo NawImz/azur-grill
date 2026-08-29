@@ -25,3 +25,7 @@ npm-debug.log*
 
 # unrelated project sharing this workspace root
 le-test-site/
+
+# QA : scripts versionnes, captures non
+scratchpad/*.png
+scratchpad/_*
