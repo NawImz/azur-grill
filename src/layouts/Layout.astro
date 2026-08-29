@@ -1,6 +1,11 @@
 ---
 import '../styles/global.css';
 import restaurant from '../data/restaurant.json';
+// Precharge des seules fontes du premier ecran. Sans cela, leur arrivee
+// apres le premier rendu remet en page le bloc de titre du hero : c'est
+// la source unique du CLS mesure (0,065 en mobile).
+import zilla700 from '@fontsource/zilla-slab/files/zilla-slab-latin-700-normal.woff2?url';
+import manropeVar from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
 import horaires from '../data/horaires.json';
 
 interface Props {
@@ -50,6 +55,9 @@ const schema = {
     <meta property="og:image" content={new URL('/og-image.jpg', Astro.site).href} />
     <meta property="og:locale" content="fr_FR" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href={zilla700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={manropeVar} as="font" type="font/woff2" crossorigin />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
