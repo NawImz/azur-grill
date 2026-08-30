@@ -126,6 +126,16 @@
   .js-reveal [data-slice] {
     opacity: 0;
     clip-path: inset(0 0 100% 0);
+    transition:
+      opacity 0.85s var(--ease-pose),
+      clip-path 0.85s var(--ease-pose);
+  }
+
+  /* L'etat final est porte par une classe, jamais par un style calcule :
+     c'est ce qui garantit qu'une revelation acquise le reste. */
+  .js-reveal [data-slice].shown {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
   }
 
   /* Le mouvement reduit annule l'etat de depart : rien n'est jamais cache. */

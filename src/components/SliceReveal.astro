@@ -1,118 +1,83 @@
 <script>
   /*
-    Revelation d'entree : la meme lame que le hero, en plus discret.
+    Revelation d'entree de section : la meme lame que le hero, en plus discret.
 
-    Chaque element a SON propre declencheur, calcule sur SA position. Une
-    version precedente animait d'un coup tous les enfants d'une section :
-    les premiers etaient bien places, mais les derniers se trouvaient a 140 %
-    du viewport — encore sous l'ecran. Leur animation etait donc terminee
-    avant que le lecteur arrive dessus, et il ne voyait jamais que le
-    resultat. C'est le defaut que ce decoupage corrige.
+    Principe : ScrollTrigger ne fait que DETECTER, il n'anime rien. Il pose
+    une classe, et c'est le CSS qui joue la transition.
+
+    C'est le point cle. Tant que GSAP pilotait lui-meme l'opacite et le
+    clip-path, il pouvait aussi les defaire : au moindre recalcul de ses
+    reperes — et il y en a apres chaque image decodee — un element deja
+    revele repartait a zero. Mesure sur la version precedente : onze
+    rechutes en remontant la page, dont un bloc d'horaires retombe a 0,11
+    d'opacite avec un clip a mi-course. Une classe, elle, ne se defait pas
+    toute seule.
 
     Note sur le piege du clip-path (CLAUDE.md §4.7) : il vise
-    l'IntersectionObserver, qui calcule une surface d'intersection annulee
-    par le clip. ScrollTrigger travaille sur les positions geometriques, que
-    le clip ne modifie pas — declencher sur l'element lui-meme est donc sur
-    ici, et c'est verifie par la mesure de position au declenchement.
+    l'IntersectionObserver, dont la surface d'intersection est annulee par
+    le clip. ScrollTrigger travaille sur les positions geometriques, que le
+    clip ne modifie pas — declencher sur l'element lui-meme est donc sur.
   */
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cibles = document.querySelectorAll<HTMLElement>('[data-slice]');
 
-  // La classe `shown` est le signal auquel s'accrochent les animations CSS
-  // derivees (le trait de la carte, le filet des intitules, les etoiles).
-  const montrer = (el: HTMLElement) => {
-    el.style.opacity = '1';
-    el.style.clipPath = 'inset(0 0 0 0)';
-    el.classList.add('shown');
-  };
+  const montrer = (el: HTMLElement) => el.classList.add('shown');
 
   if (reduit || !cibles.length) {
     cibles.forEach(montrer);
   } else {
-    // L'etat cache vient deja du CSS (`.js-reveal [data-slice]`), pose avant
-    // le premier rendu : rien a masquer ici, sinon on repeindrait ce qui est
-    // deja en place. On se contente d'annoncer ce qui va bouger.
-    cibles.forEach((el) => {
-      el.style.willChange = 'opacity, clip-path';
-    });
-
-    /*
-      L'etat cache vient du CSS : si le chargement de GSAP echoue, plus rien
-      ne revelerait le contenu et la page resterait blanche sous le hero.
-      On revele tout plutot que de laisser un site vide.
-    */
     let gsap, ScrollTrigger;
     try {
       ({ gsap } = await import('gsap'));
       ({ ScrollTrigger } = await import('gsap/ScrollTrigger'));
       gsap.registerPlugin(ScrollTrigger);
     } catch {
+      // L'etat cache vient du CSS : sans GSAP, la page resterait vide sous
+      // le hero. On revele tout plutot que de ne rien montrer.
       cibles.forEach(montrer);
       throw new Error('revelations desactivees : GSAP indisponible');
     }
 
     cibles.forEach((el) => {
-      gsap.to(el, {
-        opacity: 1,
-        clipPath: 'inset(0 0 0% 0)',
-        duration: 0.85,
-        ease: 'power2.out',
-        clearProps: 'willChange',
-        onStart: () => el.classList.add('shown'),
-        scrollTrigger: {
-          trigger: el,
-          // L'element doit etre franchement entre dans le champ avant de
-          // partir. Trois reglages successifs, chacun mesure : a 88 % il
-          // pointait a peine et l'animation s'achevait pendant qu'il montait
-          // encore ; a 78 % elle restait en avance sur le regard. A 66 %,
-          // l'element est au tiers bas de l'ecran quand elle demarre.
-          start: 'top 66%',
-          once: true,
-        },
+      ScrollTrigger.create({
+        trigger: el,
+        // L'element doit etre franchement dans le champ avant de partir :
+        // a 66 % il venait d'entrer par le bas et l'animation se jouait
+        // pendant qu'il montait encore. A 55 %, il est au milieu de l'ecran.
+        start: 'top 55%',
+        once: true,
+        onEnter: () => montrer(el),
       });
     });
 
     /*
-      Recalcul des reperes une fois les images chargees. ScrollTrigger fige
-      les positions a l'initialisation ; les images arrivant ensuite
-      allongent la page et decalent tout ce qui suit. Sans ce refresh, les
-      elements du bas se declenchaient a plus de 150 % du viewport —
-      c'est-a-dire largement sous l'ecran, donc sans spectateur.
+      Recalcul des reperes une fois les images chargees : elles allongent la
+      page et decalent tout ce qui suit. Sans danger desormais — un refresh
+      ne peut plus defaire une classe deja posee.
     */
     const rafraichir = () => ScrollTrigger.refresh();
     if (document.readyState === 'complete') rafraichir();
     else window.addEventListener('load', rafraichir, { once: true });
 
-    // Les images d'Astro se decodent apres le load : on repasse une fois.
     Promise.all(
       Array.from(document.images)
         .filter((img) => !img.complete)
         .map((img) => img.decode().catch(() => undefined))
     ).then(rafraichir);
 
-    /*
-      Filet de securite, si ScrollTrigger venait a ne pas prendre la main.
-      Il ne revele QUE ce qui est effectivement dans le champ : une version
-      precedente revelait tout le document apres 4 s, si bien qu'un lecteur
-      qui descendait lentement trouvait le bas de page deja decouvert, sans
-      animation. Et il ne s'arme en continu qu'apres avoir constate une
-      defaillance reelle — sinon il ne coute qu'un seul passage.
-    */
-    const dansLeChamp = (el: HTMLElement) => {
-      const r = el.getBoundingClientRect();
-      return r.top < window.innerHeight && r.bottom > 0;
-    };
-
+    // Filet : ne revele que ce qui est reellement dans le champ, et ne
+    // s'arme en continu qu'apres une defaillance constatee.
     let defaillance = false;
-
     const filet = () => {
       cibles.forEach((el) => {
-        if (el.classList.contains('shown') || !dansLeChamp(el)) return;
-        defaillance = true;
-        montrer(el);
+        if (el.classList.contains('shown')) return;
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) {
+          defaillance = true;
+          montrer(el);
+        }
       });
     };
-
     setTimeout(() => {
       filet();
       if (defaillance) {
