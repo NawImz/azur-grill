@@ -50,10 +50,11 @@
         scrollTrigger: {
           trigger: el,
           // L'element doit etre franchement entre dans le champ avant de
-          // partir : a 88 % il pointait a peine et l'animation s'achevait
-          // pendant qu'il montait encore. A 78 %, elle se joue a hauteur
-          // de lecture.
-          start: 'top 78%',
+          // partir. Trois reglages successifs, chacun mesure : a 88 % il
+          // pointait a peine et l'animation s'achevait pendant qu'il montait
+          // encore ; a 78 % elle restait en avance sur le regard. A 66 %,
+          // l'element est au tiers bas de l'ecran quand elle demarre.
+          start: 'top 66%',
           once: true,
         },
       });

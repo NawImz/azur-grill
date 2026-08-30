@@ -9,6 +9,10 @@
  */
 export function lien(chemin: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
+  // Une ancre seule (#carte) vise l'accueil : elle se colle a la racine du
+  // site, pas au chemin courant. Sans cela, depuis /carte, `#carte` cherche
+  // une section qui n'existe pas sur cette page.
+  if (chemin.startsWith('#')) return `${base}/${chemin}`;
   const suite = chemin.replace(/^\/+/, '');
   return suite ? `${base}/${suite}` : `${base}/`;
 }

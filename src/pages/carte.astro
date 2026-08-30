@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import StickyMobileBar from '../components/StickyMobileBar.astro';
 import restaurant from '../data/restaurant.json';
 import menu from '../data/menu.json';
+import { lien } from '../lib/url';
 
 const total = menu.reduce((n, c) => n + c.plats.length, 0);
 const prix = (v: number) => (Number.isInteger(v) ? `${v} €` : `${v.toFixed(2).replace('.', ',')} €`);
@@ -18,7 +19,7 @@ const prix = (v: number) => (Number.isInteger(v) ? `${v} €` : `${v.toFixed(2).
 
   <main id="contenu" class="bg-creme pb-20 pt-28 md:pb-30 md:pt-36">
     <div class="mx-auto max-w-5xl px-5 md:px-8">
-      <a href="/#carte" class="inline-flex min-h-11 items-center text-sm font-semibold text-nazar underline decoration-braise decoration-2 underline-offset-4">
+      <a href={lien("#carte")} class="inline-flex min-h-11 items-center text-sm font-semibold text-nazar underline decoration-braise decoration-2 underline-offset-4">
         ← Retour à l'accueil
       </a>
 

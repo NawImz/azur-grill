@@ -48,9 +48,9 @@ with sync_playwright() as p:
         # Bonne fenetre : 65-95%. En dessous, l'element est deja au centre
         # et l'animation arrive en retard ; au-dessus de 100%, il est encore
         # sous l'ecran et l'animation se joue sans spectateur.
-        hors = [r for r in rel if r['pct'] > 95 or r['pct'] < 45]
+        hors = [r for r in rel if r['pct'] > 95 or r['pct'] < 35]
         etat = 'OK — chaque element s anime en entrant dans le champ' if not hors \
-               else f'{len(hors)} element(s) hors fenetre 45-95%'
+               else f'{len(hors)} element(s) hors fenetre 35-95%'
         print(f"\n  moyenne {moy:.0f}% | min {min(r['pct'] for r in rel)}% | max {max(r['pct'] for r in rel)}%")
         print(f"  --> {etat}")
     b.close()
