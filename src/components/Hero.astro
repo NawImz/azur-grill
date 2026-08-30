@@ -1,110 +1,223 @@
 ---
-import { Image } from 'astro:assets';
-import Icon from './Icon.astro';
+import { Picture } from 'astro:assets';
 import restaurant from '../data/restaurant.json';
-import heroImage from '../assets/photos-v2/hero-plat-genereux.webp';
+import Broche from './Broche.astro';
+// Agrandissement Lanczos + accentuation de la source fournie par le client
+// (896x1195). Le navigateur
+// l'etirerait sinon sur un ecran Retina. La source d'origine du telephone
+// (2000 px et plus) donnerait encore un cran de nettete (TODO-CLIENT.md, 6).
+import painMaison from '../assets/photos-v2/hero-pain-maison-2x.webp';
 
-const stats = [
-  { valeur: `${restaurant.avisGoogle.note.toFixed(1).replace('.', ',')}/5`, label: `Note Google · ${restaurant.avisGoogle.nombreAvis} avis` },
-  { valeur: '7j/7', label: 'Ouvert 11h30 – 22h30' },
-  { valeur: '100%', label: 'Pain & kebab maison' },
-  { valeur: 'Halal', label: 'Sur place · emporter · livraison' },
-];
+// Six bandes : assez pour lire « tranches », assez peu pour rester net.
+const bandes = [0, 1, 2, 3, 4, 5];
 ---
 
-<section id="top" class="relative isolate h-[70svh] min-h-[420px] md:h-[100svh] md:min-h-[560px] flex items-end overflow-hidden">
-  <div id="hero-media" class="absolute inset-x-0 top-0 h-[115%] will-change-transform">
-    <Image
-      id="hero-img"
-      src={heroImage}
-      alt="Assiette généreuse de grillades, riz et légumes grillés servie chez Azur Grill à Épinay-sur-Seine"
-      loading="eager"
-      fetchpriority="high"
-      class="w-full h-full object-cover object-[center_75%] md:object-center will-change-transform"
-    />
+<section id="top" class="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-nazar">
+  <!--
+    L'image est peinte des le depart, sous les bandes : la sequence ne
+    retarde pas son chargement. fetchpriority=high + eager, c'est le LCP.
+  -->
+  <Picture
+    src={painMaison}
+    formats={['avif', 'webp']}
+          fallbackFormat="webp"
+    alt="Les pains d'Azur Grill, cuits sur place, alignés à la sortie du four sur la planche de bois."
+    widths={[800, 1200, 1792]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+    class="hero-photo absolute inset-0 -z-10 h-full w-full object-cover"
+    style="object-position: 50% 34%;"
+  />
+
+  <!--
+    Scrim asymetrique, pas un voile uniforme (CLAUDE.md §4.10) : dense en bas,
+    ou le titre se pose ET ou la photo est encombree (sacs, cagettes) ;
+    transparent au centre pour laisser les pains respirer. Opacites arretees
+    par mesure du composite reel, pas au jugé — voir le rapport de QA.
+  -->
+  <div
+    class="absolute inset-0 -z-10"
+    style="background: linear-gradient(to top, rgb(10 6 60 / 0.95) 0%, rgb(10 6 60 / 0.90) 26%, rgb(10 6 60 / 0.66) 46%, rgb(10 6 60 / 0.22) 74%, rgb(10 6 60 / 0.34) 100%);"
+  >
   </div>
-  <div class="absolute inset-0 bg-gradient-to-t from-nazar/95 via-nazar/65 to-nazar/40" aria-hidden="true"></div>
 
-  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pb-20 md:pb-28 w-full">
-    <p
-      data-hero-reveal
-      class="inline-block font-display italic text-ciel text-base md:text-xl bg-nazar/70 backdrop-blur-sm px-4 py-1.5 rounded-full mb-5"
-    >
-      Grillades turques &amp; pain maison
+  <!-- Filet interieur : cadre la photo comme une piece encadree plutot que
+       de la laisser en plein bord. Purement decoratif, hors flux. -->
+  <div class="cadre-hero pointer-events-none absolute inset-4 z-10 md:inset-7" aria-hidden="true"></div>
+
+  <div class="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-32 md:px-8 md:pb-24 md:pt-40">
+    <p class="hero-ligne mb-5 flex items-center gap-2.5 text-sm font-semibold tracking-[0.16em] text-ciel uppercase" style="--r: 1">
+      {restaurant.cuisine} · Épinay-sur-Seine
     </p>
-    <h1 class="font-display text-creme text-4xl md:text-6xl leading-[1.02] max-w-3xl">
-      <span class="block overflow-hidden pb-1"><span data-hero-line class="block">Azur Grill</span></span>
-      <span class="block overflow-hidden pb-1"><span data-hero-line class="block">Restaurant</span></span>
+
+    <h1 class="max-w-[15ch] font-display text-4xl leading-[1.04] font-700 text-creme md:text-5xl">
+      {restaurant.promesseLignes.map((ligne, i) => (
+        <span class="ligne-masque">
+          <span class="ligne-texte" style={`--l:${i}`}>{ligne}</span>
+        </span>
+      ))}
     </h1>
-    <p
-      data-hero-reveal
-      class="text-creme/90 text-lg mt-5 max-w-xl"
-    >
-      Viandes grillées, kebab et pain cuits sur place, desserts turcs artisanaux — à Épinay-sur-Seine, halal, ouvert 7j/7.
+
+    <p class="hero-ligne mt-6 max-w-lg text-lg text-creme/90" style="--r: 3">
+      {restaurant.promesseAppui}
     </p>
 
-    <div data-hero-reveal class="flex flex-wrap gap-3 mt-8">
+    <div class="hero-ligne mt-9 flex flex-wrap items-center gap-3" style="--r: 4">
       <a
         href={restaurant.uberEatsUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="group inline-flex items-center gap-2 bg-brique text-creme font-semibold px-6 py-3.5 rounded-full hover:brightness-110 transition"
+        class="inline-flex min-h-12 items-center rounded-full bg-braise px-7 font-bold text-encre transition hover:brightness-110"
       >
         Commander
-        <Icon name="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
       </a>
       <a
         href="#carte"
-        class="inline-flex items-center gap-2 bg-creme/10 text-creme font-semibold px-6 py-3.5 rounded-full border border-creme/40 hover:bg-creme/20 transition"
+        class="inline-flex min-h-12 items-center rounded-full border border-creme/40 px-7 font-semibold text-creme transition hover:border-creme hover:bg-creme/10"
       >
         Voir la carte
       </a>
     </div>
   </div>
 
-  <div
-    data-hero-reveal
-    class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-creme/60"
-    aria-hidden="true"
-  >
-    <span class="text-[11px] font-semibold tracking-[0.25em] uppercase">Défiler</span>
-    <span class="w-px h-10 bg-creme/40"></span>
+  <!--
+    Les bandes sont un rideau EN SURIMPRESSION, jamais un clip-path porte par
+    une section observee : un clip annulerait la surface d'intersection et
+    figerait tout observateur (CLAUDE.md §4.7).
+  -->
+  <div class="pointer-events-none absolute inset-0 z-20 flex" aria-hidden="true">
+    {bandes.map((i) => <span class="lame-bande flex-1 bg-nazar motion-reduce:hidden" style={`--i: ${i}`} />)}
   </div>
+
+  <Broche class="broche pointer-events-none absolute right-6 top-1/2 z-30 hidden h-32 -translate-y-1/2 text-ciel md:block motion-reduce:!hidden" />
 </section>
 
-<div class="bg-creme border-b border-encre/10">
-  <dl data-reveal class="max-w-6xl mx-auto px-5 md:px-8 py-6 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-5">
-    {stats.map((stat) => (
-      <div class="text-center md:text-left">
-        <dd class="font-display text-2xl md:text-3xl text-nazar leading-none">{stat.valeur}</dd>
-        <dt class="text-xs md:text-sm text-encre/60 mt-1.5">{stat.label}</dt>
-      </div>
-    ))}
-  </dl>
-</div>
-
-<script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const lines = gsap.utils.toArray<HTMLElement>('[data-hero-line]');
-  const items = gsap.utils.toArray<HTMLElement>('[data-hero-reveal]');
-
-  if (reduceMotion) {
-    gsap.set([...lines, ...items], { opacity: 1, y: 0, yPercent: 0 });
-  } else {
-    gsap.fromTo('#hero-img', { scale: 1.08 }, { scale: 1, duration: 1.1, ease: 'expo.out' });
-    gsap.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: 'expo.out', stagger: 0.1, delay: 0.1 });
-    gsap.set(items, { opacity: 0, y: 24 });
-    gsap.to(items, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 0.1, delay: 0.35 });
-
-    gsap.to('#hero-media', {
-      yPercent: -10,
-      ease: 'none',
-      scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: true },
-    });
+<style>
+  /* Respiration lente de la photo : une seule passe, jamais une boucle.
+     Assez lente pour ne pas se voir, assez presente pour que l'image
+     cesse d'etre un aplat fige. */
+  @keyframes respire {
+    from { transform: scale(1); }
+    to   { transform: scale(1.055); }
   }
-</script>
+
+  .hero-photo {
+    transform-origin: 50% 38%;
+    animation: respire 26s cubic-bezier(.33, 0, .2, 1) forwards;
+  }
+
+  /* La tranche tombe : la bande s'ecrase vers sa base et sort du champ. */
+  @keyframes lame-tombe {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes broche-tourne {
+    0% {
+      opacity: 0;
+      transform: translateY(-50%) rotateY(0deg);
+    }
+    18% {
+      opacity: 0.65;
+    }
+    72% {
+      opacity: 0.65;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-50%) rotateY(360deg);
+    }
+  }
+
+  @keyframes ligne-monte {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .lame-bande {
+    transform-origin: bottom;
+    /* 5 x 55 ms de decalage + 620 ms = 895 ms, sous le plafond de 900 ms. */
+    animation: lame-tombe 620ms var(--ease-lame) forwards;
+    animation-delay: calc(var(--i) * 55ms);
+  }
+
+  .broche {
+    opacity: 0;
+    animation: broche-tourne 900ms ease-in-out forwards;
+  }
+
+  .hero-ligne {
+    opacity: 0;
+    animation: ligne-monte 620ms var(--ease-lame) forwards;
+    animation-delay: calc(360ms + var(--r) * 70ms);
+  }
+
+  /*
+    Le titre se leve ligne par ligne derriere un masque : chaque ligne
+    emerge de son propre bord au lieu de se fondre. C'est le meme geste
+    que la lame — quelque chose se decouvre, rien ne se dissout.
+  */
+  .ligne-masque {
+    display: block;
+    overflow: hidden;
+  }
+
+  .ligne-texte {
+    display: block;
+    transform: translateY(105%);
+    animation: ligne-leve 880ms var(--ease-pose) forwards;
+    animation-delay: calc(420ms + var(--l) * 110ms);
+  }
+
+  @keyframes ligne-leve {
+    to {
+      transform: none;
+    }
+  }
+
+  /* Filet interieur : deux traits qui se tirent, pas un cadre qui apparait. */
+  .cadre-hero {
+    border: 1px solid rgb(247 245 241 / 0.22);
+    clip-path: inset(0 100% 0 0);
+    animation: cadre-tire 1100ms var(--ease-pose) 700ms forwards;
+  }
+
+  @keyframes cadre-tire {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* Plancher d'accessibilite : etat final d'emblee, aucune sequence. */
+  /* Plancher d'accessibilite : etat final d'emblee, aucune sequence.
+     Les bandes et la broche sont neutralisees par `motion-reduce:` cote
+     balise — une regle de composant ne battrait pas leurs utilities. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-photo {
+      animation: none;
+    }
+    .hero-ligne {
+      opacity: 1;
+      animation: none;
+    }
+    .ligne-texte {
+      transform: none;
+      animation: none;
+    }
+    .cadre-hero {
+      clip-path: none;
+      animation: none;
+    }
+  }
+</style>

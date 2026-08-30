@@ -1,32 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import StickyMobileBar from '../components/StickyMobileBar.astro';
 import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
 import Menu from '../components/Menu.astro';
-import Gallery from '../components/Gallery.astro';
 import Reviews from '../components/Reviews.astro';
+import Lieu from '../components/Lieu.astro';
 import PracticalInfo from '../components/PracticalInfo.astro';
-import CtaBand from '../components/CtaBand.astro';
 import Footer from '../components/Footer.astro';
+import StickyMobileBar from '../components/StickyMobileBar.astro';
+import SliceReveal from '../components/SliceReveal.astro';
 import SmoothScroll from '../components/SmoothScroll.astro';
-import ScrollReveal from '../components/ScrollReveal.astro';
 ---
 
 <Layout>
-  <SmoothScroll />
-  <ScrollReveal />
   <Header />
-  <main class="pb-14 md:pb-0">
+  <main id="contenu" class="pb-20 md:pb-0">
     <Hero />
-    <About />
     <Menu />
-    <Gallery />
     <Reviews />
+    <Lieu />
     <PracticalInfo />
-    <CtaBand />
   </main>
   <Footer />
   <StickyMobileBar />
+  <SmoothScroll />
+  <SliceReveal />
 </Layout>

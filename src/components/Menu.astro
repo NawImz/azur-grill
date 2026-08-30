@@ -1,56 +1,170 @@
 ---
-import Kicker from './Kicker.astro';
-import Icon from './Icon.astro';
-import NazarCluster from './NazarCluster.astro';
+import { lien } from '../lib/url';
 import menu from '../data/menu.json';
 
-function formatPrix(prix: number): string {
-  const isWhole = Number.isInteger(prix);
-  return isWhole ? `${prix} €` : `${prix.toFixed(2).replace('.', ',')} €`;
-}
+type Plat = { nom: string; prix: number; description?: string; signature?: boolean; argument?: string };
+
+// Les huit signatures, dans l'ordre de la carte. Prix VISIBLES sans un clic :
+// c'est le point ou le site precedent perdait le visiteur presse.
+const signatures = menu.flatMap((c) =>
+  (c.plats as Plat[]).filter((p) => p.signature).map((p) => ({ ...p, categorie: c.categorie }))
+);
+
+const total = menu.reduce((n, c) => n + c.plats.length, 0);
+
+const prix = (v: number) => (Number.isInteger(v) ? `${v} €` : `${v.toFixed(2).replace('.', ',')} €`);
 ---
 
-<section id="carte" class="relative isolate bg-creme py-20 md:py-28 overflow-hidden">
-  <NazarCluster tone="light" />
-  <div class="max-w-5xl mx-auto px-5 md:px-8">
-    <div data-reveal class="max-w-2xl mb-12 md:mb-16">
-      <Kicker number="02" class="mb-4">La Carte</Kicker>
-      <h2 class="font-display text-2xl md:text-3xl text-nazar leading-tight">
-        Une carte généreuse, sans chichi.
+<section id="carte" class="grain filigrane relative overflow-hidden bg-creme py-24 md:py-36">
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <div class="max-w-2xl" data-slice>
+      <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-nazar/70 uppercase">La carte</p>
+      <h2 class="font-display text-3xl leading-tight font-700 text-nazar md:text-4xl">
+        Ce qu'on vient chercher ici.
       </h2>
+      <p class="mt-5 text-lg text-encre/75">
+        Huit plats pour situer la maison. Les prix sont là, pas derrière un clic.
+      </p>
     </div>
 
-    <div data-reveal-group class="md:columns-2 md:gap-16 [&>*]:break-inside-avoid">
-      {menu.map((categorie) => (
-        <details data-reveal class="group border-b border-encre/15 py-5 mb-1">
-          <summary class="flex items-center justify-between gap-4 cursor-pointer list-none">
-            <span class="flex items-baseline gap-2.5">
-              <span class="font-display text-xl md:text-2xl text-nazar">{categorie.categorie}</span>
-              <span class="text-sm text-encre/50">({categorie.plats.length})</span>
-            </span>
-            <Icon name="chevron-down" class="w-5 h-5 text-brique shrink-0 transition-transform duration-300 group-open:rotate-180" />
-          </summary>
-
-          {categorie.note && (
-            <p class="text-sm italic text-brique mt-3">{categorie.note}</p>
-          )}
-
-          <ul class="mt-5 space-y-4">
-            {categorie.plats.map((plat) => (
-              <li>
-                <div class="flex items-baseline gap-2.5">
-                  <p class="font-semibold text-encre">{plat.nom}</p>
-                  <span class="flex-1 border-b border-dotted border-encre/30 -translate-y-1" aria-hidden="true"></span>
-                  <p class="font-semibold text-nazar whitespace-nowrap tabular-nums">{formatPrix(plat.prix)}</p>
-                </div>
-                {plat.description && (
-                  <p class="text-sm text-encre/70 mt-0.5 pr-14">{plat.description}</p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </details>
+    <ul class="mt-12 grid gap-x-12 gap-y-1 md:mt-16 md:grid-cols-2">
+      {signatures.map((plat) => (
+        <li class="plat group border-b border-encre/10 py-6" data-slice>
+          <div class="flex items-baseline gap-3">
+            <h3 class="font-display text-xl font-600 text-nazar">{plat.nom}</h3>
+            <span class="trait flex-1 -translate-y-1" aria-hidden="true"></span>
+            <p class="plat-prix prix-anim relative font-display text-xl font-700 text-nazar tabular-nums whitespace-nowrap">
+              {prix(plat.prix)}
+            </p>
+          </div>
+          <p class="mt-1 text-encre/70">{plat.argument ?? plat.description}</p>
+          <p class="mt-0.5 text-sm text-encre/45">{plat.categorie}</p>
+        </li>
       ))}
+    </ul>
+
+    <div class="mt-12 flex flex-wrap items-center gap-4" data-slice>
+      <a
+        href={lien("carte")}
+        class="inline-flex min-h-12 items-center rounded-full bg-nazar px-7 font-semibold text-creme transition hover:brightness-125"
+      >
+        Voir toute la carte — {total} plats
+      </a>
+      <p class="text-sm text-encre/60">Entrées, sandwichs, formules, desserts, boissons.</p>
     </div>
   </div>
 </section>
+
+<style>
+  /*
+    Le trait entre le plat et le prix se TIRE de gauche a droite quand la
+    ligne entre en vue — le geste de la carte ecrite a la main, pas un
+    filet imprime. Il part de l'intitule et va chercher le prix.
+  */
+  .trait {
+    position: relative;
+    height: 1px;
+  }
+
+  .trait::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-bottom: 1px dotted color-mix(in srgb, var(--color-encre) 30%, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.75s var(--ease-pose) 0.12s;
+  }
+
+  .plat.shown .trait::before,
+  :where(.shown) .trait::before {
+    transform: scaleX(1);
+  }
+
+  /* Le prix arrive APRES le trait : la ligne se tire, puis le montant se pose. */
+  .plat .prix-anim {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.5s var(--ease-pose) 0.55s, transform 0.5s var(--ease-pose) 0.55s;
+  }
+
+  .plat.shown .prix-anim {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Le nom avance d'un cheveu au survol : la ligne repond, sans sauter. */
+  .plat h3 {
+    transition: transform 0.4s var(--ease-pose);
+  }
+
+  .plat:hover h3 {
+    transform: translateX(3px);
+  }
+
+  /* Filet qui se tire sous l'intitule de section. */
+  .eyebrow-trait {
+    position: relative;
+    padding-bottom: 0.85rem;
+  }
+
+  .eyebrow-trait::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 2.75rem;
+    height: 2px;
+    background: var(--color-braise);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-lame) 0.2s;
+  }
+
+  :where(.shown).eyebrow-trait::after,
+  .shown .eyebrow-trait::after {
+    transform: scaleX(1);
+  }
+
+  /*
+    Lueur de braise sous le prix, au survol du plat — et nulle part ailleurs
+    sur le site. Un reflet, pas un surlignage : le prix ne change pas de
+    couleur (braise sur creme ne donne que 2,20:1), c'est une lueur posee
+    DERRIERE lui.
+  */
+  .plat-prix::after {
+    content: '';
+    position: absolute;
+    inset-inline: -6px;
+    bottom: -3px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--color-braise);
+    box-shadow: 0 0 12px 2px color-mix(in srgb, var(--color-braise) 55%, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-lame);
+  }
+
+  .plat:hover .plat-prix::after,
+  .plat:focus-within .plat-prix::after {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plat-prix::after,
+    .plat h3 {
+      transition: none;
+    }
+    .trait::before,
+    .eyebrow-trait::after {
+      transform: scaleX(1);
+      transition: none;
+    }
+    .plat .prix-anim {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

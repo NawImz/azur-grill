@@ -1,0 +1,57 @@
+---
+/**
+ * Wordmark de la marque, repris du logo reel du client.
+ *
+ * Le logo compose le nom en DEUX voix distinctes, relevees sur le fichier
+ * d'origine : « AZUR » dans un didone a tres fort contraste (pleins epais,
+ * delies tres fins, empattements horizontaux) et, dessous, le mot d'appui
+ * dans une sans-serif legere tres espacee. Le nom du restaurant reprend
+ * donc cette composition partout ou il apparait, plutot que la police
+ * d'affichage du site : c'est une signature de marque, pas un titre.
+ */
+interface Props {
+  /** hauteur du mot principal */
+  taille?: 'sm' | 'md' | 'lg';
+  /** mot d'appui sous AZUR ; `null` pour le supprimer */
+  appui?: string | null;
+  class?: string;
+}
+
+const { taille = 'md', appui = 'Restaurant', class: className = '' } = Astro.props;
+
+const tailles = {
+  sm: { principal: 'text-lg', appui: 'text-[0.5rem]' },
+  md: { principal: 'text-2xl md:text-[1.75rem]', appui: 'text-[0.5625rem] md:text-[0.625rem]' },
+  lg: { principal: 'text-4xl md:text-5xl', appui: 'text-xs md:text-sm' },
+};
+const t = tailles[taille];
+---
+
+<span class={`wordmark inline-flex flex-col items-center leading-none ${className}`}>
+  <span class={`wordmark-principal ${t.principal}`}>Azur</span>
+  {appui && <span class={`wordmark-appui ${t.appui}`}>{appui}</span>}
+</span>
+
+<style>
+  .wordmark-principal {
+    font-family: 'Bodoni Moda Variable', 'Bodoni Moda', Didot, 'Didot LT STD', 'Playfair Display', serif;
+    font-weight: 500;
+    /* Le logo espace largement les capitales : sans cela le didone se tasse. */
+    letter-spacing: 0.18em;
+    /* letter-spacing ajoute un blanc APRES la derniere lettre : on le reprend
+       pour que le mot reste optiquement centre sous/au-dessus de son appui. */
+    text-indent: 0.18em;
+    text-transform: uppercase;
+    font-feature-settings: 'kern' 1;
+  }
+
+  .wordmark-appui {
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    text-transform: uppercase;
+    margin-top: 0.35em;
+    opacity: 0.85;
+  }
+</style>

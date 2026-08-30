@@ -1,87 +1,177 @@
 ---
-import Kicker from './Kicker.astro';
-import Icon from './Icon.astro';
-import NazarCluster from './NazarCluster.astro';
 import restaurant from '../data/restaurant.json';
 import horaires from '../data/horaires.json';
+import Ornement from './Ornement.astro';
 ---
 
-<section id="infos" class="relative isolate bg-creme py-20 md:py-28 overflow-hidden">
-  <NazarCluster tone="light" />
-  <div class="max-w-6xl mx-auto px-5 md:px-8">
-    <div data-reveal class="max-w-2xl mb-12 md:mb-16">
-      <Kicker number="05" class="mb-4">Infos pratiques</Kicker>
-      <h2 class="font-display text-2xl md:text-3xl text-nazar leading-tight">
-        Nous trouver, nous appeler, commander.
+<section id="infos" class="grain filigrane relative overflow-hidden bg-creme py-24 md:py-36">
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <Ornement ton="clair" class="mb-16 md:mb-20" />
+
+    <div class="max-w-2xl" data-slice>
+      <p class="eyebrow-trait mb-5 text-sm font-semibold tracking-[0.16em] text-nazar/70 uppercase">Infos pratiques</p>
+      <h2 class="font-display text-3xl leading-tight font-700 text-nazar md:text-4xl">
+        Nous trouver, nous appeler.
       </h2>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-10 md:gap-16">
-      <div data-reveal>
-        <div class="flex items-start gap-3 mb-6">
-          <Icon name="map-pin" class="w-5 h-5 text-brique shrink-0 mt-1" />
-          <div>
-            <p class="font-semibold text-encre">{restaurant.adresse.texte}</p>
-            <a
-              href={restaurant.googleMapsItineraire}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-sm font-semibold text-brique hover:underline"
-            >
-              Obtenir l'itinéraire
-            </a>
-          </div>
+    <div class="mt-12 grid gap-10 md:mt-16 md:grid-cols-2">
+      <div class="space-y-8">
+        <div data-slice>
+          <h3 class="font-display text-lg font-600 text-nazar">Adresse</h3>
+          <p class="mt-2 text-encre/80">{restaurant.adresse.texte}</p>
+          <!-- Lien-plan, jamais une iframe : elle alourdit la page et echouait deja en console. -->
+          <a
+            href={restaurant.googleMapsItineraire}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-nazar underline decoration-braise decoration-2 underline-offset-4"
+          >
+            Ouvrir l'itinéraire
+          </a>
         </div>
 
-        <div class="flex items-start gap-3 mb-8">
-          <Icon name="clock" class="w-5 h-5 text-brique shrink-0 mt-1" />
-          <div>
-            <p class="font-semibold text-encre">{horaires.texte}</p>
-            <p class="text-sm text-encre/70">Sur place, à emporter, livraison Uber Eats</p>
-          </div>
-        </div>
+        <div data-slice>
+          <h3 class="font-display text-lg font-600 text-nazar">Horaires</h3>
 
-        <iframe
-          src={restaurant.googleMapsEmbed}
-          title="Localisation d'Azur Grill Restaurant sur Google Maps"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          class="w-full aspect-[4/3] rounded-2xl border border-encre/10"
-        ></iframe>
+          <p id="statut-ouverture" class="mt-3 inline-flex items-center gap-2 rounded-full bg-nazar px-4 py-2 text-sm font-semibold text-creme">
+            <span class="h-2 w-2 rounded-full bg-creme/60" aria-hidden="true"></span>
+            <span data-statut-texte>{horaires.texte}</span>
+          </p>
+
+          <dl class="mt-4 space-y-1.5">
+            {horaires.jours.map((j) => (
+              <div class="flex justify-between gap-6 text-sm" data-jour={j.index}>
+                <dt class="text-encre/75">{j.jour}</dt>
+                <dd class="tabular-nums text-encre/60">
+                  {j.ouvre ? `${j.ouvre.replace(':', 'h')} – ${j.ferme?.replace(':', 'h')}` : 'Fermé'}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+        </div>
       </div>
 
-      <div data-reveal class="bg-nazar rounded-2xl p-6 sm:p-8 md:p-10 flex flex-col justify-center">
-        <p class="text-creme/70 text-sm font-semibold uppercase tracking-[0.14em] mb-3">
-          Nous appeler
-        </p>
+      <div class="rounded-2xl bg-nazar p-8 shadow-[var(--ombre-levee)] md:p-10" data-slice>
+        <p class="text-sm font-semibold tracking-[0.16em] text-ciel uppercase">Nous appeler</p>
         <a
           href={restaurant.telephoneLien}
-          class="font-display text-3xl sm:text-4xl lg:text-5xl text-creme hover:text-ciel transition-colors whitespace-nowrap"
+          class="mt-3 flex min-h-11 items-center font-display text-2xl font-700 text-creme tabular-nums whitespace-nowrap transition hover:text-ciel lg:text-3xl xl:text-4xl"
         >
           {restaurant.telephone}
         </a>
 
-        <div class="flex flex-wrap gap-3 mt-8">
+        <div class="mt-8 flex flex-wrap gap-3">
           <a
             href={restaurant.telephoneLien}
-            class="inline-flex items-center gap-2 bg-creme text-nazar font-semibold px-6 py-3.5 rounded-full hover:brightness-95 transition"
+            class="inline-flex min-h-12 items-center rounded-full bg-braise px-6 font-bold text-encre transition hover:brightness-110"
           >
-            <Icon name="phone" class="w-4 h-4" />
             Appeler
           </a>
           <a
             href={restaurant.uberEatsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 bg-brique text-creme font-semibold px-6 py-3.5 rounded-full hover:brightness-110 transition"
+            class="inline-flex min-h-12 items-center rounded-full border border-creme/40 px-6 font-semibold text-creme transition hover:bg-creme/10"
           >
             Commander
-            <Icon name="external-link" class="w-4 h-4" />
           </a>
         </div>
 
-        <p class="text-creme/60 text-sm mt-6">Halal · Ouvert 7j/7 · 11h30–22h30</p>
+        <ul class="mt-8 flex flex-wrap gap-2">
+          {restaurant.services.slice(0, 6).map((s) => (
+            <li class="rounded-full bg-creme/10 px-3 py-1.5 text-xs text-creme ring-1 ring-creme/15">{s}</li>
+          ))}
+        </ul>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  import horaires from '../data/horaires.json';
+import Ornement from './Ornement.astro';
+
+  /*
+    Le statut se calcule a l'heure de PARIS, jamais a l'heure locale du
+    visiteur : depuis un autre fuseau, l'heure de la machine annoncerait
+    « ouvert » a tort — l'erreur exacte qui fait deplacer quelqu'un pour rien.
+  */
+  const maintenantAParis = () => {
+    const parts = new Intl.DateTimeFormat('fr-FR', {
+      timeZone: horaires.fuseau,
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date());
+    const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '';
+    const jours: Record<string, number> = { dim: 0, lun: 1, mar: 2, mer: 3, jeu: 4, ven: 5, sam: 6 };
+    const cle = get('weekday').toLowerCase().replace('.', '').slice(0, 3);
+    return { jour: jours[cle] ?? new Date().getDay(), minutes: +get('hour') * 60 + +get('minute') };
+  };
+
+  const enMinutes = (hhmm: string) => {
+    const [h, m] = hhmm.split(':').map(Number);
+    return h * 60 + m;
+  };
+
+  const appliquer = () => {
+    const { jour, minutes } = maintenantAParis();
+    const aujourdHui = horaires.jours.find((j) => j.index === jour);
+    const bloc = document.getElementById('statut-ouverture');
+    const texte = document.querySelector('[data-statut-texte]');
+    const pastille = bloc?.querySelector('span[aria-hidden]');
+    if (!bloc || !texte) return;
+
+    let ouvert = false;
+    let message = '';
+
+    if (aujourdHui?.ouvre && aujourdHui.ferme) {
+      const debut = enMinutes(aujourdHui.ouvre);
+      const fin = enMinutes(aujourdHui.ferme);
+      ouvert = minutes >= debut && minutes < fin;
+      if (ouvert) {
+        const reste = fin - minutes;
+        message = reste <= 60 ? `Ouvert — ferme dans ${reste} min` : `Ouvert jusqu'à ${aujourdHui.ferme.replace(':', 'h')}`;
+      } else if (minutes < debut) {
+        message = `Fermé — ouvre à ${aujourdHui.ouvre.replace(':', 'h')}`;
+      } else {
+        message = 'Fermé pour aujourd’hui';
+      }
+    } else {
+      message = 'Fermé le dimanche';
+    }
+
+    texte.textContent = message;
+    bloc.classList.toggle('bg-nazar', !ouvert);
+    bloc.classList.toggle('text-creme', !ouvert);
+    bloc.classList.toggle('bg-braise', ouvert);
+    bloc.classList.toggle('text-encre', ouvert);
+    pastille?.classList.toggle('bg-creme/60', !ouvert);
+    pastille?.classList.toggle('bg-encre', ouvert);
+
+    document.querySelectorAll('[data-jour]').forEach((el) => {
+      el.classList.toggle('font-bold', Number((el as HTMLElement).dataset.jour) === jour);
+    });
+  };
+
+  appliquer();
+  setInterval(appliquer, 60_000);
+</script>
+
+<style>
+  .eyebrow-trait { position: relative; padding-bottom: .85rem; }
+  .eyebrow-trait::after {
+    content: ''; position: absolute; left: 0; bottom: 0;
+    width: 2.75rem; height: 2px; background: var(--color-braise);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .6s var(--ease-lame) .2s;
+  }
+  .shown .eyebrow-trait::after,
+  :where(.shown).eyebrow-trait::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow-trait::after { transform: scaleX(1); transition: none; }
+  }
+</style>

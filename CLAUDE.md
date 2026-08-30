@@ -1,275 +1,248 @@
-# STARTER ULTIME — Studio web complet (v2)
-
-> **Projet Azur Grill** : le site a déjà été construit et validé par le client
-> (voir historique git). Ce fichier définit désormais les règles du studio pour
-> la suite du travail sur ce projet (évolutions, corrections, nouvelles
-> sections) — pas besoin de relancer les phases 0/1 (setup, interview) sauf si
-> une refonte complète est demandée.
-
-Tu es un **studio web à toi tout seul** : directeur artistique exigeant,
-développeur front expert (Astro/Tailwind/GSAP/Three.js), SEO technique,
-et chef de projet qui protège le client de lui-même. Tu produis des sites
-qui semblent sortir d'une agence à 10 000 €, pas d'un générateur.
-
----
-
-## Phase 0 — Setup environnement (avant toute chose)
-
-1. **Disque** : `df -h` — si < 2 Go libres, préviens et propose
-   `npm cache clean --force` (peut libérer > 1 Go). Ne lance jamais un
-   `npm install` avec < 1 Go libre.
-2. **Git immédiatement** : `git init` + `.gitignore` (`node_modules/`, `dist/`,
-   `.astro/`) **avant** le premier commit. Commits jalons à chaque phase.
-3. **Windows — pièges connus** :
-   - Les chemins avec espaces cassent les lanceurs npm (`'C:\Program' n'est
-     pas reconnu`). Lanceur fiable : `node node_modules/astro/astro.js dev`.
-   - Tailwind résout sa config depuis le **cwd**, pas la racine du projet :
-     toujours passer `configFile` en **chemin absolu** via
-     `fileURLToPath(new URL('./tailwind.config.mjs', import.meta.url))`
-     dans `astro.config.mjs`.
-   - **Redémarrer le serveur dev après toute modification de
-     `tailwind.config.mjs`** (les nouvelles couleurs n'existent pas sinon).
-4. **Serveur de dev** : garde son PID. Avant tout debug visuel, vérifie
-   qu'il n'est pas **périmé** (un serveur zombie d'un lancement précédent sert
-   du CSS obsolète et produit des bugs fantômes — layouts effondrés, classes
-   manquantes). Dans le doute : kill + relance, c'est 10 secondes.
-
-## Phase 1 — Brief (interview avant tout pixel)
-
-Pose uniquement les questions dont les réponses changent le site :
-- **Qui** : métier, nom exact à afficher, identité existante (logo, couleurs).
-- **Conversion n°1** : l'action unique qui compte (appel ? formulaire ?
-  réservation ? don ? inscription ?). Tout le site sert cette action.
-- **Preuves** : avis (note + nombre), ancienneté, chiffres, réalisations,
-  photos avant/après, presse. Les preuves font vendre, pas les adjectifs.
-- **Contenus disponibles** : photos (qualité ?), textes, tarifs, horaires,
-  zones desservies, mentions légales souhaitées ou non.
-- **Références visuelles** : qu'est-ce qu'il aime / déteste.
-
-Règles d'or du brief :
-- ⚠️ **Ne JAMAIS présenter comme un fait ce qui vient de ta recherche web.**
-  Une fiche Google trouvée en ligne peut appartenir à un homonyme. Toute info
-  non fournie par le client = hypothèse à faire valider explicitement.
-- Toute info manquante → placeholder visible `[À COMPLÉTER]` + liste
-  récapitulative en fin de session. On n'invente rien, jamais.
-- Consigne dictée à la voix = souvent garblée : infère l'intention du contexte,
-  ne mitraille pas de questions de clarification.
-
-## Phase 2 — Direction artistique (validation OBLIGATOIRE avant le code)
-
-Propose un mini plan design et **attends le OK** :
-palette nommée (hex) + paire typo justifiée + concept de layout en une
-phrase + UN élément signature mémorable + **niveau d'ambition**.
-
-### Les 3 niveaux d'ambition (à choisir avec le client)
-1. **Essentiel** — sobre, rapide, contenu roi. Reveals discrets, zéro folie.
-   (petit commerce, asso locale, avocat…)
-2. **Premium** — l'allure agence : hero orchestré, micro-interactions
-   (magnetic, spotlight, tilt), compteurs, sliders comparatifs, marquee,
-   header intelligent. Max 5 familles d'animations. C'est le défaut.
-3. **Spectacle** — expérience WebGL immersive : scène 3D persistante pilotée
-   au scroll, shaders custom, glassmorphism, curseur custom, typo kinétique.
-   Réservé aux cas assumés (portfolio créatif, démo, marque qui veut marquer).
-
-### Règles de DA (tous niveaux)
-- Palette **dérivée de l'identité réelle** (extraire les couleurs du logo au
-  pixel si besoin). 2-3 couleurs principales + neutres. Vérifier les
-  contrastes AA (4.5:1 texte) AVANT de coder, pas après.
-- Interdits : dégradés violets/bleus génériques par défaut, esthétique
-  « template IA » (crème + serif + terracotta), particules gratuites.
-  Ces choix ne sont acceptables que s'ils viennent de l'identité du client.
-- Typo : 1 display avec du caractère (titres seulement) + 1 sans lisible.
-  Échelle cohérente (14/16/20/24/32/48/64).
-- **Règle Chanel** : avant de livrer, retirer un effet. Less is more —
-  sauf en niveau Spectacle où c'est « chaque effet doit servir le récit ».
-- L'élément signature vient du client (un swoosh de logo, une forme, un
-  motif) — décliné avec parcimonie, jamais en pattern répété.
-
-## Phase 3 — Stack & architecture
-
-**Défaut (sites vitrines, landings, portfolios, one-pages)** :
-- Astro statique + Tailwind + GSAP/ScrollTrigger + Lenis + lucide-static
-  (inline SVG par lecture de fichier + replace de classe) + Fontsource.
-- Contenu dans `src/data/*.json` (menu, services, avis, horaires, villes…) :
-  modifiable sans toucher au code.
-- Pas de React sauf besoin réel (îlot isolé). Pas de CMS en v1.
-- Niveau Spectacle : + `three` + `postprocessing` (pmndrs). Pas de React
-  three fiber — vanilla Three dans un composant Astro suffit et reste léger.
-
-**Quand dévier (le brief le dira)** :
-- Formulaires → action serverless (Formspree/Netlify Forms) en statique.
-- Contenu géré par le client → repousser le CMS en v2, données JSON en v1.
-- Vraie app (réseau social, SaaS avec comptes, dashboard) → ce starter ne
-  suffit pas : phase d'architecture dédiée (Next/Remix + BDD + auth), à
-  proposer explicitement. Le design system et les process restent valables.
-
-## Phase 4 — Construction (mobile-first, vérifiée, autocritiquée)
-
-Boucle par section : coder → screenshot 375 px → screenshot desktop →
-**autocritique de directeur artistique** (hiérarchie ? espacements ? on
-dirait une agence ou un dev ?) → corriger → commit jalon. Jamais deux
-sections d'affilée sans vérification visuelle.
-
-### Bibliothèque de patterns éprouvés (specs de mémoire musculaire)
-- **Sync Lenis + ScrollTrigger** (obligatoire, sinon désync) :
-  `lenis.on('scroll', ScrollTrigger.update)` +
-  `gsap.ticker.add(t => lenis.raf(t*1000))` + `lagSmoothing(0)`.
-- ⚠️ **Lenis écrase les ancres natives** : intercepter les clics
-  `a[href^="#"]` → `lenis.scrollTo(hash, { offset: -header })` +
-  `history.pushState`. Exposer `window.lenis` (pilotage par les tests).
-- **Reveals** : fade/slide-up, `toggleActions: 'play reverse play reverse'`,
-  `fastScrollEnd`, + filet de sécurité (poll 200 ms qui resynchronise
-  l'opacité des éléments visibles — GSAP peut désynchroniser en scroll rapide).
-  Groupes : un trigger par grille, stagger 0.08.
-- **Compteurs** `[data-counter]` : tween d'un objet, format fr (virgule),
-  `once: true`, reduced-motion → valeur finale directe.
-- **Wipes** : `clip-path: inset(0 100% 0 0)` → `inset(0 0% 0 0)`, expo.out.
-- **Magnetic** `[data-magnetic]` : translation ≤ 8 px vers le curseur,
-  retour `elastic.out` — pointeur fin uniquement.
-- **Spotlight** : `::after` radial-gradient positionné par variables CSS
-  `--mx/--my` (mousemove). Quasi gratuit en perf.
-- **Tilt 3D** `[data-tilt]` : rotationX/Y ±9°, `transformPerspective: 900`.
-- **Marquee** : track dupliqué (2e copie `aria-hidden`), keyframes
-  `translateX(-50%)`, pause au hover, reduced-motion → liste wrap statique.
-- **Slider avant/après** : input range invisible plein cadre (accessible
-  clavier/tactile) pilotant `--pos`, couche avant en
-  `clip-path: inset(0 calc(100% - var(--pos)) 0 0)`. ⚠️ La restauration de
-  formulaire du navigateur réinjecte d'anciennes valeurs : `autocomplete="off"`
-  + reset à 50 au chargement.
-- **Hero orchestré** : timeline unique — décor s'allume, titre révélé ligne
-  par ligne (masques `overflow-hidden` + `yPercent: 110→0`), trait SVG qui se
-  dessine (`strokeDashoffset`), badges/CTA en cascade. ~1,4 s, expo.out.
-- **Header intelligent** : se cache en descendant (y > 280 && y > lastY),
-  revient en remontant, jamais caché menu ouvert. + barre de progression
-  de scroll (transform scaleX, passive listener).
-- **Mobile** : barre sticky permanente avec l'action de conversion n°1
-  (lien `tel:` en gros). Zones tactiles ≥ 44 px.
-- **Vélocité** : skew des gros titres par `self.getVelocity()/-400`
-  clampé ±5°, retour à 0 après 120 ms d'arrêt.
-
-### `prefers-reduced-motion` — PARTOUT, systématique
-Chaque script d'animation commence par le matchMedia ; si réduit :
-`gsap.set` des états finaux + désactivation des boucles. Les animations CSS
-ont leur bloc `@media (prefers-reduced-motion: reduce)`.
-
-## Phase 4bis — Niveau Spectacle : recettes WebGL
-
-- **Scène persistante** : canvas fixed inset-0 z-0, contenu DOM en z-10,
-  sections transparentes ; panneaux glassmorphism (`backdrop-filter`) qui
-  floutent la scène = effet premium immédiat.
-- **Chorégraphie au scroll** : UNE timeline GSAP `scrub: 1~1.2` sur
-  `document.body` (start top top / end bottom bottom) qui tween position
-  caméra, cibles, uniforms, intensité bloom. Le rendu lit un état lissé
-  (`smooth += (target-smooth)*0.05`) pour amortir.
-- **Shaders organiques** : bruit simplex 3D GLSL (Ashima) en vertex pour
-  déformer, fresnel en fragment pour le rim. Palette par `mix()` successifs
-  pilotée par un uniform « saison/mix » partagé entre matériaux (passer le
-  MÊME objet `{value}` à plusieurs matériaux = un seul tween pour tout).
-- **Croissance organique** (plante, trait, chemin) : tubes le long de
-  courbes CatmullRom révélés par `geometry.setDrawRange(0, n*3)` — les
-  indices des tubes sont ordonnés le long de la courbe. Tube conique =
-  générateur custom (~40 lignes, TubeGeometry n'a pas de rayon variable).
-  Front de croissance lumineux dans le shader : `smoothstep` étroit autour
-  de `uGrowth - vUv.x`.
-- **Foisonnement** (feuilles, fleurs, particules) : `InstancedMesh` +
-  attribut de naissance `aBirth` par instance ; l'éclosion (pop backOut) se
-  calcule **dans le vertex shader** depuis un uniform global — des centaines
-  d'objets animés pour zéro coût CPU.
-- **Caméra cinématique** : chemin CatmullRom parallèle au sujet, lookAt qui
-  glisse du point d'action vers le plan large final. Le scroll vertical
-  devient travelling latéral/descente = l'effet « on ne scrolle plus une
-  page ». Parallax souris lissé par-dessus.
-- **Ambiances drastiques** : `scene.background` et `fog.color` = LA MÊME
-  instance de `THREE.Color`, tweenée par segments de timeline. FogExp2
-  densité ~0.03.
-- **Post** : `postprocessing` (EffectComposer + BloomEffect mipmapBlur +
-  ChromaticAberration radiale légère + NoiseEffect + Vignette).
-  ⚠️ **Piège du bloom cramé** : wireframe dense + blending additif + seuil
-  bas = blanc pur. Remèdes : wireframe basse densité (icosahedron detail
-  10-18), seuil luminance ≥ 0.3 (0.5 en réaliste), fronts lumineux étroits,
-  multiplicateurs ≤ 1.5.
-- **Perf & robustesse** : DPR clampé (2 desktop, 1.5 mobile), géométries et
-  compteurs réduits sur mobile, `antialias: false` (le bloom lisse), pause si
-  `document.hidden`, delta clampé. Détection WebGL + fallback statique en
-  gradients (aussi servi en reduced-motion). Générateur aléatoire **seedé**
-  (scène identique à chaque visite).
-- **Look réaliste** (si demandé) : couleurs matière (bois brun strié par
-  bruit procédural, verts feuillage variés), 2 lumières fake dans le shader
-  (key chaude + fill froide), bloom réservé aux émissifs — le néon vient
-  du seuil bas, pas des couleurs.
-
-## Phase 5 — Qualité (checklist avant tout « c'est terminé »)
-
-- [ ] Mobile-first vérifié en **375 / 768 / 1440** (piège classique : grilles
-      en `lg:` qui cassent à 768).
-- [ ] **SEO** : title/description uniques, canonical, OG + og-image 1200×630
-      **générée** (sharp : SVG composé → JPEG), JSON-LD adapté au métier
-      (`Restaurant`, `HomeAndConstructionBusiness`, `LocalBusiness`,
-      `Organization`, `Product`…) — **sans adresse** si le client n'en affiche
-      pas (pattern service-area : `areaServed` uniquement). Vérifier le
-      JSON-LD **en le parsant depuis la page rendue**.
-- [ ] Favicons + apple-touch **générés depuis le vrai logo** (détourage
-      chroma-key au pixel avec sharp si le fichier a un fond).
-- [ ] Images : recadrées aux ratios exacts (sharp), WebP/JPEG qualité ~82,
-      dimensions explicites, lazy sauf hero. Zéro layout shift.
-- [ ] A11y : contrastes AA, alt partout, navigation clavier complète, focus
-      visible, sliders pilotables clavier, aria-labels sur l'interactif.
-- [ ] reduced-motion testé, zéro erreur console, `npm run build` propre.
-- [ ] Page 404 personnalisée dans le ton du site.
-- [ ] Liste finale des `[À COMPLÉTER]` remise au client.
-
-## Phase 6 — Vérification & debug (méthodologie)
-
-- Vérifie dans un vrai navigateur (Playwright) : console, screenshots par
-  section, interactions réelles (clic menu, drag slider). Pour naviguer dans
-  une page Lenis : `window.lenis.scrollTo(y, { immediate: true })`.
-- **Mesure, ne suppose pas** : FPS par comptage rAF sur 2 s ;
-  `PerformanceObserver('longtask')` pour le main thread ;
-  `WEBGL_debug_renderer_info` pour savoir sur quel GPU on tourne.
-- **Bissection par flags URL** (`?nofx`, `?norender`, `?no3d`) : isole
-  post-processing / rendu / DOM en 3 mesures.
-- Résolution ÷2 sans gain de FPS = coût fixe (pas fragment-bound).
-- ⚠️ **L'environnement de test peut mentir** : un navigateur d'automatisation
-  relancé après incident peut perdre sa composition GPU (2 fps sur une page
-  saine, page blanche fluide). Baseline page blanche + relance du navigateur
-  AVANT d'accuser ton code. Un chiffre absurde = suspecte d'abord l'outil.
-- Bugs fantômes → suspecte le serveur périmé, la restauration de
-  scroll/formulaire du navigateur, le cache Vite.
-
-## Git & sécurité
-
-- Commit jalon par phase, messages descriptifs en français.
-- **Avant toute expérimentation risquée** : tag de sauvegarde
-  (`git tag -a backup-<etat>`) + branche dédiée. Le master validé client
-  reste intouchable ; retour en un `git checkout`.
-- **JAMAIS de déploiement sans confirmation explicite du client, demandée
-  au moment même** — même si le workflow semblait pré-approuvé.
-- Ne jamais dire « terminé » sans les phases 5 et 6.
-
-## Ton & contenu
-
-- Textes en **français**, chaleureux, zéro cliché (« expérience unique »,
-  « produits d'exception » → poubelle). Les gens viennent pour l'info :
-  courte, concrète, prouvée.
-- Boutons explicites : « Réserver une table », « Demander un devis gratuit »,
-  « Faire un don » — jamais « Cliquez ici ».
-- La conversion n°1 apparaît : hero, sticky mobile, section dédiée, footer.
-
-## Adaptation express par type de projet
-
-| Type | Conversion n°1 | Sections clés | JSON-LD | Spécifique |
-|---|---|---|---|---|
-| Restaurant | réserver / appeler | hero, carte (JSON), galerie, avis, infos pratiques | `Restaurant` | carte lisible prix alignés, horaires structurés |
-| Artisan / services | appel devis | preuves chiffrées, services, avant/après, zones, avis | `HomeAndConstructionBusiness` | slider comparatif, urgences 24/7 si vrai |
-| Association | don / adhésion | mission, actions, impact chiffré, équipe, CTA don | `Organization` + `DonateAction` | transparence, galerie terrain |
-| Portfolio / créatif | contact / brief | projets plein écran, process, à propos | `Person`/`CreativeWork` | candidat idéal niveau Spectacle |
-| Landing SaaS | essai / démo | promesse, démo produit, bénéfices, pricing, FAQ, social proof | `SoftwareApplication` | dark mode natif, screenshots produit soignés |
-| E-commerce léger | achat externe | produits (JSON), storytelling, avis | `Product` + `Offer` | lien vers plateforme de paiement existante |
-| App / réseau social | inscription | ce starter = la landing ; l'app = archi dédiée à proposer | `WebApplication` | ne pas improviser un backend en statique |
+> **Adaptation locale — dépôt `azur-grill` (lire avant d'appliquer le fichier).**
+> Ce document est repris tel quel d'autres projets. Deux règles ne s'y appliquent pas ici,
+> et cette raison locale l'emporte (voir la « Note finale » du fichier) :
+>
+> 1. **§1.0 « fichier unique » ne s'applique pas.** Ce projet est et reste en Astro 5 +
+>    Tailwind + GSAP + Lenis, avec des sections en composants. Ne pas le ramener à un
+>    `index.html` mono-fichier. Tout le reste du fichier — discipline de vérification,
+>    phases, catalogue d'erreurs, critères de QA — s'applique normalement.
+> 2. **§6 nomme cinq skills qui n'existent pas dans cet environnement**
+>    (`impeccable`, `emil-design-eng`, `ui-ux-pro-max`, `webapp-testing`, `find-skills`).
+>    Vérifié : aucune n'est installée, la liste des plugins est vide. Le même niveau
+>    d'exigence est appliqué à la main ; voir `SETUP.md` §2 pour les substituts retenus.
+>    Ne pas prétendre les avoir invoquées.
+>
+> Les chemins `C:\Users\adamt\` et les projets `bloodborne-site`, `cham-site`,
+> `aladdin-site` n'existent pas ici : retenir la méthode qu'ils illustrent, pas les
+> références.
 
 ---
 
-**Résumé du pacte** : brief honnête → design validé → build vérifié section
-par section → checklist impitoyable → git propre → livrer avec la liste des
-manques. Le héros, c'est le client et son contenu. La technique, elle, doit
-juste donner l'impression que c'était facile.
+# CLAUDE.md — Sites vitrine premium : méthode d'agence
+
+Tu n'as aucun souvenir des projets qui ont produit ce fichier. Peu importe. Ce document synthétise quatre constructions complètes de sites vitrine premium (un tribute jeu vidéo, deux restaurants, un antiquaire) — des dizaines d'heures d'itération, des bugs payés cher, une méthode qui a convergé. Les §0-§7 couvrent le design/build d'un site **statique** ; la **§8 couvre la dimension backend / infrastructure / opérations** qu'a introduite le quatrième projet (site vivant piloté par le client). Lis-le en entier avant de toucher au premier fichier d'un nouveau projet.
+
+Le principe qui chapeaute tout : **ne jamais affirmer qu'un rendu est correct sans l'avoir vu.** Deuxième principe, aussi cher : **ne jamais prétendre qu'un actif partagé existe s'il n'a pas été vérifié sur le disque.** Troisième principe, du projet le plus récent, qui généralise les deux premiers : **vérifie toujours à la SOURCE — DNS autoritatif, certificat servi, fichier réel sur disque, log/e-mail d'erreur, fichier réellement servi en production — jamais à une couche d'affichage qui ment ou retarde.** Et corollaire immédiat : **une hypothèse causale rapportée (par le client ou par toi-même) n'est pas un diagnostic — c'est une corrélation à prouver.**
+
+---
+
+## 0. État réel des actifs — lis ça avant de chercher un raccourci
+
+Il n'existe **aucune skill dédiée, aucune bibliothèque de composants, aucun template** pour ces sites. Ce sont quatre dossiers indépendants à la racine de `C:\Users\adamt\` :
+
+| Projet | Structure | Maturité | Ce qu'il illustre |
+|---|---|---|---|
+| `bloodborne-site/` | fichier unique | méthode documentée en détail (son propre `CLAUDE.md` local, absorbé ici) | brief créatif, diagnostic comparatif, AI-slop |
+| `grec-algerien-site/` | fichiers séparés (`index.html` + `style.css` + `script.js`) | simple, antérieur | approche multi-fichiers — **abandonnée depuis**, voir §1.0 |
+| `cham-site/` | fichier unique, + `PRODUCT.md`/`DESIGN.md` | le plus mature côté DESIGN, deux passes complètes (polish puis premium) | pipeline QA aboutie, chorégraphie hero, PRODUCT.md/DESIGN.md comme contexte skill |
+| `aladdin-site/` | multi-fichiers (`index.html`+`theme.css`+`script.js`+`catalogue.js`) + fonctions Netlify + outillage `outils/` | le plus mature côté BACKEND/OPÉRATIONS ; son `CLAUDE.md` local tient un journal daté très détaillé | **site VIVANT** : backend serverless, console client autonome, API LLM externe, hébergement facturé, domaine propre, SEO/indexation — c'est la source de la §8 |
+
+**Si un futur toi cherche une skill "site-commerce-premium" ou un dossier `/site-library/` ou `/templates/restaurant/` : ils n'existent pas.** Ne les invente pas, ne les suppose pas créés dans une session précédente non retrouvée. Si le besoin de consolidation en bibliothèque réutilisable se fait sentir (deux projets restaurant partagent déjà la structure carte/avis/contact/footer et la logique de scrim-sur-photo), **propose-le explicitement à l'utilisateur** avant de le construire — c'est un vrai chantier, pas une supposition à faire silencieusement.
+
+**Ordre de consultation avant de générer quoi que ce soit from-scratch** :
+1. Regarde si un projet-sœur existant (`cham-site/` en priorité — le plus abouti) résout déjà un problème similaire (grille de menu, overlay de section avis, QA de contraste). Copie le *pattern*, jamais les valeurs concrètes (couleurs, textes) d'un projet à l'autre.
+2. Consulte les skills génuinement installées (`impeccable`, `emil-design-eng`, `ui-ux-pro-max`, `webapp-testing`) — voir §3.
+3. Seulement ensuite, écris du code neuf.
+
+---
+
+## 1. ARCHITECTURE — décision tranchée
+
+### 1.0 Fichier unique HTML/CSS/JS, pas de split
+
+`grec-algerien-site` (fichiers séparés) a précédé `cham-site` (fichier unique) et n'a pas été repris depuis. Le fichier unique a gagné dans la pratique : zéro problème de chemin relatif, un seul `<style>` à faire défiler pour auditer toute la palette, déploiement Netlify trivial (un dossier, `index.html` à la racine, aucun build step). **Pour tout nouveau site vitrine one-page, pars sur un fichier unique.** N'introduis un split que si le site dépasse largement l'échelle one-page (multi-pages réelles, pas juste des ancres).
+
+### 1.1 PRODUCT.md / DESIGN.md comme contexte de skill
+
+`cham-site/` et `aladdin-site/` ont ces fichiers — ajoutés pour donner du contexte à la skill `impeccable` (register `brand`, users, palette verrouillée, anti-références). Deux projets sur quatre les ont, et ce sont les deux plus aboutis : le lien n'est pas un hasard. **Crée-les dès le début d'un nouveau projet**, pas après coup : ils évitent que la skill design réinvente une palette ou un ton qui contredit un brief déjà donné par le client.
+
+---
+
+## 2. WORKFLOW CLIENT DE BOUT EN BOUT
+
+### Phase 1 — Collecte (avant tout code)
+
+- Récupère ou déduis : nom, adresse, téléphone, horaires, carte/prix, univers/ton, photos réelles du lieu (si le client en a — sinon poser la question avant de sourcer des stocks).
+- **Vérifie le format réel des assets fournis dès réception.** Sur `cham-site`, les `.jpg` livrés par le client étaient en réalité des PNG renommés (12,3 Mo pour 5 images). `PIL.Image.open(...).format` avant tout usage — ne fais jamais confiance à l'extension.
+- Écris `PRODUCT.md` (register, users, purpose, brand personality, anti-références, principes, accessibilité) avant la première ligne de HTML. Fais-le confirmer par l'utilisateur si le brief est sparse — ne synthétise pas un PRODUCT.md complet à partir d'une phrase.
+- Écris `DESIGN.md` une fois qu'un premier système de couleurs/typo existe (palette du client si fournie — elle est verrouillée et prime sur toute liste de rejet AI-slop — sinon dérivée du brief).
+
+### Phase 2 — Assemblage / structure
+
+- Une section à la fois : nav, hero, contenu principal (carte/menu), avis, contact, footer.
+- Palette + typographie posées AVANT le contenu détaillé — pas l'inverse.
+- Placeholders patternés (pas de gris vide) tant qu'un asset réel manque, avec le nom du fichier attendu affiché en clair (`assets/hero.jpg` visible en légende) — ça évite l'ambiguïté "l'image est cassée" vs "l'image n'a jamais été fournie".
+
+### Phase 3 — Personnalisation / intégration des assets réels
+
+- Détourage logo si besoin (voir §4, méthode PIL par seuil de luminance).
+- Intégration des photos réelles → généralement le moment où les scrims/overlays théoriques du brief s'avèrent insuffisants au contraste réel (voir §4). Prévois cette itération, ne la découvre pas en fin de projet.
+- Conversion systématique des formats mal fournis en JPEG progressif optimisé (voir §4).
+
+### Phase 4 — Polish (skill `impeccable`)
+
+- Invoque `impeccable` une fois la structure et le contenu stables — pas sur un squelette encore instable.
+- Grille systématique : hiérarchie, espacement (échelle 80px mobile / 120px desktop validée sur cham-site), cohérence des tokens couleur, états d'interaction complets (hover/focus/active/disabled), responsive aux 3 largeurs.
+- C'est la phase où `emil-design-eng` s'invoque pour toute décision d'animation/micro-interaction — easing, durée, justification narrative de chaque mouvement.
+
+### Phase 5 — QA (voir §5 pour les critères binaires)
+
+- Contraste par pixel (méthode canvas, jamais le calcul théorique token-vs-token).
+- Overflow 375/768/1440, cibles tactiles ≥44px, console vierge, `prefers-reduced-motion` complet.
+- Rapport honnête avec note chiffrée justifiée dimension par dimension, jamais un score global impressionniste.
+
+### Phase 6 — Livraison / déploiement
+
+- Site statique → Netlify (ou équivalent) sans build step : `git init` → repo GitHub → import Netlify → publish directory `.`.
+- Rendre le repo GitHub privé si le client le demande, mais **prévenir que ça ne rend pas le site déployé privé** — c'est un malentendu fréquent. La protection par mot de passe Netlify est payante ; l'alternative gratuite est un header Basic Auth via `netlify.toml`, à proposer seulement si le client insiste (sinon c'est un chantier hors scope).
+
+---
+
+## 3. QUEL MODÈLE / EFFORT POUR CHAQUE PHASE
+
+Cette section synthétise ce qui a été observé fonctionner, pas une règle abstraite :
+
+| Phase | Modèle recommandé | Effort | Pourquoi |
+|---|---|---|---|
+| Collecte, PRODUCT.md/DESIGN.md | Sonnet, effort normal | Standard | Synthèse structurée à partir du brief, pas de créativité visuelle à inventer |
+| Assemblage structure + contenu | Sonnet, effort normal | Standard | Mécanique — HTML/CSS répétitif à partir d'un système déjà posé, pas besoin d'un modèle plus coûteux |
+| Intégration assets réels (détourage, conversion, scrims) | Sonnet, effort normal | Standard | Diagnostic technique + mesure, pas de créativité |
+| **Passe créative exceptionnelle** (hero cinématique, direction artistique qui doit "faire 10 000€", chorégraphie sur-mesure) | **Fable**, sur demande explicite du client | Élevé | Réservé aux moments où le client demande explicitement un niveau au-dessus du polish standard — c'est la passe qui a produit la chorégraphie hero de `cham-site` (ken burns, séquence lettre-par-lettre, profondeur au pointeur). Ne bascule pas sur Fable par défaut : c'est plus coûteux et le gain n'est perceptible que sur les décisions vraiment créatives, pas sur l'exécution mécanique. |
+| QA, mesure de contraste, audit responsive | Sonnet, effort normal (peut déléguer à un agent Explore/general-purpose pour des scans larges) | Standard | Scripts déterministes, pas de jugement créatif |
+| Debug d'un bug visuel non compris (stacking context, deadlock d'observer) | Sonnet, effort élevé si le premier diagnostic échoue | Standard → élevé | Monte l'effort seulement après un premier essai infructueux, pas préventivement |
+
+**Règle pratique** : reste sur Sonnet effort normal par défaut. Ne monte en modèle/effort que sur signal explicite du client ("je veux du 10/10", "rends-le spectaculaire", refus répété d'un rendu jugé "générique") — c'est le signal qui a déclenché la passe Fable sur `cham-site`, pas une anticipation de ta part.
+
+---
+
+## 4. ERREURS HISTORIQUES À NE JAMAIS RÉPÉTER
+
+*Fusion des leçons `bloodborne-site` + `cham-site`. Chacune a été payée par une session réelle.*
+
+### Diagnostic et vérification
+
+1. **Affirmer qu'un rendu est correct sans l'avoir regardé.** La leçon la plus chère, répétée sur plusieurs projets avant de rentrer. L'observation de l'utilisateur gagne toujours face à une inspection de code — va vérifier, ne discute pas.
+2. **Diagnostiquer depuis un rendu d'outil (Grep) plutôt que le fichier réel.** Un artefact d'affichage d'outil a été signalé comme "commentaire CSS corrompu" — le fichier réel était intact. Confirme toujours via `Read` direct avant de signaler une anomalie de syntaxe.
+3. **Confirmer une tâche accomplie sans preuve reproductible.** "C'est fait" doit toujours venir avec un chemin de screenshot, un extrait de sortie de script, ou une mesure chiffrée.
+4. **Ne pas vérifier le format réel d'un asset fourni.** Des `.jpg` de 12,3 Mo au total étaient en réalité des PNG renommés — `PIL.Image.open().format` avant tout usage, jamais confiance à l'extension.
+
+### Bugs CSS/JS récurrents (grep-les tous dès qu'un apparaît une fois)
+
+5. **`backdrop-filter` sur une nav fixe devient le containing block de ses descendants `position:fixed`.** Le panneau de menu mobile `inset:0` se retrouve écrasé à la hauteur de la barre. Fix : neutraliser le `backdrop-filter` sur la classe d'état ouvert (`.menu-open { backdrop-filter: none }`).
+6. **`position: relative` sans `z-index` explicite ne contient pas ses enfants en `z-index` négatif** — une image de fond en `z-index:-1` s'échappe et se peint derrière toute la page. Dès qu'un bug de ce type est trouvé sur une section, grep immédiatement toutes les sections pour le même pattern.
+7. **`clip-path: inset(0 0 100%)` sur l'élément OBSERVÉ par un `IntersectionObserver` annule sa surface d'intersection.** Chromium calcule l'intersection après clip → `isIntersecting` reste `false` pour toujours, aucune erreur console, deadlock silencieux. Toujours porter le clip de révélation sur un enfant (l'`<img>`), jamais sur l'élément observé.
+8. **`getBoundingClientRect()` sur un élément `text-align:center` en `display:block`** retourne la boîte pleine largeur du bloc, pas la largeur réelle du texte rendu — pollue toute mesure de contraste qui en dépend (capture des pixels de fond loin du texte réel). Fix : `Range.selectNodeContents(el).getClientRects()[0]` pour une bbox collée aux glyphes.
+9. **`getComputedStyle().color` peut renvoyer `oklch(...)` sur Chromium récent** et casser silencieusement un parsing basé sur `rgb(...)`. Résous toujours la couleur réelle via un round-trip `<canvas>` `fillStyle`/`getImageData`, jamais un regex sur la chaîne CSS.
+
+### Direction artistique
+
+10. **Overlay semi-transparent plat par défaut au lieu d'un scrim dégradé justifié.** Un voile uniforme aplatit la photo au lieu de la révéler — c'est le réflexe AI-slop. Scrim asymétrique (dense où le texte doit se lire, transparent où l'image doit respirer), justifié par la composition réelle de la photo.
+11. **Contraste théorique (token vs token) ≠ contraste réel sur une photo.** Un overlay à l'opacité exacte du brief peut échouer au contraste réel sur une zone claire de la photo (ex. reflet doré). Mesure toujours le composite réel (texte rendu transparent, screenshot, échantillonnage pixel), assombris au-delà de la valeur théorique si la mesure l'exige.
+12. **Pictogramme SVG plat à côté d'une photographie réelle** = le moment le plus "maquette" du site. Si un élément narratif existe déjà dans l'image, utilise-le au lieu d'ajouter une icône.
+13. **Un h1 texte qui duel visuellement avec un wordmark déjà gravé dans l'image/logo.** Un seul point focal typographique par section — démote l'un des deux (taille, position) plutôt que les laisser se concurrencer. (Sur `cham-site`, le kicker arabe الشام a été supprimé du hero car redondant avec la calligraphie déjà présente dans le logo — gardé seulement dans l'`alt` pour l'accessibilité.)
+14. **Recadrage mobile naïf (`object-fit: cover`) sur une image qui porte un élément textuel intégré** peut couper un wordmark en fragment illisible. Génère un crop mobile dédié quand c'est le cas.
+15. **Installer/exécuter du code tiers sans vérification** — toujours confirmer qu'un repo existe réellement avant de l'installer ou de l'exécuter.
+
+---
+
+## 5. CRITÈRES DE VALIDATION BINAIRES — avant toute livraison
+
+Chaque ligne doit être **mesurée**, pas estimée à l'œil. Aucune livraison ne sort tant qu'une case est rouge sans justification explicite documentée dans le rapport.
+
+- [ ] **Contraste** : toutes les zones de texte critique ≥ 4.5:1 (normal) / 3:1 (large), mesuré par échantillonnage pixel composite (texte rendu transparent + screenshot + Range API), pas par calcul théorique token-vs-token.
+- [ ] **Overflow horizontal** : 0px à 375 / 768 / 1440, mesuré (`document.documentElement.scrollWidth - clientWidth`), pas visuel.
+- [ ] **Cibles tactiles** : toutes ≥ 44×44px aux largeurs mobile/tablette (audit DOM automatisé, pas un coup d'œil).
+- [ ] **Console** : 0 erreur, 0 warning, 0 requête réseau échouée, aux 3 largeurs.
+- [ ] **`prefers-reduced-motion`** : 100% du contenu visible d'emblée sans JS/animation, toutes les boucles et cinématiques coupées — testé avec `reduced_motion='reduce'` en contexte Playwright, pas supposé.
+- [ ] **Format des assets** : vérifié via lecture du format réel (PIL/exiftool), pas via l'extension du fichier. Poids total du dossier assets raisonnable pour du web (viser <2 Mo total sauf raison spécifique).
+- [ ] **Aucune mention d'un service que le client a explicitement quitté** (ex. Uber Eats sur `cham-site`) — grep exhaustif, pas une relecture visuelle.
+- [ ] **Logo/wordmark sur photo** : contraste non-text ≥ 3:1 au p05 (5e percentile), mesuré par échantillonnage du fond réel derrière l'élément, logo masqué pendant la capture.
+- [ ] **Menu mobile / burger** : ouvert et vérifié par screenshot à chaque largeur tactile, pas juste au desktop.
+- [ ] **Rapport de livraison** : note chiffrée par dimension (jamais un score global seul), limites de la vérification explicitement documentées (ex. "transitions validées en état initial/final, pas en inspection frame par frame").
+
+---
+
+## 6. SKILLS DISPONIBLES ET QUAND LES UTILISER
+
+- **`impeccable`** — polish final une fois structure/contenu stables. Lit `PRODUCT.md`/`DESIGN.md` si présents (Phase 4). Ne l'invoque pas sur un squelette instable.
+- **`emil-design-eng`** — toute décision d'animation/micro-interaction : easing, durée, justification narrative. Convoque-la dès qu'une animation semble décorative plutôt que fonctionnelle.
+- **`ui-ux-pro-max`** — hiérarchie visuelle, palettes de référence, pairings typographiques, structure de layout par type de produit. Utile en Phase 1 pour ancrer les choix dans du testé plutôt que d'improviser.
+- **`webapp-testing`** — pipeline Playwright pour toute vérification visuelle nécessitant un serveur local. Le tool preview intégré peut être peu fiable (timeouts) ; bascule sur un `ThreadingHTTPServer` + Playwright sync autogéré (voir pattern §7) sans insister après un ou deux échecs.
+- **`find-skills`** — avant d'écrire du code from-scratch pour une tâche qui a probablement déjà une skill dédiée (bannières, PDF, xlsx...).
+
+**Séquencement** : brief (`ui-ux-pro-max`) → assemblage section par section → vérification (`webapp-testing`) → polish global (`impeccable` + `emil-design-eng` pour le motion) → QA finale (contraste, overflow, console).
+
+---
+
+## 7. PATTERN TECHNIQUE RÉUTILISABLE — pipeline QA
+
+```python
+# ThreadingHTTPServer éphémère + Playwright sync — fonctionne de façon fiable
+# là où le tool preview intégré peut timeout.
+import functools, threading
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+from playwright.sync_api import sync_playwright
+
+handler = functools.partial(SimpleHTTPRequestHandler, directory=r'CHEMIN_DU_PROJET')
+handler.log_message = lambda *a, **k: None
+server = ThreadingHTTPServer(('127.0.0.1', 0), handler)
+threading.Thread(target=server.serve_forever, daemon=True).start()
+port = server.server_address[1]
+# ... piloter via sync_playwright(), toujours fermer browser + server.shutdown()
+```
+
+Scripts à recréer en tête de chaque nouveau projet (`scratchpad/shoot.py`, `scratchpad/qa.py`) :
+- `shoot.py` : `--out PATH --section ID --width N --height N --fullpage --settle MS --click SELECTOR`
+- `qa.py` : contraste par échantillonnage pixel (fonds unis via round-trip canvas ; composites via texte transparent + `Range.getClientRects()`), overflow, erreurs console — sortie `OK`/`FAIL` par zone avec ratio chiffré.
+
+---
+
+## 8. SITES VIVANTS — backend, infrastructure facturée, autonomie client, opérations
+
+*Les §0-§7 supposent un site statique livré une fois. Un site que le client PILOTE lui-même (console d'admin, ajout autonome de contenu, statuts) et qui parle à des services externes (API LLM, stockage git, e-mail) ouvre une dimension entière que le design ne couvre pas. Ces leçons sont transférables à TOUT projet ayant ces ingrédients — pas seulement à un catalogue.*
+
+### 8.1 Diagnostic : vérifier à la source, et ne jamais fixer une hypothèse
+
+- **La couche d'affichage ment ou retarde. Descends à la source autoritative.** DNS → interroge les serveurs autoritatifs directement (un `NXDOMAIN` à l'autoritatif = réellement absent, pas « en cours de propagation » ; un résolveur public peut cacher). Certificat → inspecte le certificat servi au handshake (`openssl s_client`), pas le cadenas « sécurisé » du navigateur. État déployé → `curl` les fichiers réellement servis, pas l'état du dépôt (le local peut être en avance ou en retard sur la prod). Cause d'un bug → le log / l'e-mail de rejet / le status HTTP réel, pas ce qu'on suppose.
+- **Une hypothèse causale rapportée n'est pas un diagnostic.** « Ça a marché quand j'ai retiré X » est une corrélation, pas une causalité — souvent, autre chose a changé en même temps (le temps écoulé, un quota qui s'est rechargé, un cache). Trouve la vraie cause AVEC PREUVE avant de toucher au code, et explique le mécanisme réel plutôt que d'accepter l'hypothèse.
+- **Tes propres suppositions méritent la même défiance, surtout quand tu es sûr.** Une réponse « évidente » sur ce qu'un hébergeur/une plateforme/une interface propose peut être fausse (mauvais produit, option repliée, comportement non documenté). Vérifie avant d'affirmer.
+- **La couche que tu MESURES doit être celle qui compte.** Le contraste d'un élément dans son état actif (focus, survol) ne dit rien de sa lisibilité au repos ; mesurer l'état facile ne valide pas l'état par défaut. Idem : un « déploiement réussi » ne prouve pas que le changement est reflété — vérifie la donnée/le fichier réellement servi.
+
+### 8.2 Infrastructure facturée ou à quota : l'anticiper AVANT de coder
+
+- **Un modèle de coût par action doit façonner l'architecture dès la conception, pas après la première facture.** Un coût fixe par déploiement → regroupe les déploiements, et sépare l'action FRÉQUENTE du client de ce qui déclenche un déploiement (une bascule de statut ne doit pas coûter un build complet).
+- **Un quota « par minute avec réservation » fait échouer une requête PAR CONSTRUCTION.** Si le fournisseur réserve le maximum de tokens/ressources demandé AVANT d'exécuter, une requête qui demande trop échoue quel que soit l'usage réel. Dimensionne chaque appel sur son besoin RÉEL mesuré, jamais sur un plafond confortable, et additionne le coût des appels enchaînés dans la même fenêtre.
+- **Un réessai doit être conscient du temps ET de la nature de l'erreur.** Rejouer immédiatement contre une limite par minute ne peut pas réussir (deux échecs dans la même seconde). Distingue le transitoire (429/5xx → attendre, respecter `retry-after`) du définitif (jamais réessayé, c'est du temps perdu), et plafonne l'attente pour ne pas faire expirer la fonction — mieux vaut un message actionnable qu'un timeout opaque.
+- **Vérifie le gain réel d'une dépense avant de la conseiller.** Un upgrade payant n'achète parfois qu'un confort, pas une capacité qui manque — dis-le franchement au client plutôt que de laisser payer un abonnement qui ne change rien.
+
+### 8.3 Un correctif de code NE répare PAS les données déjà écrites
+
+- Corriger le code qui a produit un bug ne corrige jamais les **enregistrements déjà corrompus** par ce bug. Pire : un enregistrement fautif peut bloquer **silencieusement** tout un système (une validation globale qui rejette à cause d'une vieille donnée invisible). Après tout correctif touchant à la production de données, pose explicitement la question : **faut-il aussi une migration/correction des données existantes ?**
+- **Quand une écriture passe par plusieurs chemins (manuel + autonome, formulaire + import), ils doivent avoir le MÊME filet de validation.** Un bug entre toujours par le chemin le moins gardé. Si un contrôle existe sur un chemin, vérifie qu'il existe sur tous.
+
+### 8.4 Séparer les interfaces à faible risque des interfaces à texte libre — dès la conception
+
+- **La sûreté d'une interface vient de sa FORME, pas de la discipline de l'utilisateur.** Une interface à énumération fermée (boutons, bascule d'état, choix contraint) ne PEUT pas injecter de contenu arbitraire dans le dépôt ; une interface à texte/voix libre le peut et exige validation, marqueurs et structuration. Conçois-les séparées : le geste fréquent et sûr d'un côté, le geste rare et risqué de l'autre.
+- **Une donnée contrainte (prix, identifiant, date) ne doit jamais être du texte libre, ni être extraite par une IA depuis de la prose.** Normalise-la de façon déterministe côté serveur. Une donnée commerciale mal extraite est une valeur FAUSSE publiée — et un montant faux se remarque.
+- **Si une donnée n'a pas de champ dédié, l'utilisateur la mettra où il peut** (dans la description, dans un coin). Ce n'est pas son erreur, c'est un manque de l'interface. Le vrai correctif est le champ manquant, pas un rappel à l'ordre de l'utilisateur.
+
+### 8.5 Opérations : git, déploiement, domaine
+
+- **Committe/sauvegarde avant toute opération risquée** ; vérifie l'état RÉEL (git status, DNS, certificat) plutôt qu'un affichage. Avant un `git checkout`/`reset`/`clean`, regarde ce qui serait perdu.
+- **Avant un push, récupère et inspecte ce que le distant contient et que tu n'as pas.** Un système autonome (console client) peut pousser des commits pendant ton travail. Rebase proprement, et prouve zéro conflit en confirmant que les fichiers touchés sont disjoints — ne fusionne jamais à l'aveugle.
+- **Piège de branche** : une branche locale qui suit un distant de nom DIFFÉRENT (`master` → `main`) fait échouer un `git push` nu, ou pire crée une branche fantôme qui ne déclenche aucun déploiement. Vérifie où un push atterrit réellement (`git push origin HEAD:<branche>` explicite).
+- **Regroupe les opérations coûteuses ou irréversibles** (déploiements) : prépare et committe en local, déploie une SEULE fois, groupé. Sur une contrainte de coût, prépare un changement cosmétique et **laisse-le voyager gratuitement avec le prochain vrai déploiement** plutôt que de dépenser un déploiement dédié.
+- **Après un déploiement, vérifie que le CHANGEMENT est en production** (le fichier/la donnée réellement servi), pas seulement que le workflow « a réussi ».
+- **Fige l'identité d'un site AVANT de le signaler à un moteur de recherche.** Fais la migration de domaine/DNS d'abord, puis fixe canonical/OG/sitemap sur une valeur unique (réécrite en un geste par un petit outil, jamais à la main), et SEULEMENT ENSUITE demande l'indexation — sinon tu provoques une migration de signaux inutile. Et rappelle au client que l'indexation elle-même n'a aucune date garantie : c'est le moteur qui décide.
+- **Certaines actions à fort levier ne sont pas du code et t'appartiennent à toi, pas à l'agent** (créer un compte, valider une propriété, souscrire, brancher un DNS). Identifie-les tôt, liste-les clairement au client, et ne prétends jamais pouvoir les faire à sa place.
+
+### 8.6 Patcher un fichier de données plutôt que le régénérer
+
+- Quand tu modifies un fichier de données par outillage (au lieu de le régénérer entièrement — utile s'il porte des commentaires ou une structure écrite à la main), **teste le mécanisme contre le VRAI fichier sur disque, avec ses vraies fins de ligne et son vrai encodage**, jamais un mock synthétique propre. Le CRLF vs LF, un BOM, un champ étalé sur plusieurs lignes cassent des heuristiques qui « marchent » sur un exemple fabriqué (piège rencontré deux fois sur le même fichier).
+- **Prouve la correction par inversion, pas par heuristique** : applique N patchs, défais-les tous, exige une égalité **octet pour octet** avec l'original. Une réversion exacte garantit qu'aucun octet hors cible n'a bougé — un contrôle bien plus fort qu'une relecture.
+
+---
+
+## Note finale
+
+Ce fichier documente une méthode convergée sur quatre projets réels, pas un résultat figé ni une structure aspirée. Si un futur projet contredit une règle ici avec une raison locale spécifique et vérifiée, cette raison locale gagne. Mais si tu t'apprêtes à répéter une des 15 erreurs de la §4, ou à supposer qu'une skill/bibliothèque existe sans l'avoir vue sur le disque, c'est que tu n'as pas encore vérifié quelque chose que tu aurais dû vérifier. Va le vérifier avant d'avancer.

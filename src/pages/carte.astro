@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyMobileBar from '../components/StickyMobileBar.astro';
+import restaurant from '../data/restaurant.json';
+import menu from '../data/menu.json';
+
+const total = menu.reduce((n, c) => n + c.plats.length, 0);
+const prix = (v: number) => (Number.isInteger(v) ? `${v} €` : `${v.toFixed(2).replace('.', ',')} €`);
+---
+
+<Layout
+  titre={`La carte — ${restaurant.nom}, restaurant turc halal à Épinay-sur-Seine`}
+  description={`Les ${total} plats d'${restaurant.nom} : entrées, grillades, sandwichs, formules, desserts turcs et boissons. Prix à jour.`}
+>
+  <Header />
+
+  <main id="contenu" class="bg-creme pb-20 pt-28 md:pb-30 md:pt-36">
+    <div class="mx-auto max-w-5xl px-5 md:px-8">
+      <a href="/#carte" class="inline-flex min-h-11 items-center text-sm font-semibold text-nazar underline decoration-braise decoration-2 underline-offset-4">
+        ← Retour à l'accueil
+      </a>
+
+      <h1 class="mt-6 font-display text-4xl leading-tight font-700 text-nazar md:text-5xl">La carte</h1>
+      <p class="mt-4 max-w-xl text-lg text-encre/75">
+        {total} plats. Le pain, la broche et la sauce sont préparés sur place.
+      </p>
+
+      <div class="mt-14 space-y-14">
+        {menu.map((categorie) => (
+          <section>
+            <h2 class="font-display text-2xl font-700 text-nazar">{categorie.categorie}</h2>
+            {categorie.note && <p class="mt-1 text-sm text-encre/70">{categorie.note}</p>}
+
+            <ul class="mt-6 grid gap-x-12 gap-y-1 md:grid-cols-2">
+              {categorie.plats.map((plat) => (
+                <li class="border-b border-encre/12 py-4">
+                  <div class="flex items-baseline gap-3">
+                    <h3 class="font-display text-lg font-600 text-nazar">{plat.nom}</h3>
+                    <span class="flex-1 -translate-y-1 border-b border-dotted border-encre/25" aria-hidden="true"></span>
+                    <p class="font-display text-lg font-700 text-nazar tabular-nums whitespace-nowrap">{prix(plat.prix)}</p>
+                  </div>
+                  {plat.description && <p class="mt-0.5 text-sm text-encre/70">{plat.description}</p>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+  <StickyMobileBar />
+</Layout>

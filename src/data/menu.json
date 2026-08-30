@@ -2,88 +2,304 @@
   {
     "categorie": "Entrées froides",
     "plats": [
-      { "nom": "Houmous", "prix": 3.5, "description": "Purée de pois chiche, tahin, huile d'olive" },
-      { "nom": "Ezme", "prix": 3.5, "description": "Tomates, persil, concombre, oignons" },
-      { "nom": "Patlican", "prix": 3.5, "description": "Aubergines fumées au grill, huile d'olive, ail, jus de citron" },
-      { "nom": "Haydari", "prix": 3.5, "description": "Concombre, yaourt, ail" }
+      {
+        "nom": "Houmous",
+        "prix": 3.5,
+        "description": "Purée de pois chiche, tahin, huile d'olive"
+      },
+      {
+        "nom": "Ezme",
+        "prix": 3.5,
+        "description": "Tomates, persil, concombre, oignons"
+      },
+      {
+        "nom": "Patlican",
+        "prix": 3.5,
+        "description": "Aubergines fumées au grill, huile d'olive, ail, jus de citron"
+      },
+      {
+        "nom": "Haydari",
+        "prix": 3.5,
+        "description": "Concombre, yaourt, ail"
+      }
     ]
   },
   {
     "categorie": "Entrées chaudes",
     "plats": [
-      { "nom": "Lahmacun", "prix": 3.5, "description": "Pizza turque à la viande hachée" },
-      { "nom": "Pide", "prix": 2, "description": "Pain turc nature" }
+      {
+        "nom": "Lahmacun",
+        "prix": 3.5,
+        "description": "Pizza turque à la viande hachée",
+        "signature": true,
+        "argument": "Pâte étalée et garnie à la commande."
+      },
+      {
+        "nom": "Pide",
+        "prix": 2,
+        "description": "Pain turc nature"
+      }
     ]
   },
   {
     "categorie": "Plats",
     "plats": [
-      { "nom": "Döner Kebab", "prix": 13, "description": "Lamelles de veau ou poulet marinées cuites sur broche" },
-      { "nom": "Köfte", "prix": 13, "description": "Boulettes de bœuf haché assaisonnées" },
-      { "nom": "Brochette de Poulet", "prix": 14, "description": "" },
-      { "nom": "Brochette d'Agneau", "prix": 14, "description": "" },
-      { "nom": "Adana", "prix": 13.5, "description": "Bœuf haché assaisonné" },
-      { "nom": "Côtelettes d'Agneau", "prix": 16, "description": "" },
-      { "nom": "Spécialité du Chef", "prix": 20, "description": "Brochette de poulet, brochette d'agneau et adana" },
-      { "nom": "Azur", "prix": 16, "description": "Lamelles de veau et 3 köfte" },
-      { "nom": "Poulet Curry", "prix": 13, "description": "" },
-      { "nom": "Mixte", "prix": 18, "description": "Côtelette, kebab, brochette de poulet, brochette d'agneau, köfte" },
-      { "nom": "Vegan", "prix": 9, "description": "Boulgour, frites, crudités" }
+      {
+        "nom": "Döner Kebab",
+        "prix": 13,
+        "description": "Lamelles de veau ou poulet marinées cuites sur broche",
+        "signature": true,
+        "argument": "La broche, montée et tranchée ici."
+      },
+      {
+        "nom": "Köfte",
+        "prix": 13,
+        "description": "Boulettes de bœuf haché assaisonnées"
+      },
+      {
+        "nom": "Brochette de Poulet",
+        "prix": 14,
+        "description": ""
+      },
+      {
+        "nom": "Brochette d'Agneau",
+        "prix": 14,
+        "description": ""
+      },
+      {
+        "nom": "Adana",
+        "prix": 13.5,
+        "description": "Bœuf haché assaisonné",
+        "signature": true,
+        "argument": "Bœuf haché assaisonné, serré à la main sur la brochette."
+      },
+      {
+        "nom": "Côtelettes d'Agneau",
+        "prix": 16,
+        "description": "",
+        "signature": true,
+        "argument": "Saisies au grill, servies rosées."
+      },
+      {
+        "nom": "Spécialité du Chef",
+        "prix": 20,
+        "description": "Brochette de poulet, brochette d'agneau et adana",
+        "signature": true,
+        "argument": "Poulet, agneau et adana sur la même assiette."
+      },
+      {
+        "nom": "Azur",
+        "prix": 16,
+        "description": "Lamelles de veau et 3 köfte"
+      },
+      {
+        "nom": "Poulet Curry",
+        "prix": 13,
+        "description": ""
+      },
+      {
+        "nom": "Mixte",
+        "prix": 18,
+        "description": "Côtelette, kebab, brochette de poulet, brochette d'agneau, köfte"
+      },
+      {
+        "nom": "Vegan",
+        "prix": 9,
+        "description": "Boulgour, frites, crudités"
+      }
     ]
   },
   {
     "categorie": "Sandwichs",
     "note": "Avec frites : +1 €",
     "plats": [
-      { "nom": "Döner Kebab", "prix": 8.5, "description": "" },
-      { "nom": "Köfte", "prix": 9.5, "description": "" },
-      { "nom": "Brochette de Poulet", "prix": 8.5, "description": "" },
-      { "nom": "Brochette d'Agneau", "prix": 8.5, "description": "" },
-      { "nom": "Adana", "prix": 9.5, "description": "" },
-      { "nom": "Kebab Steak", "prix": 9, "description": "" },
-      { "nom": "Spécialité du Chef", "prix": 9, "description": "Veau, poivrons, oignons" },
-      { "nom": "Poulet Curry avec Köfte ou Kebab", "prix": 9, "description": "" },
-      { "nom": "Poulet Curry", "prix": 8.5, "description": "" },
-      { "nom": "Kebab Mixte", "prix": 9.5, "description": "Veau et poulet" },
-      { "nom": "2 Steaks", "prix": 8.5, "description": "" },
-      { "nom": "Merguez", "prix": 8.5, "description": "" },
-      { "nom": "Cordon Bleu", "prix": 8.5, "description": "" },
-      { "nom": "Americain", "prix": 9, "description": "2 steaks, fromage, œuf" },
-      { "nom": "Lahmacun Kebab", "prix": 9, "description": "" }
+      {
+        "nom": "Döner Kebab",
+        "prix": 8.5,
+        "description": "",
+        "signature": true,
+        "argument": "Dans notre pain, sorti du four le matin."
+      },
+      {
+        "nom": "Köfte",
+        "prix": 9.5,
+        "description": ""
+      },
+      {
+        "nom": "Brochette de Poulet",
+        "prix": 8.5,
+        "description": ""
+      },
+      {
+        "nom": "Brochette d'Agneau",
+        "prix": 8.5,
+        "description": ""
+      },
+      {
+        "nom": "Adana",
+        "prix": 9.5,
+        "description": ""
+      },
+      {
+        "nom": "Kebab Steak",
+        "prix": 9,
+        "description": ""
+      },
+      {
+        "nom": "Spécialité du Chef",
+        "prix": 9,
+        "description": "Veau, poivrons, oignons"
+      },
+      {
+        "nom": "Poulet Curry avec Köfte ou Kebab",
+        "prix": 9,
+        "description": ""
+      },
+      {
+        "nom": "Poulet Curry",
+        "prix": 8.5,
+        "description": ""
+      },
+      {
+        "nom": "Kebab Mixte",
+        "prix": 9.5,
+        "description": "Veau et poulet"
+      },
+      {
+        "nom": "2 Steaks",
+        "prix": 8.5,
+        "description": ""
+      },
+      {
+        "nom": "Merguez",
+        "prix": 8.5,
+        "description": ""
+      },
+      {
+        "nom": "Cordon Bleu",
+        "prix": 8.5,
+        "description": ""
+      },
+      {
+        "nom": "Americain",
+        "prix": 9,
+        "description": "2 steaks, fromage, œuf"
+      },
+      {
+        "nom": "Lahmacun Kebab",
+        "prix": 9,
+        "description": ""
+      }
     ]
   },
   {
     "categorie": "Formules & Burgers",
     "note": "Servis avec frites et boisson",
     "plats": [
-      { "nom": "Formule Azur", "prix": 13.5, "description": "Sandwich kebab, cheeseburger, frites et boisson" },
-      { "nom": "Chicken Burger", "prix": 7.5, "description": "" },
-      { "nom": "Cheese Burger", "prix": 7, "description": "" },
-      { "nom": "Double Cheese Burger", "prix": 8.5, "description": "" },
-      { "nom": "Nuggets Gourmands", "prix": 7, "description": "6 nuggets, frites, boisson" },
-      { "nom": "Menu Enfant", "prix": 5.5, "description": "Steak, nuggets ou hamburger, frites, Capri-Sun et Kinder Surprise" }
+      {
+        "nom": "Formule Azur",
+        "prix": 13.5,
+        "description": "Sandwich kebab, cheeseburger, frites et boisson"
+      },
+      {
+        "nom": "Chicken Burger",
+        "prix": 7.5,
+        "description": ""
+      },
+      {
+        "nom": "Cheese Burger",
+        "prix": 7,
+        "description": ""
+      },
+      {
+        "nom": "Double Cheese Burger",
+        "prix": 8.5,
+        "description": ""
+      },
+      {
+        "nom": "Nuggets Gourmands",
+        "prix": 7,
+        "description": "6 nuggets, frites, boisson"
+      },
+      {
+        "nom": "Menu Enfant",
+        "prix": 5.5,
+        "description": "Steak, nuggets ou hamburger, frites, Capri-Sun et Kinder Surprise"
+      }
     ]
   },
   {
     "categorie": "Desserts",
     "plats": [
-      { "nom": "Baklava", "prix": 3, "description": "Pâte croustillante, noix, pistaches d'Antep, sirop" },
-      { "nom": "Künefe", "prix": 8.5, "description": "Pâte de kadayif, fromage doux, sirop, glace de Maraş" },
-      { "nom": "Tiramisu", "prix": 3.5, "description": "" },
-      { "nom": "Tarte au Daim", "prix": 3.5, "description": "" },
-      { "nom": "Sütlaç", "prix": 3.5, "description": "Riz au lait vanillé caramélisé" },
-      { "nom": "Revani", "prix": 3.5, "description": "Gâteau à la semoule, sirop, pistaches" },
-      { "nom": "Trileçe", "prix": 3.5, "description": "Gâteau trois laits, caramel" }
+      {
+        "nom": "Baklava",
+        "prix": 3,
+        "description": "Pâte croustillante, noix, pistaches d'Antep, sirop",
+        "signature": true,
+        "argument": "Pistaches d'Antep, sirop tiède."
+      },
+      {
+        "nom": "Künefe",
+        "prix": 8.5,
+        "description": "Pâte de kadayif, fromage doux, sirop, glace de Maraş",
+        "signature": true,
+        "argument": "Kadayif et fromage doux, glace de Maraş."
+      },
+      {
+        "nom": "Tiramisu",
+        "prix": 3.5,
+        "description": ""
+      },
+      {
+        "nom": "Tarte au Daim",
+        "prix": 3.5,
+        "description": ""
+      },
+      {
+        "nom": "Sütlaç",
+        "prix": 3.5,
+        "description": "Riz au lait vanillé caramélisé"
+      },
+      {
+        "nom": "Revani",
+        "prix": 3.5,
+        "description": "Gâteau à la semoule, sirop, pistaches"
+      },
+      {
+        "nom": "Trileçe",
+        "prix": 3.5,
+        "description": "Gâteau trois laits, caramel"
+      }
     ]
   },
   {
     "categorie": "Boissons",
     "plats": [
-      { "nom": "Sodas", "prix": 1.5, "description": "" },
-      { "nom": "Eau", "prix": 1, "description": "" },
-      { "nom": "Thé turc", "prix": 1.5, "description": "" },
-      { "nom": "Café expresso", "prix": 1.5, "description": "" },
-      { "nom": "Café turc", "prix": 5, "description": "Moulu fin, préparé au cezve, non filtré" }
+      {
+        "nom": "Sodas",
+        "prix": 1.5,
+        "description": ""
+      },
+      {
+        "nom": "Eau",
+        "prix": 1,
+        "description": ""
+      },
+      {
+        "nom": "Thé turc",
+        "prix": 1.5,
+        "description": ""
+      },
+      {
+        "nom": "Café expresso",
+        "prix": 1.5,
+        "description": ""
+      },
+      {
+        "nom": "Café turc",
+        "prix": 5,
+        "description": "Moulu fin, préparé au cezve, non filtré"
+      }
     ]
   }
 ]

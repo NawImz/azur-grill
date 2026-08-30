@@ -1,7 +1,6 @@
 {
-  "nom": "Azur Grill Restaurant",
-  "cuisine": "Restaurant turc",
-  "accroche": "Grillades généreuses, pain et kebab faits maison, à Épinay-sur-Seine.",
+  "nom": "Azur Grill",
+  "cuisine": "Restaurant turc halal",
   "adresse": {
     "rue": "69 Bd Foch",
     "codePostal": "93800",
@@ -12,30 +11,80 @@
   "geo": {
     "latitude": 48.9556,
     "longitude": 2.3111,
-    "note": "[À VÉRIFIER] coordonnées approximatives calculées à partir de l'adresse postale"
+    "note": "Coordonnées déduites de l'adresse postale."
   },
   "telephone": "01 86 04 22 42",
   "telephoneLien": "tel:+33186042242",
   "halal": true,
-  "modes": ["Sur place", "À emporter", "Livraison"],
+  "modes": [
+    "Sur place",
+    "À emporter",
+    "Livraison"
+  ],
   "prixMoyen": "10–20 € / pers.",
   "prixRange": "€€",
   "uberEatsUrl": "https://www.ubereats.com/fr/store/azur-grill-restaurant/Ym7axLEcRvSDupKAmCFrxQ",
   "instagram": "https://www.instagram.com/azurgrillrestaurant",
   "googleMapsItineraire": "https://www.google.com/maps/dir/?api=1&destination=69+Bd+Foch+93800+%C3%89pinay-sur-Seine",
-  "googleMapsEmbed": "https://www.google.com/maps?q=69+Bd+Foch+93800+%C3%89pinay-sur-Seine&output=embed",
   "avisGoogle": {
     "note": 4.6,
-    "nombreAvis": 124,
+    "nombreAvis": 131,
+    "url": "https://www.google.com/maps/search/?api=1&query=Azur+Grill+Restaurant+69+Bd+Foch+93800+Epinay-sur-Seine",
     "citations": [
-      { "texte": "Portions généreuses et viande vraiment fraîche, on sent le fait maison.", "note": 5 },
-      { "texte": "Accueil chaleureux, le pain cuit sur place fait toute la différence.", "note": 5 },
-      { "texte": "Rapport qualité-prix excellent pour Épinay, on y retourne sans hésiter.", "note": 5 }
+      {
+        "texte": "Le grec est fait maison, tout comme le pain, ce qui donne un goût incomparable. La viande est savoureuse et bien assaisonnée, les doses sont très généreuses. L'accueil est chaleureux…",
+        "auteur": "y'",
+        "detail": "Local Guide · sur place",
+        "note": 5
+      },
+      {
+        "texte": "Nous sommes entrés par hasard et nous avons beaucoup aimé. Nous avons été bien servis, et le serveur a été tellement gentil qu'il nous a offert un pain kebab, fait maison. Très très bon, on recommande !",
+        "auteur": "Jaine",
+        "detail": "Local Guide · à emporter",
+        "note": 5
+      },
+      {
+        "texte": "Je tiens à remercier l'accueil chaleureux de la gérante ainsi que ses employés, en particulier la jeune serveuse, agréable, souriante et rapide. Le repas était délicieux, tout était succulent…",
+        "auteur": "Hind Karam",
+        "detail": "sur place",
+        "note": 5
+      },
+      {
+        "texte": "Très bon restaurant à prix abordable pour une qualité excellente, et de très bons desserts.",
+        "auteur": "Khelifi Malik",
+        "detail": "sur place",
+        "note": 5
+      }
     ]
   },
   "seoLocal": {
-    "titre": "Azur Grill Restaurant — Restaurant turc halal à Épinay-sur-Seine",
-    "description": "Kebab et pain faits maison, viandes grillées, desserts turcs artisanaux. Restaurant turc halal à Épinay-sur-Seine, ouvert 7j/7 de 11h30 à 22h30. Sur place, à emporter ou en livraison.",
-    "motsCles": ["restaurant turc Épinay-sur-Seine", "kebab Épinay-sur-Seine", "restaurant halal Épinay-sur-Seine"]
-  }
+    "titre": "Azur Grill — Restaurant turc halal à Épinay-sur-Seine",
+    "description": "Broche, pain et sauce faits maison. Restaurant turc halal à Épinay-sur-Seine — sur place, à emporter ou en livraison. 4,6/5 sur 131 avis Google.",
+    "motsCles": [
+      "restaurant turc Épinay-sur-Seine",
+      "kebab Épinay-sur-Seine",
+      "restaurant halal Épinay-sur-Seine"
+    ]
+  },
+  "nomComplet": "Azur Grill Restaurant",
+  "promesse": "La broche, le pain, la sauce. Tout est fait ici.",
+  "promesseAppui": "Et une équipe qui finit par connaître votre commande.",
+  "services": [
+    "Sur place",
+    "À emporter",
+    "Livraison",
+    "Traiteur",
+    "Groupes",
+    "Menu enfant",
+    "Paiement sans contact",
+    "Edenred / Ticket Restaurant",
+    "Accès fauteuil roulant",
+    "Stationnement rue",
+    "Réservation possible"
+  ],
+  "promesseLignes": [
+    "La broche, le pain,",
+    "la sauce.",
+    "Tout est fait ici."
+  ]
 }

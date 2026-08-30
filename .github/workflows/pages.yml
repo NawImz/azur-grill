@@ -1,0 +1,60 @@
+name: Déployer sur GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/test-coverage-analysis-vjrqvw
+  workflow_dispatch:
+
+# Un seul déploiement à la fois ; les poussées suivantes attendent leur tour
+# plutôt que d'écraser un déploiement en cours.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Le site est servi sous /azur-grill/ : sans ces deux variables, les
+      # liens internes et les métadonnées pointeraient à la racine du domaine.
+      - name: Construire le site
+        env:
+          SITE_URL: https://nawimz.github.io
+          BASE_PATH: /azur-grill
+        run: npm run build
+
+      # Pages doit être activé une fois dans Settings → Pages, avec pour
+      # source « GitHub Actions ». Le jeton du workflow n'a pas le droit de
+      # créer le site lui-même (« Resource not accessible by integration ») :
+      # c'est un réglage de dépôt, pas quelque chose que le build peut faire.
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
