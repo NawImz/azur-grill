@@ -126,23 +126,43 @@
   .js-reveal [data-slice] {
     opacity: 0;
     clip-path: inset(0 0 100% 0);
-    transition:
-      opacity 0.85s var(--ease-pose),
-      clip-path 0.85s var(--ease-pose);
   }
 
-  /* L'etat final est porte par une classe, jamais par un style calcule :
-     c'est ce qui garantit qu'une revelation acquise le reste. */
+  /*
+    La revelation passe par une ANIMATION, pas une transition.
+
+    Une transition se fait ecraser des qu'un composant declare la sienne :
+    les cartes d'avis, qui se soulevent au survol, definissaient
+    `transition: transform, box-shadow, background-color` — ce raccourci
+    remettait le delai de revelation a zero et supprimait opacity et
+    clip-path de la liste. Resultat, les quatre cartes partaient ensemble
+    malgre leur decalage. Une animation vit dans son propre couloir et ne
+    peut pas entrer en collision avec un survol.
+
+    `both` fige l'etat final : une revelation acquise le reste.
+  */
+  @keyframes reveler {
+    from {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
   .js-reveal [data-slice].shown {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
+    animation: reveler 0.85s var(--ease-pose) var(--retard, 0s) both;
   }
 
   /* Le mouvement reduit annule l'etat de depart : rien n'est jamais cache. */
   @media (prefers-reduced-motion: reduce) {
-    .js-reveal [data-slice] {
+    .js-reveal [data-slice],
+    .js-reveal [data-slice].shown {
       opacity: 1;
       clip-path: none;
+      animation: none;
     }
   }
 

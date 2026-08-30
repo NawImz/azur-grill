@@ -38,6 +38,34 @@
       throw new Error('revelations desactivees : GSAP indisponible');
     }
 
+    /*
+      Decalage au sein d'une meme rangee.
+
+      La carte etale ses plats sur six rangees de deux : l'animation s'y
+      deroule en vagues successives, que l'oeil suit. Les avis et le lieu
+      alignent quatre elements a la meme hauteur — sans decalage, toute la
+      largeur de l'ecran bouge d'un bloc, et il n'y a plus rien a suivre :
+      c'est fini avant qu'on ait regarde. D'ou l'impression que ces
+      sections s'animent trop tot alors que la carte tombe juste.
+
+      On regroupe donc par hauteur, et chaque element part legerement apres
+      son voisin de gauche. La carte ne bouge presque pas (deux par rangee),
+      les rangees de quatre se remplissent maintenant de gauche a droite.
+    */
+    const rangees = new Map<number, HTMLElement[]>();
+    cibles.forEach((el) => {
+      const haut = Math.round((el.getBoundingClientRect().top + window.scrollY) / 30);
+      if (!rangees.has(haut)) rangees.set(haut, []);
+      rangees.get(haut)!.push(el);
+    });
+
+    rangees.forEach((elements) => {
+      if (elements.length < 2) return;
+      elements
+        .sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left)
+        .forEach((el, i) => el.style.setProperty('--retard', `${i * 0.11}s`));
+    });
+
     cibles.forEach((el) => {
       ScrollTrigger.create({
         trigger: el,
