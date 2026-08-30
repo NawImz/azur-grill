@@ -39,12 +39,11 @@ jobs:
           BASE_PATH: /azur-grill
         run: npm run build
 
-      # `enablement` active Pages au premier passage : sans cela le job
-      # échoue tant que quelqu'un ne l'a pas activé à la main dans les
-      # réglages du dépôt.
+      # Pages doit être activé une fois dans Settings → Pages, avec pour
+      # source « GitHub Actions ». Le jeton du workflow n'a pas le droit de
+      # créer le site lui-même (« Resource not accessible by integration ») :
+      # c'est un réglage de dépôt, pas quelque chose que le build peut faire.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
