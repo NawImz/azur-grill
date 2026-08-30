@@ -63,28 +63,64 @@
       if (elements.length < 2) return;
       elements
         .sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left)
-        .forEach((el, i) => el.style.setProperty('--retard', `${i * 0.11}s`));
+        .forEach((el, i) => el.style.setProperty('--retard', `${i * 0.15}s`));
     });
 
     cibles.forEach((el) => {
       ScrollTrigger.create({
         trigger: el,
-        // Sixieme reglage, chacun mesure : 88, 78, 66, 55, 45, puis 40 %.
-        // On s'arrete la : plus bas, l'element serait deja bien lisible
-        // avant de bouger et l'animation paraitrait en retard sur le
-        // regard, au lieu d'accompagner son arrivee.
-        start: 'top 40%',
+        // Reglage par petits pas : 88, 78, 66, 55, 45, 40, puis 34 %.
+        // Les grands sauts precedents changeaient trop d'un coup ; a ce
+        // stade un cran de 6 points suffit a decaler la perception sans
+        // basculer dans l'excès inverse.
+        start: 'top 34%',
         once: true,
         onEnter: () => montrer(el),
       });
     });
 
     /*
+      Filet pour le pied de page, et pour lui seul.
+
+      Un element proche du bas ne peut pas toujours monter jusqu'au seuil :
+      il n'y a plus assez de page a faire defiler. Constate sur le bloc
+      « Horaires », qui plafonnait a 40 % de la fenetre pour un seuil fixe
+      a 34 %, et restait donc invisible.
+
+      On ne pose ce filet que sur les elements concernes, calcules : un
+      filet applique a tous declencherait des qu'ils entrent par le bas et
+      annulerait tout le retard recherche — mesure, la moyenne remontait
+      de 25 % a 66 %.
+    */
+    const poserFiletsDuBas = () => {
+      const maxDefilement = document.documentElement.scrollHeight - window.innerHeight;
+      const seuil = window.innerHeight * 0.34;
+      cibles.forEach((el) => {
+        if (el.classList.contains('shown') || el.dataset.filet === 'pose') return;
+        const hautAbsolu = el.getBoundingClientRect().top + window.scrollY;
+        // ou se trouvera son haut quand la page sera defilee au maximum
+        if (hautAbsolu - maxDefilement > seuil) {
+          el.dataset.filet = 'pose';
+          ScrollTrigger.create({
+            trigger: el,
+            start: 'bottom bottom',
+            once: true,
+            onEnter: () => montrer(el),
+          });
+        }
+      });
+    };
+
+    /*
       Recalcul des reperes une fois les images chargees : elles allongent la
       page et decalent tout ce qui suit. Sans danger desormais — un refresh
       ne peut plus defaire une classe deja posee.
     */
-    const rafraichir = () => ScrollTrigger.refresh();
+    const rafraichir = () => {
+      ScrollTrigger.refresh();
+      poserFiletsDuBas();
+    };
+    poserFiletsDuBas();
     if (document.readyState === 'complete') rafraichir();
     else window.addEventListener('load', rafraichir, { once: true });
 
@@ -94,24 +130,35 @@
         .map((img) => img.decode().catch(() => undefined))
     ).then(rafraichir);
 
-    // Filet : ne revele que ce qui est reellement dans le champ, et ne
-    // s'arme en continu qu'apres une defaillance constatee.
-    let defaillance = false;
-    const filet = () => {
+    /*
+      Filet declenche a l'ARRET du defilement.
+
+      Un element peut etre entierement a l'ecran sans avoir atteint le
+      seuil de lecture : c'est le cas en bas de page, ou il ne reste plus
+      assez a faire defiler. Constate sur le bloc « Horaires », visible au
+      tiers de l'ecran et pourtant vide.
+
+      La condition d'immobilite est ce qui rend ce filet inoffensif :
+      pendant un defilement continu il ne fait rien, donc il ne raccourcit
+      jamais le retard voulu. Il n'agit que si le lecteur s'arrete devant
+      un bloc encore vide — le seul cas ou l'attente devient genante.
+    */
+    let minuteur: number | undefined;
+    const remplirLesVides = () => {
       cibles.forEach((el) => {
         if (el.classList.contains('shown')) return;
         const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) {
-          defaillance = true;
-          montrer(el);
-        }
+        const entierementVisible = r.top >= 0 && r.bottom <= window.innerHeight;
+        if (entierementVisible) montrer(el);
       });
     };
-    setTimeout(() => {
-      filet();
-      if (defaillance) {
-        window.addEventListener('scroll', () => requestAnimationFrame(filet), { passive: true });
-      }
-    }, 4000);
+
+    const armer = () => {
+      window.clearTimeout(minuteur);
+      minuteur = window.setTimeout(remplirLesVides, 600);
+    };
+
+    window.addEventListener('scroll', armer, { passive: true });
+    armer();
   }
 </script>
