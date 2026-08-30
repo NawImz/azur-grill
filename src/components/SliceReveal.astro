@@ -41,11 +41,11 @@
     cibles.forEach((el) => {
       ScrollTrigger.create({
         trigger: el,
-        // Cinquieme reglage, chacun mesure : 88 %, 78 %, 66 %, 55 %, puis
-        // 45 %. L'element est desormais au-dessus du milieu de l'ecran
-        // quand son animation demarre — bien installe dans le champ, plus
-        // du tout en train d'y entrer.
-        start: 'top 45%',
+        // Sixieme reglage, chacun mesure : 88, 78, 66, 55, 45, puis 40 %.
+        // On s'arrete la : plus bas, l'element serait deja bien lisible
+        // avant de bouger et l'animation paraitrait en retard sur le
+        // regard, au lieu d'accompagner son arrivee.
+        start: 'top 40%',
         once: true,
         onEnter: () => montrer(el),
       });
