@@ -29,3 +29,6 @@ le-test-site/
 # QA : scripts versionnes, captures non
 scratchpad/*.png
 scratchpad/_*
+
+# outils QA : scripts versionnes, sorties et fichiers de travail non
+scratchpad/a-remplacer/
