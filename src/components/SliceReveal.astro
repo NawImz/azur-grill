@@ -145,11 +145,16 @@
     */
     let minuteur: number | undefined;
     const remplirLesVides = () => {
+      const vh = window.innerHeight;
       cibles.forEach((el) => {
         if (el.classList.contains('shown')) return;
         const r = el.getBoundingClientRect();
-        const entierementVisible = r.top >= 0 && r.bottom <= window.innerHeight;
-        if (entierementVisible) montrer(el);
+        const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+        // « Entierement visible » ne suffit pas : un bloc plus haut que la
+        // fenetre, ou a cheval sur un bord, ne l'est jamais et resterait
+        // vide. On regarde donc ce que le lecteur voit reellement — une
+        // bonne part de l'element, ou une bonne part de son ecran.
+        if (visible >= r.height * 0.6 || visible >= vh * 0.4) montrer(el);
       });
     };
 
