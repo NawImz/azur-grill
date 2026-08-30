@@ -117,6 +117,25 @@
     opacity: 0.32;
   }
 
+  /*
+    Etat de depart des elements a reveler, pose en CSS et non en JS : c'est
+    la seule facon qu'ils ne soient jamais peints avant leur animation.
+    Le drapeau `js-reveal` est ajoute par un script en tete de document, donc
+    sans JavaScript cette regle ne s'applique pas et tout reste lisible.
+  */
+  .js-reveal [data-slice] {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+
+  /* Le mouvement reduit annule l'etat de depart : rien n'est jamais cache. */
+  @media (prefers-reduced-motion: reduce) {
+    .js-reveal [data-slice] {
+      opacity: 1;
+      clip-path: none;
+    }
+  }
+
   /* Le contenu repasse au-dessus du grain et du filigrane. */
   .grain > *,
   .filigrane > * {

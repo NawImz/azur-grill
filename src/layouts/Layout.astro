@@ -67,6 +67,20 @@ const schema = {
     <meta name="theme-color" content="#16098F" />
 
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+    <!--
+      Marque le document AVANT le premier rendu. Sans cela, le contenu
+      s'affiche normalement puis le script des revelations le masque une
+      fraction de seconde plus tard : l'oeil voit le texte apparaitre,
+      disparaitre, puis revenir au scroll. C'est ce clignotement que le
+      marquage supprime — l'element part cache, il ne s'y remet jamais.
+
+      Le drapeau vit sur <html> : si le JavaScript est absent ou echoue,
+      il n'est jamais pose et tout le contenu reste visible.
+    -->
+    <script is:inline>
+      document.documentElement.classList.add('js-reveal');
+    </script>
   </head>
 
   <body>

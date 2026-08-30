@@ -29,15 +29,27 @@
   if (reduit || !cibles.length) {
     cibles.forEach(montrer);
   } else {
+    // L'etat cache vient deja du CSS (`.js-reveal [data-slice]`), pose avant
+    // le premier rendu : rien a masquer ici, sinon on repeindrait ce qui est
+    // deja en place. On se contente d'annoncer ce qui va bouger.
     cibles.forEach((el) => {
-      el.style.opacity = '0';
-      el.style.clipPath = 'inset(0 0 100% 0)';
       el.style.willChange = 'opacity, clip-path';
     });
 
-    const { gsap } = await import('gsap');
-    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-    gsap.registerPlugin(ScrollTrigger);
+    /*
+      L'etat cache vient du CSS : si le chargement de GSAP echoue, plus rien
+      ne revelerait le contenu et la page resterait blanche sous le hero.
+      On revele tout plutot que de laisser un site vide.
+    */
+    let gsap, ScrollTrigger;
+    try {
+      ({ gsap } = await import('gsap'));
+      ({ ScrollTrigger } = await import('gsap/ScrollTrigger'));
+      gsap.registerPlugin(ScrollTrigger);
+    } catch {
+      cibles.forEach(montrer);
+      throw new Error('revelations desactivees : GSAP indisponible');
+    }
 
     cibles.forEach((el) => {
       gsap.to(el, {
