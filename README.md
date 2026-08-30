@@ -3,6 +3,13 @@
 Site une page du restaurant **Azur Grill**, 69 boulevard Foch, 93800 Épinay-sur-Seine.
 Cuisine turque halal. Astro 5 + Tailwind v4 + GSAP + Lenis.
 
+**Préversion en ligne : https://nawimz.github.io/azur-grill/**
+
+> Préversion publique de travail, pas l'adresse définitive. Le jour où le
+> restaurant prend son domaine, seules les variables `SITE_URL` et `BASE_PATH`
+> du build changent — les liens internes passent par `src/lib/url.ts` et
+> suivent automatiquement.
+
 ---
 
 ## Ce que ce site fait de différent
@@ -93,5 +100,14 @@ détails sont dans `TODO-CLIENT.md` :
 2. **De vrais avis Google** — les emplacements sont marqués sur le site.
 3. **Le lien de commande** — à confirmer comme actif.
 
-Le déploiement n'est pas configuré : c'est un site statique sans étape de build
-particulière, `dist/` se publie tel quel le jour venu.
+## Déploiement
+
+Chaque poussée déclenche `.github/workflows/pages.yml`, qui construit le site et
+le publie sur GitHub Pages. Le build reçoit deux variables :
+
+| Variable | Préversion Pages | Domaine définitif |
+|---|---|---|
+| `SITE_URL` | `https://nawimz.github.io` | le domaine du restaurant |
+| `BASE_PATH` | `/azur-grill` | *(vide)* |
+
+Rien d'autre ne distingue les deux destinations.

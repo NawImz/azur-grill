@@ -122,8 +122,11 @@ téléphone et confirmer qu'il tombe bien sur la devanture.
 
 Pas des demandes au client — des points ouverts côté technique :
 
-- **Hébergement et mise en ligne.** Le site est prêt (statique, sans étape de build
-  particulière) mais n'est pas déployé, et aucun nom de domaine n'est réservé.
+- **Nom de domaine.** Le site tourne en préversion publique sur
+  `nawimz.github.io/azur-grill`, ce qui suffit pour montrer et tester. Une
+  adresse à son nom (azur-grill.fr ou équivalent) reste à réserver — c'est une
+  démarche qui appartient au restaurant, et le basculement ne coûte que deux
+  variables de build.
 - **Audit Lighthouse.** Impossible à exécuter dans l'environnement de développement :
   l'objectif « ≥ 95 » n'est **ni atteint ni manqué, il n'est pas mesuré**. À faire sur
   l'hébergement réel, où les chiffres auront un sens.
