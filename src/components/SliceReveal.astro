@@ -69,11 +69,15 @@
     cibles.forEach((el) => {
       ScrollTrigger.create({
         trigger: el,
-        // Reglage par petits pas : 88, 78, 66, 55, 45, 40, puis 34 %.
-        // Les grands sauts precedents changeaient trop d'un coup ; a ce
-        // stade un cran de 6 points suffit a decaler la perception sans
-        // basculer dans l'excès inverse.
-        start: 'top 34%',
+        // La ligne est posee a 75 % de la fenetre : un element commence a
+        // apparaitre peu apres etre entre par le bas.
+        //
+        // Les reglages precedents (88, 78, 66, 55, 45, 40, 34 %) ne
+        // regardaient que l'element de TETE d'une rangee. La mesure a
+        // montre le vrai defaut : avec la cascade de 150 ms, les elements
+        // suivants demarraient a 5 %, -22 %, -46 % — deja sortis par le
+        // haut. A 75 %, la rangee entiere se joue dans le champ.
+        start: 'top 75%',
         once: true,
         onEnter: () => montrer(el),
       });
@@ -94,7 +98,7 @@
     */
     const poserFiletsDuBas = () => {
       const maxDefilement = document.documentElement.scrollHeight - window.innerHeight;
-      const seuil = window.innerHeight * 0.34;
+      const seuil = window.innerHeight * 0.75;
       cibles.forEach((el) => {
         if (el.classList.contains('shown') || el.dataset.filet === 'pose') return;
         const hautAbsolu = el.getBoundingClientRect().top + window.scrollY;
