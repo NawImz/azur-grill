@@ -41,10 +41,11 @@
     cibles.forEach((el) => {
       ScrollTrigger.create({
         trigger: el,
-        // L'element doit etre franchement dans le champ avant de partir :
-        // a 66 % il venait d'entrer par le bas et l'animation se jouait
-        // pendant qu'il montait encore. A 55 %, il est au milieu de l'ecran.
-        start: 'top 55%',
+        // Cinquieme reglage, chacun mesure : 88 %, 78 %, 66 %, 55 %, puis
+        // 45 %. L'element est desormais au-dessus du milieu de l'ecran
+        // quand son animation demarre — bien installe dans le champ, plus
+        // du tout en train d'y entrer.
+        start: 'top 45%',
         once: true,
         onEnter: () => montrer(el),
       });
