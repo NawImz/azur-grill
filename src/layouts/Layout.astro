@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import restaurant from '../data/restaurant.json';
+import { lien } from '../lib/url';
 // Precharge des seules fontes du premier ecran. Sans cela, leur arrivee
 // apres le premier rendu remet en page le bloc de titre du hero : c'est
 // la source unique du CLS mesure (0,065 en mobile).
@@ -53,7 +54,7 @@ const schema = {
     <meta property="og:title" content={titre} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/og-image.jpg', Astro.site).href} />
+    <meta property="og:image" content={new URL(lien('og-image.jpg'), Astro.site).href} />
     <meta property="og:locale" content="fr_FR" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -61,8 +62,8 @@ const schema = {
     <link rel="preload" href={manropeVar} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={bodoniVar} as="font" type="font/woff2" crossorigin />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href={lien("favicon.svg")} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={lien("apple-touch-icon.png")} />
     <meta name="theme-color" content="#16098F" />
 
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />

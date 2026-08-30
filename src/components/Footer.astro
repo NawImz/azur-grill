@@ -1,4 +1,5 @@
 ---
+import { lien } from '../lib/url';
 import restaurant from '../data/restaurant.json';
 import NazarMark from './NazarMark.astro';
 import Wordmark from './Wordmark.astro';
@@ -23,7 +24,7 @@ const annee = new Date().getFullYear();
         <a href={restaurant.instagram} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-creme/70 hover:text-ciel">
           Instagram
         </a>
-        <a href="/carte" class="inline-flex min-h-11 items-center text-creme/70 hover:text-ciel">La carte complète</a>
+        <a href={lien("carte")} class="inline-flex min-h-11 items-center text-creme/70 hover:text-ciel">La carte complète</a>
       </div>
     </div>
 
